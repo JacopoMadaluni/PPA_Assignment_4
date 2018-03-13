@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * This abstract class is used in the main window to scroll between panels.
@@ -8,14 +9,20 @@ import javax.swing.*;
  *
  */
 public abstract class AppPanel extends JPanel{
-    String title;
+    private String title;
+    private ArrayList<AirbnbListing> listings;
+    private int lowPrice;
+    private int highPrice;
 
     /**
      * Create a new panel to be displayed in the main window.
      * @param title Title of the panel.
      */
-    public AppPanel(String title) {
+    public AppPanel(String title, ArrayList<AirbnbListing> listings, int lowPrice, int highPrice) {
         this.title = title;
+        this.listings = listings;
+        this.lowPrice = lowPrice;
+        this.highPrice = highPrice;
     }
 
     /**
