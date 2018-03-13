@@ -10,13 +10,20 @@ import java.util.ArrayList;
  */
 public abstract class AppPanel extends JPanel{
     private String title;
-    private ArrayList<AirbnbListing> listings;
-    private int lowPrice;
-    private int highPrice;
+    protected ArrayList<AirbnbListing> listings;
+    protected int lowPrice;
+    protected int highPrice;
 
     /**
      * Create a new panel to be displayed in the main window.
+     * The list of all the available properties is created only once in the MainWindow class to
+     * ensure all the panels use the same set of data.
+     * lowPrice and highPrice determine the price range of the properties the user wants to
+     * see statistics about.
      * @param title Title of the panel.
+     * @param listings List of all results from the CSV file.
+     * @param lowPrice Lower price boundary of the properties the user wants to see.
+     * @param highPrice Upper price boundary of the properties the user wants to see.
      */
     public AppPanel(String title, ArrayList<AirbnbListing> listings, int lowPrice, int highPrice) {
         this.title = title;
