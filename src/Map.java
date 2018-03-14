@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 /**
@@ -21,7 +23,14 @@ public class Map extends JPanel
     private static final String iconPath = "C:\\Users\\Jaco\\Desktop\\Assignment 4 temp\\Rent_Home-512_Icon1.png";
     private int prefW;
     private int prefH;
+    private ArrayList<District> districts;
+
     public Map() throws IOException {
+        districts = new ArrayList<>();
+        // initializeDistricts();
+
+    }
+    private void createMap() throws IOException{
         //URL imgUrl = new URL(path);
         File img = new File(path);
         File iconFile = new File(iconPath);
@@ -39,7 +48,6 @@ public class Map extends JPanel
 
         //MouseAdapter mouseAdapter = new MouseAdapter();
         // ...
-
     }
 
     @Override
@@ -60,6 +68,12 @@ public class Map extends JPanel
         return prefH;
     }
 
+    /**
+     * Test method to draw a graphic.
+     * This will probably changed to be the method that draws
+     * all the icons on the map. (working on it)
+     * @param g
+     */
     public void drawIcon(Graphics g){
         //Graphics toDraw = icon.getGraphics();
         g.drawImage(icon, 100,200,this);
