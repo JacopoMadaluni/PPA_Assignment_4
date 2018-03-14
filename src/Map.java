@@ -27,6 +27,7 @@ public class Map extends JPanel
 
     public Map() throws IOException {
         districts = new ArrayList<>();
+        createMap();
         // initializeDistricts();
 
     }

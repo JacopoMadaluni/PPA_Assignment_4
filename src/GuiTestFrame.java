@@ -41,4 +41,3 @@ public class GuiTestFrame
         map.drawIcon(map.getGraphics());
     }
 }
-
