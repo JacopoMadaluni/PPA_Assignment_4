@@ -17,7 +17,7 @@ public class AirbnbDataLoader {
         System.out.print("Begin loading Airbnb london dataset...");
         ArrayList<AirbnbListing> listings = new ArrayList<>();
         try{
-            URL url = getClass().getResource("resources/airbnb-london.csv");
+            URL url = new File("resources/airbnb-london.csv").toURI().toURL();
             CSVReader reader = new CSVReader(new FileReader(new File(url.toURI()).getAbsolutePath()));
             String [] line;
             //skip the first row (column headers)
