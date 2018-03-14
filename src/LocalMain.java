@@ -1,4 +1,5 @@
-package Gui;
+
+
 
 public class LocalMain {
 
@@ -6,7 +7,10 @@ public class LocalMain {
         GuiTestFrame gui = new GuiTestFrame();
         try{
             Thread.sleep(1000);
-        }catch(Exception e) {}
+        }catch(Exception e) {
+            System.out.println(e);
+        }
         gui.drawIconTest();
+
     }
 }
