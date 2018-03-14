@@ -61,14 +61,6 @@ public class MainWindow {
         Integer[] prices = {0, 50, 100, 1000, 5000}; // TODO: Decide on which prices to include. These values are just for testing purpcses.
 
         JPanel lists = new JPanel(new FlowLayout());
-
-        JButton testTrigger = new JButton("Ok");
-        testTrigger.addActionListener(e -> {
-            updateCurrentPanel();
-            testTrigger.setEnabled(false);
-        });
-        lists.add(testTrigger);
-
         JComboBox<Integer> lowPrice = new JComboBox<>(prices);
         lowPrice.setPreferredSize(new Dimension(70, 30));
         JComboBox<Integer> highPrice = new JComboBox<>(prices);
@@ -92,7 +84,7 @@ public class MainWindow {
 
         JPanel left = new JPanel();
         left.setLayout(new FlowLayout());
-        leftButton = new JButton("<<");
+        leftButton = new JButton("<");
         leftButton.addActionListener(e -> {
             currentPanelIndex--;
             updateCurrentPanel();
@@ -103,7 +95,7 @@ public class MainWindow {
 
         JPanel right = new JPanel();
         right.setLayout(new FlowLayout());
-        rightButton = new JButton(">>");
+        rightButton = new JButton(">");
         rightButton.addActionListener(e -> {
             currentPanelIndex++;
             updateCurrentPanel();
