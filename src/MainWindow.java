@@ -1,46 +1,52 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the main window of the application.
+ *
+ * TODO: Test behaviour with actual panels.
  */
 public class MainWindow {
     JFrame frame;
     private AppPanel currentPanel;
-    private AppPanel welcome;
-    private AppPanel map;
-    private AppPanel stats;
 
     private ArrayList<AirbnbListing> listings;
 
     private JButton leftButton;
     private JButton rightButton;
 
+    // List of all the panels through which the user can scroll.
+    private List<AppPanel> panels;
+    // Keep track of the index of the currently displayed panel.
+    private int currentPanelIndex;
+
     /**
      * Initialise the main window of the application.
      */
     public MainWindow() {
-        frame = new JFrame("Main window");
+        panels = new ArrayList<>();
+        currentPanelIndex = 0;
+
+        frame = new JFrame("London properties - AirBnB");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Container pane = frame.getContentPane();
-
-        JPanel all = new JPanel(new BorderLayout());
+        pane.setLayout(new BorderLayout()); // Hold all three main components together (top, bottom and central panel that can change).
 
         JPanel top = createTop();
-        all.add(top, BorderLayout.NORTH);
+        pane.add(top, BorderLayout.NORTH);
 
         // Create the welcome panel and display it.
-        welcome = new WelcomePanel();
-        currentPanel = welcome;
-        all.add(currentPanel);
-
+        panels.add(new WelcomePanel());
+        currentPanel = panels.get(0);
+        pane.add(currentPanel, BorderLayout.CENTER);
 
         JPanel bottom = createBottom();
-        all.add(bottom, BorderLayout.SOUTH);
+        pane.add(bottom, BorderLayout.SOUTH);
 
-        pane.add(all);
         frame.setLocationRelativeTo(null);
+        frame.setMinimumSize(new Dimension(300, 200));
         frame.pack();
         frame.setVisible(true);
     }
@@ -55,6 +61,14 @@ public class MainWindow {
         Integer[] prices = {0, 50, 100, 1000, 5000}; // TODO: Decide on which prices to include. These values are just for testing purpcses.
 
         JPanel lists = new JPanel(new FlowLayout());
+
+        JButton testTrigger = new JButton("Ok");
+        testTrigger.addActionListener(e -> {
+            updateCurrentPanel();
+            testTrigger.setEnabled(false);
+        });
+        lists.add(testTrigger);
+
         JComboBox<Integer> lowPrice = new JComboBox<>(prices);
         lowPrice.setPreferredSize(new Dimension(70, 30));
         JComboBox<Integer> highPrice = new JComboBox<>(prices);
@@ -79,17 +93,59 @@ public class MainWindow {
         JPanel left = new JPanel();
         left.setLayout(new FlowLayout());
         leftButton = new JButton("<<");
+        leftButton.addActionListener(e -> {
+            currentPanelIndex--;
+            updateCurrentPanel();
+        });
+        leftButton.setEnabled(false);
         leftButton.setPreferredSize(new Dimension(60, 20));
         left.add(leftButton);
 
         JPanel right = new JPanel();
         right.setLayout(new FlowLayout());
         rightButton = new JButton(">>");
+        rightButton.addActionListener(e -> {
+            currentPanelIndex++;
+            updateCurrentPanel();
+        });
+        rightButton.setEnabled(false);
         rightButton.setPreferredSize(new Dimension(60, 20));
         right.add(rightButton);
 
         bottom.add(left, BorderLayout.WEST);
         bottom.add(right, BorderLayout.EAST);
         return bottom;
+    }
+
+    /**
+     * Updates the buttons to move left and right. If there is no panels on either
+     * side the appropriate button is disabled.
+     */
+    private void updateButtons() {
+        if (currentPanelIndex > 0 && currentPanelIndex < panels.size()-1) { // One of second to second-last panel is displayed.
+            leftButton.setEnabled(true);
+            rightButton.setEnabled(true);
+        }
+        else if (currentPanelIndex == 0) { // First panel is displayed.
+            leftButton.setEnabled(false);
+            rightButton.setEnabled(true);
+        }
+        else { // Last panel is displayed.
+            leftButton.setEnabled(true);
+            rightButton.setEnabled(false);
+        }
+    }
+
+    /**
+     * Displays a new panel according to the current panel index and update buttons accordingly.
+     */
+    private void updateCurrentPanel() {
+        frame.getContentPane().remove(currentPanel);
+        currentPanel = panels.get(currentPanelIndex);
+        frame.getContentPane().add(currentPanel, BorderLayout.CENTER);
+        frame.getContentPane().repaint();
+        // frame.revalidate(); Try with actual panels what is the difference.
+        frame.pack();
+        updateButtons();
     }
 }
