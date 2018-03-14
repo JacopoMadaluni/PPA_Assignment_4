@@ -11,5 +11,6 @@
     <orderEntry type="library" name="commons-text-1.2" level="project" />
     <orderEntry type="library" name="opencsv-4.1" level="project" />
     <orderEntry type="library" name="commons-lang3-3.7" level="project" />
+    <orderEntry type="library" name="commons-lang3-3.7 (2)" level="project" />
   </component>
 </module>

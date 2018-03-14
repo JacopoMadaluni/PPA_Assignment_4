@@ -1,12 +1,9 @@
 <component name="libraryTable">
   <library name="commons-lang3-3.7">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/commons-lang3-3.7.jar!/" />
-<<<<<<< HEAD
-=======
+
       <root url="jar://$PROJECT_DIR$/libs/commons-text-1.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/opencsv-4.1.jar!/" />
->>>>>>> origin/master
     </CLASSES>
     <JAVADOC />
     <SOURCES />

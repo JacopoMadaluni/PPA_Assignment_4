@@ -32,4 +32,8 @@ public abstract class AppPanel extends JPanel{
     public String getTitle() {
         return title;
     }
+
+    public ArrayList<AirbnbListing> getListings() {
+        return listings;
+    }
 }
