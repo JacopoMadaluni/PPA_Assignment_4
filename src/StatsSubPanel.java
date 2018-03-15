@@ -1,78 +1,63 @@
-import com.sun.org.glassfish.external.statistics.Stats;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Random;
-
 
 /**
- * This is a sub-panel interface of panels contained in the grid layout of
- * the main StatsPanel, and it has the function of forcing
- * the creation of side buttons.
- * @author Danilo Del Busso
+ * This is a special panel contained in the grid layout of
+ * the main StatsPanel, and it has the function of creating
+ * and assigning functionality to the two side buttons as well
+ * as holding the central statistic panel.
+ * @author Danilo Del Busso, Luka Kralj
  * @version 14.03.2018
  */
 public class StatsSubPanel extends JPanel {
-    JButton previousButton;
-    JButton nextButton;
-    JPanel centralPanel;
-    private StatsPanel mainStatsPanel;
+   private JButton previousButton;
+    private JButton nextButton;
+    private JPanel centralPanel;
 
     /**
      * Constructor for StatsSubPanel, it creates the two side buttons
-     * present in every subpanel that allow for switching between statistics panels
+     * present in every SubPanel that allow for switching between central panels
+     * and paints an initial central panel via the StatsPanel in which it
+     * is contained.
      *
      * @param mainStatsPanel the StatsPanel that contains this subpanel
      */
     public StatsSubPanel(StatsPanel mainStatsPanel) {
 
         setLayout(new BorderLayout());
-        this.mainStatsPanel = mainStatsPanel;
+        StatsPanel mainStatsPanel1 = mainStatsPanel;
         //buttons
         previousButton = new JButton("<");
         nextButton = new JButton(">");
 
-        centralPanel = new JPanel();
-        centralPanel.setLayout(new CardLayout());
-
-        //initialise all cards
-        ArrayList<StatsCentralPanel> centralPanels = mainStatsPanel.getCentralPanels();
-        for(StatsCentralPanel cp : centralPanels){
-            centralPanel.add(cp, cp.getName());
-        }
-
         //pick initial card to be displayed
-        CardLayout cardLayout = (CardLayout) centralPanel.getLayout();
-        cardLayout.show(centralPanel, mainStatsPanel.getFreeCentralPanelName());
-
-
-        //add to SubPanel
+        centralPanel = new JPanel();
+        centralPanel = mainStatsPanel.getFreeNextCentralPanel(null);
         add(centralPanel, BorderLayout.CENTER);
 
         //set positions of elements
         add(previousButton, BorderLayout.WEST);
         add(nextButton, BorderLayout.EAST);
 
-
-        //add button functionalities
+        //add buttons functionalities
+        //previous
         previousButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("PREVIOUS");
+
+                AppPanel newPanel = mainStatsPanel.getFreePreviousCentralPanel((AppPanel)centralPanel);
+                updateCentralPanel(newPanel);
             }
         });
 
-
+        //next
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("NEXT");
+                AppPanel newPanel = mainStatsPanel.getFreeNextCentralPanel((AppPanel)centralPanel);
+                updateCentralPanel(newPanel);
             }
         });
 
@@ -80,19 +65,30 @@ public class StatsSubPanel extends JPanel {
     }
 
     /**
-     * Return the name of the card that is currently visible
-     * on this subpanel
-     * @return
+     * Update the central panel to be the specified one and repaint the whole
+     * SubPanel
+     * @param newPanel the new panel to be placed
      */
-    public String getCurrentCardName(){
-        for (Component comp : centralPanel.getComponents() ) {
-            if (comp.isVisible() == true) {
-                centralPanel = (JPanel)comp;
-                System.out.println(centralPanel.getName() );
-            }
+    private void updateCentralPanel(AppPanel newPanel) {
+        if(newPanel != null){
+            remove(centralPanel);
+            centralPanel = newPanel;
+            add(centralPanel, BorderLayout.CENTER);
+            validate();
+            repaint();
         }
-        return null;
     }
 
+    /**
+     * Return The current central panel.
+     * @return The current central panel.
+     */
+    public AppPanel getCentralPanel() {
+        if(centralPanel!= null){
+             return (AppPanel) centralPanel;
+            }
+
+        return null;
+    }
 
 }
