@@ -40,7 +40,7 @@ public abstract class AppPanel extends JPanel{
         return title;
     }
 
-    public ArrayList<AirbnbListing> getListings() {
-        return listings;
-    }
 }
+
+
+
