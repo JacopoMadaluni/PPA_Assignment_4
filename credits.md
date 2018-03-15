@@ -1,6 +1,6 @@
 <h3>ICONS</h3>
 <div>
-- <b>House</b> and <b>statistics</b> icons made by .
+- <b>House</b> and <b>statistics</b> icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> .
 <br />
 - <b>Pound</b> icons made by <a href="https://www.flaticon.com/authors/eleonor-wang" title="Eleonor Wang">Eleonor Wang</a>.
 <br />
