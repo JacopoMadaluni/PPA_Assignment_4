@@ -130,23 +130,40 @@ public class MainWindow {
     /**
      * Updates the buttons to move left and right. If there is no panels on either
      * side the appropriate button is disabled.
+     * If button is enabled there will be a tip text message showing the title of the next panel in that direction.
      */
     private void updateButtons() {
         if (panels.size() == 1) { // There is only one panel available.
             leftButton.setEnabled(false);
+            leftButton.setToolTipText(null);
             rightButton.setEnabled(false);
+            rightButton.setToolTipText(null);
         }
         else if (currentPanelIndex > 0 && currentPanelIndex < panels.size()-1) { // One of second to second-last panel is displayed.
             leftButton.setEnabled(true);
+            leftButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
+                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex - 1).getTitle() +
+                    "</strong></font></p></html>");
             rightButton.setEnabled(true);
+            rightButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
+                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex + 1).getTitle() +
+                    "</strong></font></p></html>");
         }
         else if (currentPanelIndex == 0) { // First panel is displayed.
             leftButton.setEnabled(false);
+            leftButton.setToolTipText(null);
             rightButton.setEnabled(true);
+            rightButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
+                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex + 1).getTitle() +
+                    "</strong></font></p></html>");
         }
         else { // Last panel is displayed.
             leftButton.setEnabled(true);
+            leftButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
+                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex - 1).getTitle() +
+                    "</strong></font></p></html>");
             rightButton.setEnabled(false);
+            rightButton.setToolTipText(null);
         }
     }
 
@@ -211,5 +228,4 @@ public class MainWindow {
 
         updateCurrentPanel();
     }
-
 }

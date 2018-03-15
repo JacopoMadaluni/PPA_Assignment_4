@@ -7,9 +7,6 @@ import java.util.List;
  *
  * @author Luka Kralj
  * @version 14 March 2018
- *
- * TODO: Plan is to add a bubble with the title when a user hovers over the buttons to switch the panels.
- *
  */
 public abstract class AppPanel extends JPanel{
     private String title;
