@@ -39,4 +39,8 @@ public abstract class AppPanel extends JPanel{
     public String getTitle() {
         return title;
     }
+
 }
+
+
+
