@@ -1,10 +1,14 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
  * Represents an initial panel that is already shown at the start of the application.
+ * If the price range is not selected, it prompts the user to choose it. If the price range is selected
+ * it will display it.
  *
- * TODO: This class is not completed yet. It is created in order for the main window to run.
+ * @author Luka Kralj
+ * @version 16 March 2018
  */
 public class WelcomePanel extends AppPanel{
 
@@ -24,11 +28,12 @@ public class WelcomePanel extends AppPanel{
 
         setOpaque(true);
         setBackground(new Color(214, 219, 223));
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(10, 25, 10, 25));
 
-
-        add(createWelcomeLabel());
-        add(createTips());
+        add(createWelcomeLabel(), BorderLayout.NORTH);
+        add(createPriceRangePanel(lowPrice, highPrice), BorderLayout.CENTER);
+        add(createTips(), BorderLayout.SOUTH);
     }
 
     /**
@@ -68,5 +73,32 @@ public class WelcomePanel extends AppPanel{
                 "</html>";
 
         return new JLabel(tipsText);
+    }
+
+    /**
+     * This method creates a panel that informs the user of his currently selected price range.
+     *
+     * @param lowPrice Lower price boundary that the user has selected. <strong>-1 if no range is selected.</strong>
+     * @param highPrice Upper price boundary that the user has selected. <strong>-1 if no range is selected.</strong>
+     * @return Panel with info about the range.
+     */
+    private JPanel createPriceRangePanel(int lowPrice, int highPrice) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panel.setOpaque(false);
+        String range = "<font size=\"3\" color=\"gray\"><i>Select the price range first.</i></font>";
+        if (!(lowPrice == -1 || highPrice == -1)) {
+            range = "<font size=\"6\">" + lowPrice + "&pound; - " + highPrice + "&pound;</font>";
+        }
+        String text = "<html>" +
+                "<font size=\"4\" color=\"black\">" +
+                "<p style=\"text-align: center;\">" +
+                "Your currently selected price range:<br><br>" +
+                range +
+                "</p>" +
+                "</font>" +
+                "</html>";
+        panel.add(new JLabel(text));
+        panel.setPreferredSize(new Dimension(this.getWidth(),100));
+        return panel;
     }
 }
