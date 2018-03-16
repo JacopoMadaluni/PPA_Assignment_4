@@ -6,6 +6,7 @@ import java.net.URL;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 /**
@@ -15,40 +16,52 @@ import javax.swing.*;
  * @author Jacopo Madaluni
  * @version 14-03-2018
  */
-public class Map extends JPanel
+public class Map extends AppPanel
 {
-    private BufferedImage backgroundImage;
+    private Image backgroundImage;
     private BufferedImage icon;
     private static final String path = "C:\\Users\\Jaco\\Desktop\\Assignment 4 temp\\london-borough-map.png";
-    private static final String iconPath = "C:\\Users\\Jaco\\Desktop\\Assignment 4 temp\\Rent_Home-512_Icon1.png";
+    //private static final String iconPath = "C:\\Users\\Jaco\\Desktop\\Assignment 4 temp\\Rent_Home-512_Icon1.png";
     private int prefW;
     private int prefH;
     private ArrayList<District> districts;
+    private List<District> shownDistricts;
 
-    public Map() throws IOException {
+    private List<AirbnbListing> allBnbs;
+    private List<AirbnbListing> shownBnbs;
+
+    public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) throws IOException {
+        super(title, bnbs, lowPrice, maxPrice);
         districts = new ArrayList<>();
         createMap();
+        initializeIcons();
+        // createDistricts();
         // initializeDistricts();
 
     }
     private void createMap() throws IOException{
         //URL imgUrl = new URL(path);
-        File img = new File(path);
-        File iconFile = new File(iconPath);
+        setLayout(null);
+        File img = new File("resources/maps/london1000px.png");
+        //File iconFile = new File(iconPath);
         BufferedImage londonImage = ImageIO.read(img);
-        icon = ImageIO.read(iconFile);
+        //icon = ImageIO.read(iconFile);
 
         prefW = londonImage.getWidth();
         prefH = londonImage.getHeight();
-        backgroundImage = new BufferedImage(prefW, prefH,
-                BufferedImage.TYPE_INT_ARGB);
+        //backgroundImage = new BufferedImage(prefW, prefH,
+        //        BufferedImage.TYPE_INT_ARGB);
 
-        Graphics g = backgroundImage.getGraphics();
-        g.drawImage(londonImage,0,0,this);
-        g.dispose();
+        backgroundImage = new ImageIcon("resources/maps/london1000px.png").getImage();
 
-        //MouseAdapter mouseAdapter = new MouseAdapter();
-        // ...
+
+
+
+
+
+
+
+
     }
 
     @Override
@@ -69,14 +82,29 @@ public class Map extends JPanel
         return prefH;
     }
 
-    /**
-     * Test method to draw a graphic.
-     * This will probably changed to be the method that draws
-     * all the icons on the map. (working on it)
-     * @param g
-     */
-    public void drawIcon(Graphics g){
-        //Graphics toDraw = icon.getGraphics();
-        g.drawImage(icon, 100,200,this);
+
+    public void initializeIcons() throws IOException{
+        createDistricts();
     }
+
+    private void createDistricts(){
+        districts.add(new District("Kingston upon Thames", "medium", 280,520));
+        districts.add(new District("Croydon", "big", 480,540));
+        districts.add(new District("Bromley", "big", 640,588));
+        districts.add(new District("Hounslow", "medium",140 ,420));
+        districts.add(new District("Ealing", "big",200 ,280));
+        districts.add(new District("Havering", "big",800 ,180));
+        districts.add(new District("Hillingdon", "big", 100, 200));
+        districts.add(new District("Harrow", "big", 200,180));
+        districts.add(new District("Brent", "medium",270 ,220));
+        districts.add(new District("Barnet", "big",350 ,160));
+        addAll();
+    }
+
+    private void addAll(){
+        for (District d : districts){
+            add(d);
+        }
+    }
+
 }
