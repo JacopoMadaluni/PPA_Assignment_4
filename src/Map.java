@@ -33,10 +33,13 @@ public class Map extends AppPanel
     public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) throws IOException {
         super(title, bnbs, lowPrice, maxPrice);
         districts = new ArrayList<>();
+        shownDistricts = new ArrayList<>();
+        shownBnbs = new ArrayList<>();
+
         createMap();
-        initializeIcons();
-        // createDistricts();
-        // initializeDistricts();
+        fetchBnbs(bnbs);
+        createDistricts();
+        initializeDistricts();
 
     }
     private void createMap() throws IOException{
@@ -53,13 +56,6 @@ public class Map extends AppPanel
         //        BufferedImage.TYPE_INT_ARGB);
 
         backgroundImage = new ImageIcon("resources/maps/london1000px.png").getImage();
-
-
-
-
-
-
-
 
 
     }
@@ -83,10 +79,6 @@ public class Map extends AppPanel
     }
 
 
-    public void initializeIcons() throws IOException{
-        createDistricts();
-    }
-
     private void createDistricts(){
         districts.add(new District("Kingston upon Thames", "medium", 280,520));
         districts.add(new District("Croydon", "big", 480,540));
@@ -98,13 +90,78 @@ public class Map extends AppPanel
         districts.add(new District("Harrow", "big", 200,180));
         districts.add(new District("Brent", "medium",270 ,220));
         districts.add(new District("Barnet", "big",350 ,160));
-        addAll();
+        districts.add(new District("Enfield", "big",500 ,110));
+        districts.add(new District("Waltham Forest", "medium",576 ,150));
+        districts.add(new District("Redbridge", "medium",670 ,210));
+        districts.add(new District("Sutton", "medium",400 ,585));
+        districts.add(new District("Lambeth", "medium",460 ,420));
+        districts.add(new District("Southwark", "small",510 ,370));
+        districts.add(new District("Lewisham", "medium",570 ,440));
+        districts.add(new District("Greenwich", "medium",650 ,405));
+        districts.add(new District("Bexley", "medium",750 ,350));
+        districts.add(new District("Richmond upon Thames", "medium",220 ,455));
+        districts.add(new District("Merton", "medium",346 ,475));
+        districts.add(new District("Wandsworth", "small",350 ,415));
+        districts.add(new District("Hammersmith and Fulham", "small",345 ,310));
+        districts.add(new District("Kensington and Chelsea", "small",410 ,350));
+        districts.add(new District("City of London", "small",497 ,311));
+        districts.add(new District("Westminster", "small",410 ,290));
+        districts.add(new District("Camden", "small",410 ,230));
+        districts.add(new District("Tower Hamlets", "small",560 ,285));
+        districts.add(new District("Islington", "small",470 ,230));
+        districts.add(new District("Hackney", "small",530 ,230));
+        districts.add(new District("Haringey", "small",440 ,180));
+        districts.add(new District("Newham", "small",645 ,300));
+        districts.add(new District("Barking and Dagenham", "medium",730 ,280));
     }
 
-    private void addAll(){
+    /**
+     * Initializes the districts to contain only
+     */
+    private void initializeDistricts(){
+        // assign the bnbs to the correct district
+        for (AirbnbListing bnb : shownBnbs){
+            String district = bnb.getNeighbourhood();
+            for (District d : districts){
+                if (d.getName().equals(district)){
+                    d.addBnb(bnb);
+                    break;
+                }
+            }
+        }
         for (District d : districts){
-            add(d);
+            d.putInList();
+            if (d.getNumberOfBnbs() > 0){
+                shownDistricts.add(d);
+                add(d);
+            }
+        }
+        setDistrictsIcons();
+    }
+
+    /**
+     * Fetches all the Air bnbs and removes all the objects out of the price
+     * range chosen by the user.
+     * @param bnbs
+     * @return
+     */
+    private void fetchBnbs(List<AirbnbListing> bnbs){
+        for (AirbnbListing bnb : bnbs){
+            if (bnb.getPrice() >= lowPrice && bnb.getPrice() <= highPrice){
+                shownBnbs.add(bnb);
+            }
         }
     }
+
+    private void setDistrictsIcons(){
+        for (District district : shownDistricts){
+            try {
+                district.setCorrectIcon();
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
+
 
 }
