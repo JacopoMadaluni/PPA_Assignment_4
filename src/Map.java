@@ -36,6 +36,8 @@ public class Map extends AppPanel
         fetchBnbs(bnbs);
         createDistricts();
         initializeDistricts();
+        
+        setPreferredSize(new Dimension(prefW, prefH));
 
     }
     private void createMap() throws IOException{
