@@ -27,7 +27,6 @@ public class District extends JLabel {
     private String iconAddress;
     private ImageIcon baseIcon;
 
-    private int temp = 0;
 
     /**
      * Creates a new District
@@ -125,12 +124,7 @@ public class District extends JLabel {
 
 
     private String getZoomedIconAddress(){
-        if (temp == 0) {
-            temp++;
-            return "resources/district_icons/zoomed_icon.png";
-        }else{
-            return "resources/district_icons/zoomed_icon_medium.png";
-        }
+        return "resources/district_icons/zoomed_icon_medium.png";
     }
 
     private void fix() throws IOException{
