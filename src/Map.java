@@ -36,6 +36,7 @@ public class Map extends AppPanel
         shownDistricts = new ArrayList<>();
         shownBnbs = new ArrayList<>();
 
+        District.reset();
         createMap();
         fetchBnbs(bnbs);
         createDistricts();

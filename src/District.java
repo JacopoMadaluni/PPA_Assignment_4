@@ -24,7 +24,6 @@ public class District extends JLabel {
     private int numberOfBnbs;
     private String name;
     private List<AirbnbListing> bnbs;
-    private String iconAddress;
     private ImageIcon baseIcon;
 
 
@@ -37,9 +36,8 @@ public class District extends JLabel {
      */
     public District(String name, String size, int x, int y){
         super();
-        iconAddress = getIconAddress();
         try {
-            baseIcon = new ImageIcon(ImageIO.read(new File(iconAddress)));
+            baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
         }catch (IOException ex){
             System.out.println(ex);
         }
@@ -55,10 +53,15 @@ public class District extends JLabel {
         setSize(baseIcon.getIconWidth(), baseIcon.getIconHeight());
     }
 
+    public static void reset(){
+        orderedDistricts = new LinkedList<>();
+    }
+
     public void addBnb(AirbnbListing bnb){
         bnbs.add(bnb);
         numberOfBnbs++;
     }
+
 
     public int getNumberOfBnbs() {
         return numberOfBnbs;
