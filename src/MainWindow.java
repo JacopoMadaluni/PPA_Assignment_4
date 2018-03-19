@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class MainWindow {
         pane.add(top, BorderLayout.NORTH);
 
         // Create the welcome panel and display it.
-        panels.add(new WelcomePanel());
+        panels.add(new WelcomePanel("Welcome", -1, -1));
         currentPanel = panels.get(0);
         pane.add(currentPanel, BorderLayout.CENTER);
 
@@ -72,6 +73,7 @@ public class MainWindow {
         lowPrice.setBackground(Color.WHITE);
         lowPrice.setFocusable(false);
         lowPrice.addActionListener(e -> lowPriceClicked());
+        lowPrice.setSelectedIndex(-1);
         //lowPrice.setBorder(new LineBorder(new Color(62, 196, 248), 1, true)); // TODO: useful if the whole JComboBox has round corners and different arrow (define separate class?)
         highPrice = new JComboBox<>(prices);
         highPrice.setPreferredSize(new Dimension(70, 30));
@@ -79,6 +81,7 @@ public class MainWindow {
         highPrice.setBackground(Color.WHITE);
         highPrice.setFocusable(false);
         highPrice.addActionListener(e -> highPriceClicked());
+        highPrice.setSelectedIndex(-1);
         //highPrice.setBorder(new LineBorder(new Color(62, 196, 248), 1, true));
 
         lists.add(new JLabel(" From: "));
@@ -205,6 +208,7 @@ public class MainWindow {
         // Set new list of prices to the second combo box.
         DefaultComboBoxModel model = new DefaultComboBoxModel(newPrices);
         highPrice.setModel(model);
+        highPrice.setSelectedIndex(-1);
     }
 
     /**
@@ -225,6 +229,18 @@ public class MainWindow {
         List<AirbnbListing> listings = loader.load();; // List of all the available properties.
 
         // TODO: Create panels and add them to the list accordingly.
+        panels.clear();
+        panels.add(new WelcomePanel("Welcome", chosenLow, chosenHigh));
+        try {
+            panels.add(new Map("Map", listings, chosenLow, chosenHigh));
+        } catch (IOException e) {
+            System.out.println("IO exception.");
+        }
+        try {
+            panels.add(new StatsPanel(new ArrayList<>(), (ArrayList<AirbnbListing>)listings, chosenLow, chosenHigh, 4));
+        } catch (Exception e) {
+            System.out.println("Stats exception");
+        }
 
         updateCurrentPanel();
     }
