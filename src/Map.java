@@ -19,15 +19,10 @@ import javax.swing.*;
 public class Map extends AppPanel
 {
     private Image backgroundImage;
-    private BufferedImage icon;
-    private static final String path = "C:\\Users\\Jaco\\Desktop\\Assignment 4 temp\\london-borough-map.png";
-    //private static final String iconPath = "C:\\Users\\Jaco\\Desktop\\Assignment 4 temp\\Rent_Home-512_Icon1.png";
     private int prefW;
     private int prefH;
     private ArrayList<District> districts;
     private List<District> shownDistricts;
-
-    private List<AirbnbListing> allBnbs;
     private List<AirbnbListing> shownBnbs;
 
     public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) throws IOException {
@@ -36,6 +31,7 @@ public class Map extends AppPanel
         shownDistricts = new ArrayList<>();
         shownBnbs = new ArrayList<>();
 
+        District.reset();
         createMap();
         fetchBnbs(bnbs);
         createDistricts();
