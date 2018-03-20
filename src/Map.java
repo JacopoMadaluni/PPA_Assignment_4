@@ -1,11 +1,8 @@
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,25 +30,20 @@ public class Map extends AppPanel
 
         District.reset();
         createMap();
-        fetchBnbs(bnbs);
+        fetchBnbs(bnbs); // don't include the bnbs outside the price range.
         createDistricts();
         initializeDistricts();
-        
+
         setPreferredSize(new Dimension(prefW, prefH));
 
     }
     private void createMap() throws IOException{
-        //URL imgUrl = new URL(path);
         setLayout(null);
         File img = new File("resources/maps/london1000px.png");
-        //File iconFile = new File(iconPath);
         BufferedImage londonImage = ImageIO.read(img);
-        //icon = ImageIO.read(iconFile);
 
         prefW = londonImage.getWidth();
         prefH = londonImage.getHeight();
-        //backgroundImage = new BufferedImage(prefW, prefH,
-        //        BufferedImage.TYPE_INT_ARGB);
 
         backgroundImage = new ImageIcon("resources/maps/london1000px.png").getImage();
 
@@ -78,39 +70,39 @@ public class Map extends AppPanel
 
 
     private void createDistricts(){
-        districts.add(new District("Kingston upon Thames", "medium", 280,520));
-        districts.add(new District("Croydon", "big", 480,540));
-        districts.add(new District("Bromley", "big", 640,588));
-        districts.add(new District("Hounslow", "medium",140 ,420));
-        districts.add(new District("Ealing", "big",200 ,280));
-        districts.add(new District("Havering", "big",800 ,180));
-        districts.add(new District("Hillingdon", "big", 100, 200));
-        districts.add(new District("Harrow", "big", 200,180));
-        districts.add(new District("Brent", "medium",270 ,220));
-        districts.add(new District("Barnet", "big",350 ,160));
-        districts.add(new District("Enfield", "big",500 ,110));
-        districts.add(new District("Waltham Forest", "medium",576 ,150));
-        districts.add(new District("Redbridge", "medium",670 ,210));
-        districts.add(new District("Sutton", "medium",400 ,585));
-        districts.add(new District("Lambeth", "medium",460 ,420));
-        districts.add(new District("Southwark", "small",510 ,370));
-        districts.add(new District("Lewisham", "medium",570 ,440));
-        districts.add(new District("Greenwich", "medium",650 ,405));
-        districts.add(new District("Bexley", "medium",750 ,350));
-        districts.add(new District("Richmond upon Thames", "medium",220 ,455));
-        districts.add(new District("Merton", "medium",346 ,475));
-        districts.add(new District("Wandsworth", "small",350 ,415));
-        districts.add(new District("Hammersmith and Fulham", "small",345 ,310));
-        districts.add(new District("Kensington and Chelsea", "small",410 ,350));
-        districts.add(new District("City of London", "small",497 ,311));
-        districts.add(new District("Westminster", "small",410 ,290));
-        districts.add(new District("Camden", "small",410 ,230));
-        districts.add(new District("Tower Hamlets", "small",560 ,285));
-        districts.add(new District("Islington", "small",470 ,230));
-        districts.add(new District("Hackney", "small",530 ,230));
-        districts.add(new District("Haringey", "small",440 ,180));
-        districts.add(new District("Newham", "small",645 ,300));
-        districts.add(new District("Barking and Dagenham", "medium",730 ,280));
+        districts.add(new District("Kingston upon Thames", 280,520));
+        districts.add(new District("Croydon",  480,540));
+        districts.add(new District("Bromley",  640,588));
+        districts.add(new District("Hounslow", 140 ,420));
+        districts.add(new District("Ealing", 200 ,280));
+        districts.add(new District("Havering", 800 ,180));
+        districts.add(new District("Hillingdon",  100, 200));
+        districts.add(new District("Harrow",  200,180));
+        districts.add(new District("Brent", 270 ,220));
+        districts.add(new District("Barnet", 350 ,160));
+        districts.add(new District("Enfield", 500 ,110));
+        districts.add(new District("Waltham Forest", 576 ,150));
+        districts.add(new District("Redbridge", 670 ,210));
+        districts.add(new District("Sutton", 400 ,585));
+        districts.add(new District("Lambeth", 460 ,420));
+        districts.add(new District("Southwark", 510 ,370));
+        districts.add(new District("Lewisham", 570 ,440));
+        districts.add(new District("Greenwich", 650 ,405));
+        districts.add(new District("Bexley", 750 ,350));
+        districts.add(new District("Richmond upon Thames", 220 ,455));
+        districts.add(new District("Merton", 346 ,475));
+        districts.add(new District("Wandsworth", 350 ,415));
+        districts.add(new District("Hammersmith and Fulham", 345 ,310));
+        districts.add(new District("Kensington and Chelsea", 400 ,350));
+        districts.add(new District("City of London", 497 ,311));
+        districts.add(new District("Westminster", 410 ,300));
+        districts.add(new District("Camden", 410 ,230));
+        districts.add(new District("Tower Hamlets", 555 ,290));
+        districts.add(new District("Islington", 470 ,230));
+        districts.add(new District("Hackney", 530 ,230));
+        districts.add(new District("Haringey", 440 ,180));
+        districts.add(new District("Newham", 645 ,300));
+        districts.add(new District("Barking and Dagenham", 730 ,280));
     }
 
     /**
