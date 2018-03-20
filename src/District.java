@@ -1,6 +1,7 @@
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -92,7 +93,7 @@ public class District extends JLabel {
             }
             @Override
             public void mouseClicked(MouseEvent e){
-                System.out.println("works");
+                    displayBnbList();
             }
             @Override
             public void mousePressed(MouseEvent e){
@@ -113,6 +114,49 @@ public class District extends JLabel {
         }
     }
 
+    private void displayBnbList(){
+        JFrame frame = new JFrame("Airbnb's in "+name);
+      //  Container content = frame.getContentPane();
+
+        JList airbnbList = new JList(bnbs.toArray());
+        airbnbList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        airbnbList.setLayoutOrientation(JList.VERTICAL);
+
+       // JTable propertiesTable = makeTable();
+      /*  JLabel label = new JLabel(name);
+        content.add(label);*/
+      JScrollPane scrollPane = new JScrollPane(makeTable());
+     // scrollPane.setPreferredSize(new Dimension(300,300));
+      frame.setContentPane(scrollPane);
+        frame.pack();
+        frame.setVisible(true);
+
+    }
+    private JTable makeTable(){
+        String [] columns = {"Name","Price","Room type","Reviews"};
+        String [][] data = gatherData(columns);
+        JTable table = new JTable(data,columns);
+        table.setName("Properties in "+name);
+        table.setAutoCreateRowSorter(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        //Sets the table as not editable
+        DefaultTableModel tableModel = new DefaultTableModel(data,columns){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        table.setModel(tableModel);
+        return table;
+    }
+    public String [][] gatherData(String[] columns){
+        String [][] data = new String[bnbs.size()][columns.length];
+        for (int property = 0; property<bnbs.size();property++){
+            AirbnbListing bnb = bnbs.get(property);
+            data[property] = new String[]{bnb.getName(),String.valueOf(bnb.getPrice()),bnb.getRoom_type(),String.valueOf(bnb.getNumberOfReviews())};
+        }
+       return data;
+    }
     private String getIconAddress(){
         for (int i = 0; i< orderedDistricts.size() ; i++){
             if (orderedDistricts.get(i).equals(this)){
