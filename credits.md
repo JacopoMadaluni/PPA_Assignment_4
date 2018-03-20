@@ -18,4 +18,4 @@ by <a href="https://commons.wikimedia.org/wiki/User:TUBS" title="TUBS">TUBS</a>.
 
 
 <h3>LIBRARIES</h3>
-- <b>Data Visualisation/b> : <a href="http://www.jfree.org/index.html" title= "JFreeChart"> JFreechart </a>
+- <b>Data Visualisation</b> : <a href="http://www.jfree.org/index.html" title= "JFreeChart"> JFreechart </a>
