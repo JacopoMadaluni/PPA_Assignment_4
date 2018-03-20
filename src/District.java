@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.BufferPoolMXBean;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -203,17 +204,33 @@ public class District extends JLabel {
     }
     private void showProperty(AirbnbListing bnb){
         JFrame frame = new JFrame(bnb.getName());
-        Container container = frame.getContentPane();
-        JFXPanel panel = new JFXPanel();
-        container.add(panel);
+        JFXPanel mapPanel = new JFXPanel();
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        frame.add(mapPanel,BorderLayout.PAGE_START);
 
         Platform.runLater(()->{
             WebView webView = new WebView();
-            panel.setScene(new Scene(webView));
-            System.out.println("https://www.google.com/maps/@"+bnb.getLatitude()+","+bnb.getLongitude());
-            webView.getEngine().load("https://www.google.com/maps/@"+bnb.getLatitude()+","+bnb.getLongitude());
+            mapPanel.setScene(new Scene(webView));
+            webView.getEngine().load("https://www.google.com/maps/search/?api=1&query="+bnb.getLatitude()+","+bnb.getLongitude());
         });
-        frame.pack();
+      //  panel.setSize(frame.getWidth(),frame.getHeight()/3);
+        JLabel title = new JLabel(bnb.getName());
+        contentPanel.add(title);
+        JLabel price = new JLabel("£"+bnb.getPrice());
+        contentPanel.add(price);
+        contentPanel.add(new JLabel(""+bnb.getAvailability365()));
+        contentPanel.add(new JLabel("Reviews "+bnb.getNumberOfReviews()));
+        contentPanel.add(new JLabel(""+bnb.getMinimumNights()));
+        contentPanel.add(new JLabel(bnb.getNeighbourhood()));
+        contentPanel.add(new JLabel(bnb.getRoom_type()));
+        contentPanel.add(new JLabel(""+bnb.getReviewsPerMonth()));
+        contentPanel.add(new JLabel(bnb.getHost_name()));
+        contentPanel.add(new JLabel(bnb.getHost_id()));
+        contentPanel.add(new JLabel(bnb.getId()));
+        frame.add(contentPanel, BorderLayout.SOUTH);
+          frame.pack();
+        frame.setSize(1000,1000);
+
         frame.setVisible(true);
 
     }
