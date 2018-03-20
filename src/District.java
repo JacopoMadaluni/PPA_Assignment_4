@@ -134,26 +134,38 @@ public class District extends JLabel {
     }
     private JTable makeTable(){
         String [] columns = {"Name","Price","Room type","Reviews"};
-        String [][] data = gatherData(columns);
+        Object[][] data = gatherData(columns);
         JTable table = new JTable(data,columns);
         table.setName("Properties in "+name);
         table.setAutoCreateRowSorter(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        //Sets the table as not editable
+        //Sets the table as not editable and sets the correct sorting parameters
         DefaultTableModel tableModel = new DefaultTableModel(data,columns){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                    case 2:
+                        return String.class;
+                    default:
+                        return Integer.class;
+                }
+            }
         };
         table.setModel(tableModel);
         return table;
     }
-    public String [][] gatherData(String[] columns){
-        String [][] data = new String[bnbs.size()][columns.length];
+    public Object [][] gatherData(String[] columns){
+        Object [][] data = new Object[bnbs.size()][columns.length];
         for (int property = 0; property<bnbs.size();property++){
             AirbnbListing bnb = bnbs.get(property);
-            data[property] = new String[]{bnb.getName(),String.valueOf(bnb.getPrice()),bnb.getRoom_type(),String.valueOf(bnb.getNumberOfReviews())};
+            data[property] = new Object[]{bnb.getName(),bnb.getPrice(),bnb.getRoom_type(),bnb.getNumberOfReviews()};
         }
        return data;
     }
