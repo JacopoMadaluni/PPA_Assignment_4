@@ -51,9 +51,32 @@ public class StatsPanel extends AppPanel {
      * Inserts the panels that contain different statistics in the StatsPanel
      */
     public void initialiseCentralPanels(){
-        AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, highPrice, lowPrice);
+        AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, lowPrice, highPrice);
         centralPanels.add(avgReviewScore);
       //does not return anything right now because there is a dataset conflict (no column with the data needed)
+
+
+
+
+        TotNumberStats totAvailableProperties = new TotNumberStats(
+                "All Available Properties" , listings, lowPrice, highPrice);
+        TotNumberStats totAvailableProperties2 = new TotNumberStats(
+                "All Available Properties2" , listings, lowPrice, highPrice);
+
+
+        TotNumberStats totEntireHomeOrApts = new TotNumberStats(
+                "Number of entire homes and apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
+
+        TotNumberStats totEntireHomeOrApts2 = new TotNumberStats(
+                "Number of entire homes and apartments2", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
+
+
+        centralPanels.add(totAvailableProperties);
+        centralPanels.add(totEntireHomeOrApts);
+        centralPanels.add(totAvailableProperties2);
+        centralPanels.add(totEntireHomeOrApts2);
+
+
 
     }
     /**
@@ -171,5 +194,19 @@ public class StatsPanel extends AppPanel {
         //if it is not found as centralPanel of a subPanel then it not is visible
         return false;
 
+    }
+
+    /**
+     * Return an arraylist containing the listings with room type = "Entire home/apt"
+     * @return
+     */
+    public ArrayList<AirbnbListing> getListingsByRoomType(String roomType) {
+        ArrayList<AirbnbListing> entireHomeOrAptListings = new ArrayList<>();
+        for(AirbnbListing listing : listings){
+            if (listing.getRoom_type().equals(roomType)){
+                entireHomeOrAptListings.add(listing);
+            }
+        }
+        return entireHomeOrAptListings;
     }
 }

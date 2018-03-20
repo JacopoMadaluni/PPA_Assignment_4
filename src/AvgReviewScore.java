@@ -7,7 +7,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvgReviewScore extends AppPanel {
+public class AvgReviewScore extends CentralPanel {
     int lowPrice;
     int highPrice;
 
@@ -21,8 +21,6 @@ public class AvgReviewScore extends AppPanel {
         super(title, listings, lowPrice, highPrice);
         this.lowPrice = lowPrice;
         this.highPrice = highPrice;
-        double avg = calculateAvgReviewScore(listings, lowPrice, highPrice);
-
         JFreeChart barChart = ChartFactory.createBarChart(
                 title,
                 "Review Range by Listing Price",
@@ -32,12 +30,7 @@ public class AvgReviewScore extends AppPanel {
                 true, true, false);
 
         ChartPanel chartPanel = new ChartPanel( barChart );
-        chartPanel.setPreferredSize(new java.awt.Dimension( 500 , 400) );
         add( chartPanel );
-
-        setVisible(true);
-
-
 
     }
 
@@ -49,21 +42,17 @@ public class AvgReviewScore extends AppPanel {
 
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
 
-        //categories
-        final String low =  "0£ to "+ highPrice/4 +"£";
-        final String mediumLow = highPrice/4+"£" + " to " +(highPrice/4 *2)+"£";
-        final String mediumHigh =highPrice/4*2+"£" + " to " +(highPrice/4 *3)+"£";
-        final String high = highPrice/4 *3+"£" + " to " +highPrice+"£";
+
         final String all = "Total Average";
 
         //name of group of bar graphs
         final String averageValue = "All listings";
 
         // add values to dataset
-        dataset.addValue(calculateAvgReviewScore(listings, lowPrice,highPrice/4), low, averageValue );
-        dataset.addValue(calculateAvgReviewScore(listings, highPrice/4,highPrice/4*2), mediumLow, averageValue );
-        dataset.addValue(calculateAvgReviewScore(listings, highPrice/4*2,highPrice/4*3), mediumHigh, averageValue );
-        dataset.addValue(calculateAvgReviewScore(listings, highPrice/4*3,highPrice/4), high, averageValue );
+        dataset.addValue(calculateAvgReviewScore(listings, lowPrice,highPrice/4), lowBound, averageValue );
+        dataset.addValue(calculateAvgReviewScore(listings, highPrice/4,highPrice/4*2), mediumLowBound, averageValue );
+        dataset.addValue(calculateAvgReviewScore(listings, highPrice/4*2,highPrice/4*3), mediumHighBound, averageValue );
+        dataset.addValue(calculateAvgReviewScore(listings, highPrice/4*3,highPrice/4), highBound, averageValue );
         dataset.addValue( calculateAvgReviewScore(listings, lowPrice,highPrice), all , averageValue );
 
         return dataset;
