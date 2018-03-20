@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class StatsPanel extends AppPanel {
      * @param highPrice the upper bound for price range search
      * @throws Exception
      */
-    public StatsPanel(List<AppPanel> statsPanels, ArrayList<AirbnbListing> listings, int lowPrice, int highPrice, int numberOfSubPanels) throws Exception {
+    public StatsPanel(ArrayList<AirbnbListing> listings, int lowPrice, int highPrice, int numberOfSubPanels) throws Exception {
         super("Statistics", listings, lowPrice, highPrice);
 
         this.listings = listings;
@@ -41,7 +42,7 @@ public class StatsPanel extends AppPanel {
         centralPanels = new ArrayList<AppPanel>();
         statsSubPanels = new ArrayList<StatsSubPanel>();
         //initialise and add visual elements
-        initialiseCentralPanels(statsPanels);
+        initialiseCentralPanels();
         initialiseSubPanels(numberOfSubPanels); //"containers" for central panels
         setVisible(true);
     }
@@ -55,6 +56,12 @@ public class StatsPanel extends AppPanel {
         }
     }
 
+    /**
+     * Inserts the panels that contain different statistics in the StatsPanel
+     */
+    public void initialiseCentralPanels(){
+
+    }
     /**
      * Create Instances of the StatsSubPanels and add
      * them to the statisticsPanels so they can be displayed
@@ -111,7 +118,6 @@ public class StatsPanel extends AppPanel {
      */
     public AppPanel getFreePreviousCentralPanel(AppPanel currentPanel) {
 
-        //
         if(currentPanel != null){
             int indexOfCurrentPanel = centralPanels.indexOf(currentPanel);
             for(int i = 0; i < centralPanels.size(); i++){

@@ -237,7 +237,7 @@ public class MainWindow {
             System.out.println("IO exception.");
         }
         try {
-            panels.add(new StatsPanel(new ArrayList<>(), (ArrayList<AirbnbListing>)listings, chosenLow, chosenHigh, 4));
+            panels.add(new StatsPanel((ArrayList<AirbnbListing>)listings, chosenLow, chosenHigh, 4));
         } catch (Exception e) {
             System.out.println("Stats exception");
         }
