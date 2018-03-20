@@ -20,7 +20,6 @@ public class District extends JLabel {
 
     private int x;
     private int y;
-    private String size;
     private int numberOfBnbs;
     private String name;
     private List<AirbnbListing> bnbs;
@@ -30,11 +29,10 @@ public class District extends JLabel {
     /**
      * Creates a new District
      * @param name The name of the district.
-     * @param size (Removed soon)
      * @param x The absolute x on the map.
      * @param y The absolute y on the map.
      */
-    public District(String name, String size, int x, int y){
+    public District(String name, int x, int y){
         super();
         try {
             baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
@@ -84,30 +82,30 @@ public class District extends JLabel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 //super.mouseEntered(e);
-                try {
-                    resizeImage();
-                }catch(IOException ex) {
-                    System.out.println(ex);
-                }
+                mouseEnter();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 //super.mouseExited(e);
-                try{
-                    //ImageIcon imageIcon = new ImageIcon(ImageIO.read(new File(iconAddress)));
-                    baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
-                    setIcon(baseIcon);
-                    setText("");
-                }catch(Exception ex){
-                    System.out.println(ex);
-                }
+                mouseExit();
             }
             @Override
             public void mouseClicked(MouseEvent e){
                 System.out.println("works");
             }
+            @Override
+            public void mousePressed(MouseEvent e){
+                mousePress();
+            }
+            @Override
+            public void mouseReleased(MouseEvent e){
+                mouseEnter();
+            }
         });
+
+
+
         try {
             fix();
         }catch(IOException ex){
@@ -131,8 +129,7 @@ public class District extends JLabel {
     }
 
     private void fix() throws IOException{
-        resizeImage();
-        //ImageIcon imageIcon = new ImageIcon(ImageIO.read(new File(iconAddress)));
+        mouseEnter();
         setIcon(baseIcon);
         setText("");
     }
@@ -168,17 +165,37 @@ public class District extends JLabel {
     }
 
 
+    private void mousePress(){
+        try{
+            Image newImage = ImageIO.read(new File("resources/district_icons/icon_mouse_pressed.png"));
+            baseIcon = new ImageIcon(newImage);
+            setIcon(baseIcon);
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+    }
 
-    private void resizeImage() throws IOException{
-        //Image image = baseIcon.getImage();
-        Image newImage = ImageIO.read(new File(getZoomedIconAddress()));
-        //Image newImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        baseIcon = new ImageIcon(newImage);
-        //setSize(baseIcon.getIconWidth(), baseIcon.getIconHeight());
-        setIcon(baseIcon);
-        setText("" + numberOfBnbs);
-        setHorizontalTextPosition(JLabel.CENTER);
-        setFont(new Font("Serif", Font.PLAIN, 20));
 
+    private void mouseExit(){
+        try{
+            baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
+            setIcon(baseIcon);
+            setText("");
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+
+    private void mouseEnter(){
+        try {
+            Image newImage = ImageIO.read(new File(getZoomedIconAddress()));
+            baseIcon = new ImageIcon(newImage);
+            setIcon(baseIcon);
+            setText("" + numberOfBnbs);
+            setHorizontalTextPosition(JLabel.CENTER);
+            setFont(new Font("Serif", Font.PLAIN, 20));
+        }catch(IOException ex) {
+            System.out.println(ex);
+        }
     }
 }
