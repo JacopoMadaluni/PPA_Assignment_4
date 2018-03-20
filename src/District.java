@@ -139,6 +139,13 @@ public class District extends JLabel {
         table.setName("Properties in "+name);
         table.setAutoCreateRowSorter(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                System.out.println(table.getValueAt(table.rowAtPoint(e.getPoint()),0));
+            }
+        });
         //Sets the table as not editable and sets the correct sorting parameters
         DefaultTableModel tableModel = new DefaultTableModel(data,columns){
             @Override
