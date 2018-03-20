@@ -24,7 +24,6 @@ public class StatsPanel extends AppPanel {
     /**
      * Initialise variables, create subpanels and give them initial central panels
      * to show initial statistics.
-     * @param statsPanels the central panels which show the stats
      * @param listings the list of all listings in the application
      * @param lowPrice the lower bound for price range search
      * @param highPrice the upper bound for price range search
@@ -47,19 +46,14 @@ public class StatsPanel extends AppPanel {
         setVisible(true);
     }
 
-    /**
-     * Inserts the panels that contain different statistics in the StatsPanel
-     */
-    public void initialiseCentralPanels(List<AppPanel> centralPanelsToAdd){
-        for(AppPanel centralPanelToAdd: centralPanelsToAdd){
-            centralPanels.add(centralPanelToAdd);
-        }
-    }
 
     /**
      * Inserts the panels that contain different statistics in the StatsPanel
      */
     public void initialiseCentralPanels(){
+        AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, highPrice, lowPrice);
+        centralPanels.add(avgReviewScore);
+      //does not return anything right now because there is a dataset conflict (no column with the data needed)
 
     }
     /**
