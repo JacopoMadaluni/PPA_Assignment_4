@@ -1,4 +1,9 @@
 
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -132,6 +137,14 @@ public class District extends JLabel {
         frame.setVisible(true);
 
     }
+    private AirbnbListing getPropertyByName(String name){
+        for (AirbnbListing bnb: bnbs){
+            if (bnb.getName().equals(name))
+                return bnb;
+        }
+        return null;
+    }
+
     private JTable makeTable(){
         String [] columns = {"Name","Price","Room type","Reviews"};
         Object[][] data = gatherData(columns);
@@ -139,11 +152,14 @@ public class District extends JLabel {
         table.setName("Properties in "+name);
         table.setAutoCreateRowSorter(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        //If a row is clicked, it will expand to show more information specific to that Airbnb
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                System.out.println(table.getValueAt(table.rowAtPoint(e.getPoint()),0));
+                AirbnbListing bnb =getPropertyByName((String)table.getValueAt(table.rowAtPoint(e.getPoint()),0));
+                showProperty(bnb);
+
             }
         });
         //Sets the table as not editable and sets the correct sorting parameters
@@ -185,7 +201,22 @@ public class District extends JLabel {
         System.out.println("Error: District not found in the list");
         return "resources/district_icons/sized_icons/icon_0.png";
     }
+    private void showProperty(AirbnbListing bnb){
+        JFrame frame = new JFrame(bnb.getName());
+        Container container = frame.getContentPane();
+        JFXPanel panel = new JFXPanel();
+        container.add(panel);
 
+        Platform.runLater(()->{
+            WebView webView = new WebView();
+            panel.setScene(new Scene(webView));
+            System.out.println("https://www.google.com/maps/@"+bnb.getLatitude()+","+bnb.getLongitude());
+            webView.getEngine().load("https://www.google.com/maps/@"+bnb.getLatitude()+","+bnb.getLongitude());
+        });
+        frame.pack();
+        frame.setVisible(true);
+
+    }
 
     private String getZoomedIconAddress(){
         return "resources/district_icons/zoomed_icon_medium.png";
