@@ -23,6 +23,16 @@ public class AvgReviewScore extends BarChart{
         createBottomBox();
     }
 
+    @Override
+    protected String getYLabel() {
+        return "Number Of Reviews";
+    }
+
+    @Override
+    protected String getXLabel() {
+        return "Review Range By Listing Price";
+    }
+
     /**
      * Create the dataset for the data visualisation
      * @return the dataset for the data visualisation

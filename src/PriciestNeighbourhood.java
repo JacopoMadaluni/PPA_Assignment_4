@@ -11,7 +11,7 @@ import java.util.*;
 public class PriciestNeighbourhood extends BarChart {
     private HashMap<String, Double> neighbourhoodsPrices;
     //the number of neighbourhoods shown on scren at any time
-    private static final int neighbourhoodsToShow = 10;
+    private static final int neighbourhoodsToShow = 5;
 
     /**
      * Show priciest 10 neighbourhoods in the dataset and in subsections of it
@@ -26,6 +26,16 @@ public class PriciestNeighbourhood extends BarChart {
         createBottomBox();
     }
 
+    @Override
+    protected String getYLabel() {
+        return "Average Price Per Property Per Night";
+    }
+
+    @Override
+    protected String getXLabel() {
+        return "Top "+ neighbourhoodsToShow+ " Neighbourhoods";
+    }
+
     /**
      * Create the dataset for the data visualisation
      * @return the dataset for the data visualisation
@@ -35,14 +45,10 @@ public class PriciestNeighbourhood extends BarChart {
         neighbourhoodsPrices = new HashMap<>();
         initialiseNeighbourhoods(lowPrice, highPrice);
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-
-        //name of group of bar graphs
-        final String total = "All Neighbourhoods";
-
         // add values to dataset
         try {
            for(int i = neighbourhoodsToShow; i>0 ;i--){
-               dataset.addValue(getPriceNeighboorhood(i),getNameNeighboorhood(i), total );
+               dataset.addValue(getPriceNeighboorhood(i),getNameNeighboorhood(i), "" );
            }
 
         } catch (Exception e) {

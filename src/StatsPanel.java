@@ -59,10 +59,9 @@ public class StatsPanel extends AppPanel {
                 "All Available Properties" , listings, lowPrice, highPrice);
         //total number of properties classified as "entire home/apt"
         TotListings totEntireHomeOrApts = new TotListings(
-                "Number of entire homes and apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
+                "Number of Entire Homes/Apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
         //pricies neighbourhood
         PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
-
 
 
        //add central panels to their subpanels
