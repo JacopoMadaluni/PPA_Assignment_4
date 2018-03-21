@@ -8,15 +8,15 @@ import java.util.List;
 public class BnbTable {
     private District district;
     private List<AirbnbListing> bnbs;
-
+    private JFrame frame;
     public BnbTable(District district){
         this.district = district;
         this.bnbs = district.getBnbs();
         this.displayBnbList();
     }
 
-    private void displayBnbList(){
-        JFrame frame = new JFrame("Airbnb's in "+district.getName());
+    public void displayBnbList(){
+        frame = new JFrame("Airbnb's in "+district.getName());
         JScrollPane scrollPane = new JScrollPane(makeTable());
         frame.setContentPane(scrollPane);
         frame.pack();
@@ -35,7 +35,7 @@ public class BnbTable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 AirbnbListing bnb = getPropertyByName((String)table.getValueAt(table.rowAtPoint(e.getPoint()),0));
-                new SinglePropertyView(bnb).showProperty();
+                showProperty(bnb);
             }
         });
         //Sets the table as not editable and sets the correct sorting parameters
@@ -61,6 +61,10 @@ public class BnbTable {
         table.setRowSorter(new TableRowSorter<>(tableModel));
         table.getRowSorter().toggleSortOrder(0);
         return table;
+    }
+    private void showProperty(AirbnbListing bnb){
+        frame.dispose();
+        new SinglePropertyView(bnb).showProperty(this);
     }
     private Object [][] gatherData(String[] columns){
         Object [][] data = new Object[bnbs.size()][columns.length];
