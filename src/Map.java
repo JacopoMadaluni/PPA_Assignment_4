@@ -31,8 +31,8 @@ public class Map extends AppPanel
         District.reset();
         createMap();
         fetchBnbs(bnbs); // don't include the bnbs outside the price range.
-        createDistricts();
-        initializeDistricts();
+        createDistricts(); // create the districts of london
+        initializeDistricts(); // initilize the districts properties
 
         setPreferredSize(new Dimension(prefW, prefH));
 
@@ -146,7 +146,8 @@ public class Map extends AppPanel
     private void setDistrictsIcons(){
         for (District district : shownDistricts){
             try {
-                district.setCorrectIcon();
+                district.alternativeSetIcon();
+                //district.setCorrectIcon();
             }catch(IOException e){
                 System.out.println(e);
             }

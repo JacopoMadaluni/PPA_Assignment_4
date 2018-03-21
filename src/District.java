@@ -63,6 +63,9 @@ public class District extends JLabel {
     public int getNumberOfBnbs() {
         return numberOfBnbs;
     }
+    public List<AirbnbListing> getBnbs(){
+        return bnbs;
+    }
 
     public String getName(){
         return name;
@@ -91,16 +94,15 @@ public class District extends JLabel {
             }
             @Override
             public void mouseClicked(MouseEvent e){
-                System.out.println("works");
+                mouseEnter();
+                openTableWindow();
             }
             @Override
             public void mousePressed(MouseEvent e){
                 mousePress();
             }
-            @Override
-            public void mouseReleased(MouseEvent e){
-                mouseEnter();
-            }
+
+
         });
 
 
@@ -112,13 +114,20 @@ public class District extends JLabel {
         }
     }
 
+    private void openTableWindow(){
+        new BnbTable(this);
+    }
+
     private String getIconAddress(){
         for (int i = 0; i< orderedDistricts.size() ; i++){
             if (orderedDistricts.get(i).equals(this)){
                 return "resources/district_icons/sized_icons/icon_" + i +".png";
             }
         }
-        System.out.println("Error: District not found in the list");
+        if (orderedDistricts.size() == 33) {
+            // Didnt find the district that should be there
+            System.err.println("Error: District not found in the list");
+        }
         return "resources/district_icons/sized_icons/icon_0.png";
     }
 
@@ -158,9 +167,10 @@ public class District extends JLabel {
 
 
     public void setCorrectIcon() throws IOException{
-        Image newImage = ImageIO.read(new File(getIconAddress()));
-        baseIcon = new ImageIcon(newImage);
-        setIcon(baseIcon);
+        //Image newImage = ImageIO.read(new File(getIconAddress()));
+        //baseIcon = new ImageIcon(newImage);
+        //setIcon(baseIcon);
+        alternativeSetIcon();
     }
 
 
@@ -177,8 +187,7 @@ public class District extends JLabel {
 
     private void mouseExit(){
         try{
-            baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
-            setIcon(baseIcon);
+            setCorrectIcon();
             setText("");
         }catch(Exception ex){
             System.out.println(ex);
@@ -189,12 +198,38 @@ public class District extends JLabel {
         try {
             Image newImage = ImageIO.read(new File(getZoomedIconAddress()));
             baseIcon = new ImageIcon(newImage);
-            setIcon(baseIcon);
+            setIcon (baseIcon);
             setText("" + numberOfBnbs);
             setHorizontalTextPosition(JLabel.CENTER);
             setFont(new Font("Serif", Font.PLAIN, 20));
         }catch(IOException ex) {
             System.out.println(ex);
+        }
+    }
+
+    public void alternativeSetIcon() throws  IOException{
+        double p = scaleFunction(numberOfBnbs);
+        if (p == -1){
+            setIcon(null);
+            return;
+        }
+        int scale = (int) (p * 6);
+        if (scale < 30){
+            scale = 30;
+        }else if (scale > 55){
+            scale = 55;
+        }
+        Image base = ImageIO.read(new File("resources/district_icons/zoomed_icon.png"));
+        Image scaledBase = base.getScaledInstance(scale, scale,  java.awt.Image.SCALE_SMOOTH);
+        baseIcon = new ImageIcon(scaledBase);
+        setIcon(baseIcon);
+    }
+
+    private double scaleFunction(int x){
+        if (x < 1){
+            return -1;
+        }else{
+            return Math.log(x);
         }
     }
 }
