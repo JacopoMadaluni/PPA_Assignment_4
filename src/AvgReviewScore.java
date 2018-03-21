@@ -36,12 +36,15 @@ public class AvgReviewScore extends BarChart{
         final String averageValue = "All listings";
 
         // add values to dataset
-        dataset.addValue(getAvgFromData(listings, lowPrice,highPrice/4, "review_score"), lowBound, averageValue );
-        dataset.addValue(getAvgFromData(listings, highPrice/4,highPrice/4*2,"review_score"), mediumLowBound, averageValue );
-        dataset.addValue(getAvgFromData(listings, highPrice/4*2,highPrice/4*3,"review_score"), mediumHighBound, averageValue );
-        dataset.addValue(getAvgFromData(listings, highPrice/4*3,highPrice/4,"review_score"), highBound, averageValue );
-        dataset.addValue(getAvgFromData(listings, lowPrice,highPrice,"review_score"), all , averageValue );
-
+        try {
+            dataset.addValue(getAvgFromData(listings, lowPrice,highPrice/4, "review_score"), lowBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, highPrice/4,highPrice/4*2,"review_score"), mediumLowBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, highPrice/4*2,highPrice/4*3,"review_score"), mediumHighBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, highPrice/4*3,highPrice/4,"review_score"), highBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, lowPrice,highPrice,"review_score"), all , averageValue );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return dataset;
     }
 
@@ -51,7 +54,12 @@ public class AvgReviewScore extends BarChart{
      */
     @Override
     public String getBottomText() {
-        return( getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getAvgFromData(listings, lowPrice, highPrice, "reviewScore"));
+        try {
+            return( getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getAvgFromData(listings, lowPrice, highPrice, "reviewScore"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
 }
