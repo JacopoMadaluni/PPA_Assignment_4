@@ -1,31 +1,27 @@
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebView;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.List;
 
 public class BnbTable {
     private District district;
-    private ArrayList<AirbnbListing> bnbs;
+    private List<AirbnbListing> bnbs;
 
-    public BnbTable(District district,ArrayList<AirbnbListing> bnbs){
+    public BnbTable(District district){
         this.district = district;
-        this.bnbs = bnbs;
+        this.bnbs = district.getBnbs();
+        this.displayBnbList();
     }
-    private Object [][] gatherData(String[] columns){
-        Object [][] data = new Object[bnbs.size()][columns.length];
-        for (int property = 0; property<bnbs.size();property++){
-            AirbnbListing bnb = bnbs.get(property);
-            data[property] = new Object[]{bnb.getName(),bnb.getPrice(),bnb.getRoom_type(),bnb.getNumberOfReviews()};
-        }
-        return data;
+
+    private void displayBnbList(){
+        JFrame frame = new JFrame("Airbnb's in "+district.getName());
+        JScrollPane scrollPane = new JScrollPane(makeTable());
+        frame.setContentPane(scrollPane);
+        frame.pack();
+        frame.setVisible(true);
     }
+
     private JTable makeTable(){
         String [] columns = {"Name","Price","Room type","Reviews"};
         Object[][] data = gatherData(columns);
@@ -37,10 +33,8 @@ public class BnbTable {
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                AirbnbListing bnb =getPropertyByName((String)table.getValueAt(table.rowAtPoint(e.getPoint()),0));
+                AirbnbListing bnb = getPropertyByName((String)table.getValueAt(table.rowAtPoint(e.getPoint()),0));
                 new SinglePropertyView(bnb).showProperty();
-
             }
         });
         //Sets the table as not editable and sets the correct sorting parameters
@@ -65,6 +59,15 @@ public class BnbTable {
         table.setModel(tableModel);
         return table;
     }
+    private Object [][] gatherData(String[] columns){
+        Object [][] data = new Object[bnbs.size()][columns.length];
+        for (int property = 0; property<bnbs.size();property++){
+            AirbnbListing bnb = bnbs.get(property);
+            data[property] = new Object[]{bnb.getName(),bnb.getPrice(),bnb.getRoom_type(),bnb.getNumberOfReviews()};
+        }
+        return data;
+    }
+
     private AirbnbListing getPropertyByName(String name){
         for (AirbnbListing bnb: bnbs){
             if (bnb.getName().equals(name))
@@ -72,25 +75,4 @@ public class BnbTable {
         }
         return null;
     }
-
-
-    public void displayBnbList(){
-        JFrame frame = new JFrame("Airbnb's in "+district.getName());
-        //  Container content = frame.getContentPane();
-
-        JList airbnbList = new JList(bnbs.toArray());
-        airbnbList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        airbnbList.setLayoutOrientation(JList.VERTICAL);
-
-        // JTable propertiesTable = makeTable();
-      /*  JLabel label = new JLabel(name);
-        content.add(label);*/
-        JScrollPane scrollPane = new JScrollPane(makeTable());
-        // scrollPane.setPreferredSize(new Dimension(300,300));
-        frame.setContentPane(scrollPane);
-        frame.pack();
-        frame.setVisible(true);
-
-    }
-
 }
