@@ -21,6 +21,7 @@ public class TotListings extends PieChart {
      */
     public TotListings(String title, ArrayList<AirbnbListing> listings, int lowPrice, int highPrice) {
         super(title, listings, lowPrice, highPrice);
+        createBottomBox();
     }
 
     /**
@@ -32,10 +33,13 @@ public class TotListings extends PieChart {
     protected PieDataset createDataset(List<AirbnbListing> listings, int lowPrice, int highPrice) {
 
         DefaultPieDataset dataset = new DefaultPieDataset();
+
+        try {
         //low category
         dataset.setValue(lowBound, new Double(
                 getTotFromData(listings, lowPrice, highPrice/4)
         ));
+
         //mediumlow category
         dataset.setValue(mediumLowBound, new Double(
                 getTotFromData(listings, highPrice/4, highPrice/4*2)
@@ -48,6 +52,9 @@ public class TotListings extends PieChart {
         dataset.setValue(highBound, new Double(
                 getTotFromData(listings, highPrice/4*3, highPrice)
         ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return dataset;
     }
@@ -58,6 +65,11 @@ public class TotListings extends PieChart {
      */
     @Override
     public String getBottomText() {
-        return (getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getTotFromData(listings, lowPrice, highPrice));
+        try {
+            return (getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getTotFromData(listings, lowPrice, highPrice));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

@@ -57,15 +57,11 @@ public class StatsPanel extends AppPanel {
         //total number of properties
         TotListings totAvailableProperties = new TotListings(
                 "All Available Properties" , listings, lowPrice, highPrice);
-        TotListings totAvailableProperties2 = new TotListings(
-                "All Available Properties2" , listings, lowPrice, highPrice);
-
         //total number of properties classified as "entire home/apt"
         TotListings totEntireHomeOrApts = new TotListings(
                 "Number of entire homes and apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
-
-        TotListings totEntireHomeOrApts2 = new TotListings(
-                "Number of entire homes and apartments2", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
+        //pricies neighbourhood
+        PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
 
 
 
@@ -73,8 +69,8 @@ public class StatsPanel extends AppPanel {
         centralPanels.add(avgReviewScore);
         centralPanels.add(totAvailableProperties);
         centralPanels.add(totEntireHomeOrApts);
-        centralPanels.add(totAvailableProperties2);
-        centralPanels.add(totEntireHomeOrApts2);
+        centralPanels.add(priciestNeighbourhood);
+
     }
 
 

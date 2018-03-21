@@ -1,5 +1,6 @@
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public class AvgReviewScore extends BarChart{
      */
     public AvgReviewScore(String title, List<AirbnbListing> listings, int lowPrice, int highPrice) {
         super(title, listings, lowPrice, highPrice);
+        createBottomBox();
     }
 
     /**
@@ -55,7 +57,9 @@ public class AvgReviewScore extends BarChart{
     @Override
     public String getBottomText() {
         try {
-            return( getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getAvgFromData(listings, lowPrice, highPrice, "reviewScore"));
+            return( getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "
+                    +Double.parseDouble(new DecimalFormat("#####.##").format(
+                            getAvgFromData(listings, lowPrice, highPrice, "review_score"))));
         } catch (Exception e) {
             e.printStackTrace();
             return "";

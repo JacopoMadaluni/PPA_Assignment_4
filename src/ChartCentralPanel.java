@@ -31,15 +31,19 @@ public abstract class ChartCentralPanel extends AppPanel {
         setLayout(new BorderLayout());
         initialiseRangeBounds();
         createChart(title);
+        setVisible(true);
+    }
 
+    /**
+     * Creates box at the bottom of the panel showing some information
+     */
+    protected void createBottomBox(){
         JTextArea total = new JTextArea ();
         total.setEditable(false);
         //retrieve text from subclass
         total.setText(getBottomText());
         total.setFont(new Font("Arial", Font.BOLD, 20));
         add(total, BorderLayout.SOUTH);
-
-        setVisible(true);
     }
 
     /**
@@ -160,7 +164,7 @@ public abstract class ChartCentralPanel extends AppPanel {
         }
         return avg;
 
-    };
+    }
 
     /**
      * Initialise and create the chart
@@ -170,10 +174,23 @@ public abstract class ChartCentralPanel extends AppPanel {
         add(chartPanel, BorderLayout.CENTER);
     }
 
-
+    /**
+     * Return the chart that will be displayed
+     * @param title the title of the chart
+     * @return the chart that will be displayed
+     */
     protected abstract JFreeChart getChart(String title);
 
+    /**
+     * Create dataset for the chart
+     * @return dataset for the chart
+     * @param listings the initial data
+     */
     protected abstract Dataset createDataset(List<AirbnbListing> listings, int lowPrice, int highPrice);
 
+    /**
+     * Return the text to be displayed at the bottom of the central panel
+     * @return the text to be displayed at the bottom of the central panel
+     */
     public abstract String getBottomText();
 }
