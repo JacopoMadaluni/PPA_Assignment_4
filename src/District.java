@@ -64,6 +64,9 @@ public class District extends JLabel {
     public int getNumberOfBnbs() {
         return numberOfBnbs;
     }
+    public List<AirbnbListing> getBnbs(){
+        return bnbs;
+    }
 
     public String getName(){
         return name;
