@@ -1,6 +1,11 @@
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.Dataset;
+
+import java.awt.*;
 import java.util.List;
 
-public class CentralPanel extends AppPanel {
+public abstract class CentralPanel extends AppPanel {
     protected String lowBound;
     protected String mediumLowBound;
     protected String mediumHighBound;
@@ -23,16 +28,49 @@ public class CentralPanel extends AppPanel {
     public CentralPanel(String title, List<AirbnbListing> listings, int lowPrice, int highPrice) {
         super(title, listings, lowPrice, highPrice);
         initialiseRangeBounds();
+        createChart(title);
         setVisible(true);
     }
 
     /**
      * Initialise bound values
      */
-    public void initialiseRangeBounds(){
+    protected void initialiseRangeBounds(){
        lowBound=    lowPrice + "£ to "+ highPrice/4 +"£";
        mediumLowBound=   highPrice/4+"£ to " +(highPrice/4 *2)+"£";
        mediumHighBound=  highPrice/4*2+"£ to " +(highPrice/4 *3)+"£";
        highBound=    highPrice/4 *3+"£ to " +highPrice+"£";
     }
+
+    /**
+     * Calculate number of listings in given price range
+     * @param listings
+     * @param lowPrice
+     * @param highPrice
+     * @return
+     */
+    protected int getTotFromData(List<AirbnbListing> listings, int lowPrice, int highPrice) {
+        int n = 0;
+        for(AirbnbListing listing : listings){
+            if(listing.getPrice()<= highPrice && listing.getPrice()>=lowPrice){
+                n++;
+            }
+        }
+        return  n;
+    }
+
+    /**
+     * Initialise and create the chart
+     */
+    protected void createChart(String title){
+        ChartPanel chartPanel = new ChartPanel(getChart(title));
+        add(chartPanel, BorderLayout.CENTER);
+    }
+
+
+    protected abstract JFreeChart getChart(String title);
+
+    protected abstract Dataset createDataset(List<AirbnbListing> listings, int lowPrice, int highPrice);
+
+
 }
