@@ -146,7 +146,8 @@ public class Map extends AppPanel
     private void setDistrictsIcons(){
         for (District district : shownDistricts){
             try {
-                district.setCorrectIcon();
+                district.alternativeSetIcon();
+                //district.setCorrectIcon();
             }catch(IOException e){
                 System.out.println(e);
             }
