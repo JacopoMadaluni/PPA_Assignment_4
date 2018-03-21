@@ -3,10 +3,17 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.PieDataset;
 
+/**
+ * A type of central panel that displays a piechart with the given data.
+ * Needs subclass with dataset in order to diplay information.
+ * @author Danilo Del Busso
+ * @version 21.03.2018
+ */
 public abstract class PieChart extends ChartCentralPanel {
 
     /**
-     * This panel shows in a graph the total number of available properties from a given dataset
+     * This panel shows a Piechart constructed from a given dataset retrieved from
+     * its subclass.
      *
      * @param title     Title of the panel.
      * @param listings  List of all results from the CSV file.
@@ -17,12 +24,10 @@ public abstract class PieChart extends ChartCentralPanel {
         super(title, listings, lowPrice, highPrice);
     }
 
-
-
     /**
-     * Return the chart that shows the data
+     * Return the chart that will be displayed
      * @param title the title of the chart
-     * @return the chart that shows the data
+     * @return the chart that will be displayed
      */
     @Override
     protected JFreeChart getChart(String title) {
@@ -34,7 +39,5 @@ public abstract class PieChart extends ChartCentralPanel {
                 false);
         return pie;
     }
-
-
 
 }

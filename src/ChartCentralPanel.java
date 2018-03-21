@@ -5,20 +5,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * A special panel to be inserted in a StatsSubPanel.
+ * It contains a statistic result calculated from the dataset it's given.
+ * @author Danilo Del Busso
+ * @version 21.03.2018
+ */
 public abstract class ChartCentralPanel extends AppPanel {
     protected String lowBound;
     protected String mediumLowBound;
     protected String mediumHighBound;
     protected String highBound;
 
-
     /**
-     * Create a new panel to be displayed in the main window.
-     * The list of all the available properties is created only once in the MainWindow class to
-     * ensure all the panels use the same set of data.
-     * lowPrice and highPrice determine the price range of the properties the user wants to
-     * see statistics about.
-     *
+     *  Create a new Central Panel to be displayed in the StatsSubPanel.
+     *  Initialise range bounds, set layout and append a JTextArea as well as creating
+     *  the chart that will be displayed.
      * @param title     Title of the panel.
      * @param listings  List of all results from the CSV file.
      * @param lowPrice  Lower price boundary of the properties the user wants to see.
@@ -41,7 +43,8 @@ public abstract class ChartCentralPanel extends AppPanel {
     }
 
     /**
-     * Initialise bound values for graphs. Divide them in 4 categories
+     * Initialise bound values for graphs. Divide them in 4 categories of
+     * equal size
      */
     protected void initialiseRangeBounds(){
        lowBound=    lowPrice + "£ to "+ highPrice/4 +"£";
@@ -51,10 +54,11 @@ public abstract class ChartCentralPanel extends AppPanel {
     }
 
     /**
-     * Calculate number of listings in given price range
-     * @param listings
-     * @param lowPrice
-     * @param highPrice
+     * Calculate total number of listings in given price range from a given
+     * dataset of listings
+     * @param listings the dataset used for calculation
+     * @param lowPrice the lower bound of the price range
+     * @param highPrice the upper bound of the price range
      * @return
      */
     protected int getTotFromData(List<AirbnbListing> listings, int lowPrice, int highPrice) {
@@ -68,14 +72,14 @@ public abstract class ChartCentralPanel extends AppPanel {
     }
 
     /**
-     * Calculate the average value of the column needed from the listings
-     * @param listings
-     * @param lowPrice
-     * @param highPrice
-     * @param column
+     * Calculate the average value of a column values from the listings.
+     * @param listings the dataset used for calculation
+     * @param lowPrice the lower bound of the price range
+     * @param highPrice the upper bound of the price range
+     * @param column the column name used as filter for calculation. It has to be a column containing numerical values
      * @return
      */
-    protected double getAvgFromData(List<AirbnbListing> listings, int lowPrice, int highPrice, String column){
+    protected double getAvgFromData(List<AirbnbListing> listings, int lowPrice, int highPrice, String column) throws Exception {
         int sum = 0;
         double avg = 0;
         for(AirbnbListing listing: listings){
@@ -97,6 +101,9 @@ public abstract class ChartCentralPanel extends AppPanel {
                 }
                 else if(column.equals("availability_365")){
                     sum+=listing.getAvailability365();
+                }
+                else{
+                    throw new Exception("The column does not contain values that can return an average. Not numerical.");
                 }
             }
         }

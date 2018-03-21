@@ -5,7 +5,7 @@ import java.util.ArrayList;
     * show individual central panels with statistics about the listings in
     * the main application.
     * @author Danilo Del Busso, Luka Kralj
-    * @version 14.03.2018
+    * @version 21.03.2018
     */
 public class StatsPanel extends AppPanel {
 
@@ -46,26 +46,31 @@ public class StatsPanel extends AppPanel {
 
 
     /**
-     * Inserts the panels that contain different statistics in the StatsPanel
+     * Inserts the panels that contain different statistics in the StatsPanel.
+     * These special panels are referred to as "central panels" and contain charts
+     * drawing statistics and/or graphs that are inferred from the dataset they're given.
      */
     public void initialiseCentralPanels(){
+        //average review score of all listings
         AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, lowPrice, highPrice);
-        centralPanels.add(avgReviewScore);
-      //does not return anything right now because there is a dataset conflict (no column with the data needed)
 
-
+        //total number of properties
         TotListings totAvailableProperties = new TotListings(
                 "All Available Properties" , listings, lowPrice, highPrice);
         TotListings totAvailableProperties2 = new TotListings(
                 "All Available Properties2" , listings, lowPrice, highPrice);
 
-
+        //total number of properties classified as "entire home/apt"
         TotListings totEntireHomeOrApts = new TotListings(
                 "Number of entire homes and apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
 
         TotListings totEntireHomeOrApts2 = new TotListings(
                 "Number of entire homes and apartments2", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
 
+
+
+       //add central panels to their subpanels
+        centralPanels.add(avgReviewScore);
         centralPanels.add(totAvailableProperties);
         centralPanels.add(totEntireHomeOrApts);
         centralPanels.add(totAvailableProperties2);

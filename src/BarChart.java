@@ -18,6 +18,11 @@ public abstract class BarChart extends ChartCentralPanel {
         super(title, listings, lowPrice, highPrice);
     }
 
+    /**
+     * Return the chart that will be displayed
+     * @param title the title of the chart
+     * @return the chart that will be displayed
+     */
     @Override
     protected JFreeChart getChart(String title) {
 
@@ -29,21 +34,5 @@ public abstract class BarChart extends ChartCentralPanel {
                 PlotOrientation.VERTICAL,
                 true, true, false);
         return barChart;
-    }
-
-
-    /**
-     * Add all listings that are in the price range to the
-     * listingsInRange arrayList
-     * @param listings the entirety of all listings in the dataset
-     */
-    private ArrayList<AirbnbListing> getListingsInRange(List<AirbnbListing> listings) {
-        ArrayList<AirbnbListing> listingsInRange = new ArrayList<>();
-        for(AirbnbListing listing: listings){
-            if(listing.getPrice() <= highPrice && listing.getPrice()>= lowPrice){
-                listingsInRange.add(listing);
-            }
-        }
-        return listingsInRange;
     }
 }
