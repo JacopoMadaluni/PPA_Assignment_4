@@ -49,33 +49,30 @@ public class StatsPanel extends AppPanel {
      * Inserts the panels that contain different statistics in the StatsPanel
      */
     public void initialiseCentralPanels(){
-        BarChart avgReviewScore = new BarChart("Average Review Score", listings, lowPrice, highPrice);
+        AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, lowPrice, highPrice);
         centralPanels.add(avgReviewScore);
       //does not return anything right now because there is a dataset conflict (no column with the data needed)
 
 
-
-
-        PieChart totAvailableProperties = new PieChart(
+        TotListings totAvailableProperties = new TotListings(
                 "All Available Properties" , listings, lowPrice, highPrice);
-        PieChart totAvailableProperties2 = new PieChart(
+        TotListings totAvailableProperties2 = new TotListings(
                 "All Available Properties2" , listings, lowPrice, highPrice);
 
 
-        PieChart totEntireHomeOrApts = new PieChart(
+        TotListings totEntireHomeOrApts = new TotListings(
                 "Number of entire homes and apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
 
-        PieChart totEntireHomeOrApts2 = new PieChart(
+        TotListings totEntireHomeOrApts2 = new TotListings(
                 "Number of entire homes and apartments2", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
-
 
         centralPanels.add(totAvailableProperties);
         centralPanels.add(totEntireHomeOrApts);
         centralPanels.add(totAvailableProperties2);
         centralPanels.add(totEntireHomeOrApts2);
-
-
     }
+
+
     /**
      * Create Instances of the StatsSubPanels and add
      * them to the statisticsPanels so they can be displayed

@@ -1,17 +1,15 @@
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public abstract class CentralPanel extends AppPanel {
+public abstract class ChartCentralPanel extends AppPanel {
     protected String lowBound;
     protected String mediumLowBound;
     protected String mediumHighBound;
     protected String highBound;
-
 
 
     /**
@@ -26,7 +24,7 @@ public abstract class CentralPanel extends AppPanel {
      * @param lowPrice  Lower price boundary of the properties the user wants to see.
      * @param highPrice Upper price boundary of the properties the user wants to see.
      */
-    public CentralPanel(String title, List<AirbnbListing> listings, int lowPrice, int highPrice) {
+    public ChartCentralPanel(String title, List<AirbnbListing> listings, int lowPrice, int highPrice) {
         super(title, listings, lowPrice, highPrice);
         setLayout(new BorderLayout());
         initialiseRangeBounds();
@@ -34,17 +32,16 @@ public abstract class CentralPanel extends AppPanel {
 
         JTextArea total = new JTextArea ();
         total.setEditable(false);
-        total.setText(title + " between " + lowPrice+"£ and "+ highPrice+"£: "+getAvgFromData(listings, lowPrice, highPrice, "reviewScore"));
-        total.setFont(new Font("Arial", Font.BOLD, 25));
+        //retrieve text from subclass
+        total.setText(getBottomText());
+        total.setFont(new Font("Arial", Font.BOLD, 20));
         add(total, BorderLayout.SOUTH);
-
-
 
         setVisible(true);
     }
 
     /**
-     * Initialise bound values
+     * Initialise bound values for graphs. Divide them in 4 categories
      */
     protected void initialiseRangeBounds(){
        lowBound=    lowPrice + "£ to "+ highPrice/4 +"£";
@@ -72,7 +69,7 @@ public abstract class CentralPanel extends AppPanel {
 
     /**
      * Calculate the average value of the column needed from the listings
-     * @param listings 
+     * @param listings
      * @param lowPrice
      * @param highPrice
      * @param column
@@ -124,5 +121,5 @@ public abstract class CentralPanel extends AppPanel {
 
     protected abstract Dataset createDataset(List<AirbnbListing> listings, int lowPrice, int highPrice);
 
-
+    public abstract String getBottomText();
 }
