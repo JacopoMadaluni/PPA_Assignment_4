@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -27,7 +28,7 @@ public class BnbTable {
         Object[][] data = gatherData(columns);
         JTable table = new JTable(data,columns);
         table.setName("Properties in "+district.getName());
-        table.setAutoCreateRowSorter(true);
+
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         //If a row is clicked, it will expand to show more information specific to that Airbnb
         table.addMouseListener(new MouseAdapter() {
@@ -57,6 +58,8 @@ public class BnbTable {
             }
         };
         table.setModel(tableModel);
+        table.setRowSorter(new TableRowSorter<>(tableModel));
+        table.getRowSorter().toggleSortOrder(0);
         return table;
     }
     private Object [][] gatherData(String[] columns){
