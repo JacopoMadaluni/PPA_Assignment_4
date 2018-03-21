@@ -1,7 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**A Stats Panel has a number of subpanels in GridLayout that
     * show individual central panels with statistics about the listings in
@@ -51,23 +49,23 @@ public class StatsPanel extends AppPanel {
      * Inserts the panels that contain different statistics in the StatsPanel
      */
     public void initialiseCentralPanels(){
-        AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, lowPrice, highPrice);
+        BarChart avgReviewScore = new BarChart("Average Review Score", listings, lowPrice, highPrice);
         centralPanels.add(avgReviewScore);
       //does not return anything right now because there is a dataset conflict (no column with the data needed)
 
 
 
 
-        TotNumberStats totAvailableProperties = new TotNumberStats(
+        PieChart totAvailableProperties = new PieChart(
                 "All Available Properties" , listings, lowPrice, highPrice);
-        TotNumberStats totAvailableProperties2 = new TotNumberStats(
+        PieChart totAvailableProperties2 = new PieChart(
                 "All Available Properties2" , listings, lowPrice, highPrice);
 
 
-        TotNumberStats totEntireHomeOrApts = new TotNumberStats(
+        PieChart totEntireHomeOrApts = new PieChart(
                 "Number of entire homes and apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
 
-        TotNumberStats totEntireHomeOrApts2 = new TotNumberStats(
+        PieChart totEntireHomeOrApts2 = new PieChart(
                 "Number of entire homes and apartments2", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
 
 
@@ -75,7 +73,6 @@ public class StatsPanel extends AppPanel {
         centralPanels.add(totEntireHomeOrApts);
         centralPanels.add(totAvailableProperties2);
         centralPanels.add(totEntireHomeOrApts2);
-
 
 
     }

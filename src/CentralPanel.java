@@ -2,6 +2,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -27,8 +28,18 @@ public abstract class CentralPanel extends AppPanel {
      */
     public CentralPanel(String title, List<AirbnbListing> listings, int lowPrice, int highPrice) {
         super(title, listings, lowPrice, highPrice);
+        setLayout(new BorderLayout());
         initialiseRangeBounds();
         createChart(title);
+
+        JTextArea total = new JTextArea ();
+        total.setEditable(false);
+        total.setText(title + " between " + lowPrice+"£ and "+ highPrice+"£: "+getAvgFromData(listings, lowPrice, highPrice, "reviewScore"));
+        total.setFont(new Font("Arial", Font.BOLD, 25));
+        add(total, BorderLayout.SOUTH);
+
+
+
         setVisible(true);
     }
 
@@ -58,6 +69,47 @@ public abstract class CentralPanel extends AppPanel {
         }
         return  n;
     }
+
+    /**
+     * Calculate the average value of the column needed from the listings
+     * @param listings 
+     * @param lowPrice
+     * @param highPrice
+     * @param column
+     * @return
+     */
+    protected double getAvgFromData(List<AirbnbListing> listings, int lowPrice, int highPrice, String column){
+        int sum = 0;
+        double avg = 0;
+        for(AirbnbListing listing: listings){
+            if(listing.getPrice()<= highPrice && listing.getPrice() >= lowPrice){
+                if(column.equals("review_score")){
+                    //TODO ask kolling pls
+                }
+                else if(column.equals("price")){
+                    sum+=listing.getPrice();
+                }
+                else if(column.equals("minimum_nights")){
+                    sum+=listing.getMinimumNights();
+                }
+                else if(column.equals("number_of_review")){
+                    sum+=listing.getNumberOfReviews();
+                }
+                else if(column.equals("review_per_month")){
+                    sum+=listing.getReviewsPerMonth();
+                }
+                else if(column.equals("availability_365")){
+                    sum+=listing.getAvailability365();
+                }
+            }
+        }
+        if(listings.size() > 0){
+            avg = sum/listings.size();
+        }
+        return avg;
+
+    };
+
 
     /**
      * Initialise and create the chart
