@@ -2,11 +2,17 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.util.List;
 
+/**
+ * This class initialises and creates the dataset needed for a barchart in order to display
+ * the average review score of all listings in the dataset
+ * @author Danilo Del Busso
+ * @version 21.03.2018
+ */
 public class AvgReviewScore extends BarChart{
     /**
      * This Panel shows the average review score of available properties
      *
-     * @param title
+     * @param title the title of the panel to be displayed at the top
      * @param listings  List of all results from the CSV file.
      * @param lowPrice  Lower price boundary of the properties the user wants to see.
      * @param highPrice Upper price boundary of the properties the user wants to see.
@@ -39,6 +45,10 @@ public class AvgReviewScore extends BarChart{
         return dataset;
     }
 
+    /**
+     * Return the text to be displayed at the bottom of the central panel
+     * @return the text to be displayed at the bottom of the central panel
+     */
     @Override
     public String getBottomText() {
         return( getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getAvgFromData(listings, lowPrice, highPrice, "reviewScore"));

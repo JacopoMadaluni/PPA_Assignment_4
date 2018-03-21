@@ -16,7 +16,7 @@ public abstract class PieChart extends ChartCentralPanel {
     public PieChart(String title, ArrayList<AirbnbListing> listings, int lowPrice, int highPrice) {
         super(title, listings, lowPrice, highPrice);
     }
-    
+
 
 
     /**

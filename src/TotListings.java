@@ -3,6 +3,13 @@ import org.jfree.data.general.PieDataset;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class initialises and creates the dataset needed for a piechart in order to display
+ * the total number of listings it is given as well as the number of listings
+ * in price subsections (e.g. the number of properties of price between 0£ - 500£)
+ * @author Danilo Del Busso
+ * @version 21.03.2018
+ */
 public class TotListings extends PieChart {
     /**
      * This panel shows in a graph the total number of available properties from a given dataset
@@ -45,6 +52,10 @@ public class TotListings extends PieChart {
         return dataset;
     }
 
+    /**
+     * Return the text to be displayed at the bottom of the central panel
+     * @return the text to be displayed at the bottom of the central panel
+     */
     @Override
     public String getBottomText() {
         return (getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getTotFromData(listings, lowPrice, highPrice));
