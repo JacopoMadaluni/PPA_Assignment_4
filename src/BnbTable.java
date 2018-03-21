@@ -18,7 +18,7 @@ public class BnbTable {
         this.district = district;
         this.bnbs = bnbs;
     }
-    public Object [][] gatherData(String[] columns){
+    private Object [][] gatherData(String[] columns){
         Object [][] data = new Object[bnbs.size()][columns.length];
         for (int property = 0; property<bnbs.size();property++){
             AirbnbListing bnb = bnbs.get(property);
@@ -74,7 +74,7 @@ public class BnbTable {
     }
 
 
-    private void displayBnbList(){
+    public void displayBnbList(){
         JFrame frame = new JFrame("Airbnb's in "+district.getName());
         //  Container content = frame.getContentPane();
 
