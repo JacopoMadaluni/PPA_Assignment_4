@@ -92,16 +92,14 @@ public class District extends JLabel {
             }
             @Override
             public void mouseClicked(MouseEvent e){
+                mouseEnter();
                 System.out.println("works");
             }
             @Override
             public void mousePressed(MouseEvent e){
                 mousePress();
             }
-            @Override
-            public void mouseReleased(MouseEvent e){
-                mouseEnter();
-            }
+            
         });
 
 
@@ -119,7 +117,11 @@ public class District extends JLabel {
                 return "resources/district_icons/sized_icons/icon_" + i +".png";
             }
         }
-        System.out.println("Error: District not found in the list");
+        if (orderedDistricts.size() == 33) {
+            // Didnt find the district that should be there
+            System.err.println("Error: District not found in the list");
+
+        }
         return "resources/district_icons/sized_icons/icon_0.png";
     }
 
