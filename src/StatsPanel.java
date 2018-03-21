@@ -1,12 +1,11 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**A Stats Panel has a number of subpanels in GridLayout that
     * show individual central panels with statistics about the listings in
     * the main application.
     * @author Danilo Del Busso, Luka Kralj
-    * @version 14.03.2018
+    * @version 21.03.2018
     */
 public class StatsPanel extends AppPanel {
 
@@ -23,13 +22,12 @@ public class StatsPanel extends AppPanel {
     /**
      * Initialise variables, create subpanels and give them initial central panels
      * to show initial statistics.
-     * @param statsPanels the central panels which show the stats
      * @param listings the list of all listings in the application
      * @param lowPrice the lower bound for price range search
      * @param highPrice the upper bound for price range search
      * @throws Exception
      */
-    public StatsPanel(List<AppPanel> statsPanels, ArrayList<AirbnbListing> listings, int lowPrice, int highPrice, int numberOfSubPanels) throws Exception {
+    public StatsPanel(ArrayList<AirbnbListing> listings, int lowPrice, int highPrice, int numberOfSubPanels) throws Exception {
         super("Statistics", listings, lowPrice, highPrice);
 
         this.listings = listings;
@@ -41,19 +39,40 @@ public class StatsPanel extends AppPanel {
         centralPanels = new ArrayList<AppPanel>();
         statsSubPanels = new ArrayList<StatsSubPanel>();
         //initialise and add visual elements
-        initialiseCentralPanels(statsPanels);
+        initialiseCentralPanels();
         initialiseSubPanels(numberOfSubPanels); //"containers" for central panels
         setVisible(true);
     }
 
+
     /**
-     * Inserts the panels that contain different statistics in the StatsPanel
+     * Inserts the panels that contain different statistics in the StatsPanel.
+     * These special panels are referred to as "central panels" and contain charts
+     * drawing statistics and/or graphs that are inferred from the dataset they're given.
      */
-    public void initialiseCentralPanels(List<AppPanel> centralPanelsToAdd){
-        for(AppPanel centralPanelToAdd: centralPanelsToAdd){
-            centralPanels.add(centralPanelToAdd);
-        }
+    public void initialiseCentralPanels(){
+        //average review score of all listings
+        AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, lowPrice, highPrice);
+
+        //total number of properties
+        TotListings totAvailableProperties = new TotListings(
+                "All Available Properties" , listings, lowPrice, highPrice);
+        //total number of properties classified as "entire home/apt"
+        TotListings totEntireHomeOrApts = new TotListings(
+                "Number of entire homes and apartments", getListingsByRoomType("Entire home/apt"),lowPrice, highPrice );
+        //pricies neighbourhood
+        PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
+
+
+
+       //add central panels to their subpanels
+        centralPanels.add(avgReviewScore);
+        centralPanels.add(totAvailableProperties);
+        centralPanels.add(totEntireHomeOrApts);
+        centralPanels.add(priciestNeighbourhood);
+
     }
+
 
     /**
      * Create Instances of the StatsSubPanels and add
@@ -111,7 +130,6 @@ public class StatsPanel extends AppPanel {
      */
     public AppPanel getFreePreviousCentralPanel(AppPanel currentPanel) {
 
-        //
         if(currentPanel != null){
             int indexOfCurrentPanel = centralPanels.indexOf(currentPanel);
             for(int i = 0; i < centralPanels.size(); i++){
@@ -171,5 +189,19 @@ public class StatsPanel extends AppPanel {
         //if it is not found as centralPanel of a subPanel then it not is visible
         return false;
 
+    }
+
+    /**
+     * Return an arraylist containing the listings with room type = "Entire home/apt"
+     * @return
+     */
+    public ArrayList<AirbnbListing> getListingsByRoomType(String roomType) {
+        ArrayList<AirbnbListing> entireHomeOrAptListings = new ArrayList<>();
+        for(AirbnbListing listing : listings){
+            if (listing.getRoom_type().equals(roomType)){
+                entireHomeOrAptListings.add(listing);
+            }
+        }
+        return entireHomeOrAptListings;
     }
 }

@@ -11,6 +11,11 @@
 from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 </div>
 <h3>LONDON MAP</h3>
+<div>
 From <a href="https://commons.wikimedia.org/wiki/File:Greater_London,_administrative_divisions_-_de_-_colored.svg" title="link">Wikipedia Commons</a>, the free media repository made
 by <a href="https://commons.wikimedia.org/wiki/User:TUBS" title="TUBS">TUBS</a>.
-    
+</div>
+
+
+<h3>LIBRARIES</h3>
+- <b>Data Visualisation</b> : <a href="http://www.jfree.org/index.html" title= "JFreeChart"> JFreechart </a>
