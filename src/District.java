@@ -96,7 +96,7 @@ public class District extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e){
                 mouseEnter();
-                System.out.println("works");
+                openTableWindow();
             }
             @Override
             public void mousePressed(MouseEvent e){
@@ -113,6 +113,10 @@ public class District extends JLabel {
         }catch(IOException ex){
             System.out.println(ex);
         }
+    }
+
+    private void openTableWindow(){
+        new BnbTable(this);
     }
 
     private String getIconAddress(){
