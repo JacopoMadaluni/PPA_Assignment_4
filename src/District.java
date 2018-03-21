@@ -99,7 +99,7 @@ public class District extends JLabel {
             }
             @Override
             public void mouseClicked(MouseEvent e){
-                    displayBnbList();
+                displayBnbList();
             }
             @Override
             public void mousePressed(MouseEvent e){
@@ -122,18 +122,18 @@ public class District extends JLabel {
 
     private void displayBnbList(){
         JFrame frame = new JFrame("Airbnb's in "+name);
-      //  Container content = frame.getContentPane();
+        //  Container content = frame.getContentPane();
 
         JList airbnbList = new JList(bnbs.toArray());
         airbnbList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         airbnbList.setLayoutOrientation(JList.VERTICAL);
 
-       // JTable propertiesTable = makeTable();
+        // JTable propertiesTable = makeTable();
       /*  JLabel label = new JLabel(name);
         content.add(label);*/
-      JScrollPane scrollPane = new JScrollPane(makeTable());
-     // scrollPane.setPreferredSize(new Dimension(300,300));
-      frame.setContentPane(scrollPane);
+        JScrollPane scrollPane = new JScrollPane(makeTable());
+        // scrollPane.setPreferredSize(new Dimension(300,300));
+        frame.setContentPane(scrollPane);
         frame.pack();
         frame.setVisible(true);
 
@@ -191,7 +191,7 @@ public class District extends JLabel {
             AirbnbListing bnb = bnbs.get(property);
             data[property] = new Object[]{bnb.getName(),bnb.getPrice(),bnb.getRoom_type(),bnb.getNumberOfReviews()};
         }
-       return data;
+        return data;
     }
     private String getIconAddress(){
         for (int i = 0; i< orderedDistricts.size() ; i++){
@@ -206,6 +206,8 @@ public class District extends JLabel {
         JFrame frame = new JFrame(bnb.getName());
         JFXPanel mapPanel = new JFXPanel();
         JPanel contentPanel = new JPanel(new BorderLayout());
+        JPanel southPanel = new JPanel(new BorderLayout());
+
         frame.add(mapPanel,BorderLayout.PAGE_START);
 
         Platform.runLater(()->{
@@ -213,28 +215,35 @@ public class District extends JLabel {
             mapPanel.setScene(new Scene(webView));
             webView.getEngine().load("https://www.google.com/maps/search/?api=1&query="+bnb.getLatitude()+","+bnb.getLongitude());
         });
-      //  panel.setSize(frame.getWidth(),frame.getHeight()/3);
-        JLabel title = new JLabel(bnb.getName());
-        contentPanel.add(title);
-        JLabel price = new JLabel("£"+bnb.getPrice());
-        contentPanel.add(price);
-        contentPanel.add(new JLabel(""+bnb.getAvailability365()));
-        contentPanel.add(new JLabel("Reviews "+bnb.getNumberOfReviews()));
-        contentPanel.add(new JLabel(""+bnb.getMinimumNights()));
-        contentPanel.add(new JLabel(bnb.getNeighbourhood()));
-        contentPanel.add(new JLabel(bnb.getRoom_type()));
-        contentPanel.add(new JLabel(""+bnb.getReviewsPerMonth()));
-        contentPanel.add(new JLabel(bnb.getHost_name()));
-        contentPanel.add(new JLabel(bnb.getHost_id()));
-        contentPanel.add(new JLabel(bnb.getId()));
-        frame.add(contentPanel, BorderLayout.SOUTH);
-          frame.pack();
-        frame.setSize(1000,1000);
+        //  panel.setSize(frame.getWidth(),frame.getHeight()/3);
 
+        //GROUP 1
+        contentPanel.add(makeLabel("  "+bnb.getName()+" (ID: "+bnb.getId()+")"));
+        contentPanel.add(makeLabel("Price: £"+bnb.getPrice())); //TODO Price per what?
+        //GROUP 2
+        contentPanel.add(makeLabel("  Property type: "+bnb.getRoom_type()));
+        contentPanel.add(makeLabel("Neighborhood: "+bnb.getNeighbourhood()));
+        //GROUP 3
+        contentPanel.add(makeLabel("  Minimum stay: "+bnb.getMinimumNights()));
+        contentPanel.add(makeLabel("Yearly availability: "+bnb.getAvailability365()+" days"));
+        //GROUP 4
+        contentPanel.add(bnb.getReviewsPerMonth() != -1?makeLabel("  Number of reviews: "+bnb.getNumberOfReviews()+" ("+bnb.getReviewsPerMonth()+" reviews/month)"):makeLabel("  No reviews"));
+        contentPanel.add(makeLabel("Host name: "+bnb.getHost_name()+" (ID: "+bnb.getHost_id()+")"));
+        contentPanel.setLayout(new GridLayout(4,2,2,5));
+        southPanel.add(contentPanel);
+        frame.add(southPanel, BorderLayout.CENTER);
+        frame.pack();
+        frame.setSize(1000,1000);
+        frame.setResizable(false);
+        contentPanel.setBackground(new Color(255,255,255));
         frame.setVisible(true);
 
     }
-
+    private JLabel makeLabel(String text){
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Helvetica",Font.PLAIN,20));
+        return label;
+    }
     private String getZoomedIconAddress(){
         return "resources/district_icons/zoomed_icon_medium.png";
     }
