@@ -7,24 +7,26 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SinglePropertyView {
-    AirbnbListing bnb;
+    private AirbnbListing bnb;
 
     public SinglePropertyView(AirbnbListing bnb){
         this.bnb = bnb;
     }
 
-    public void showProperty(){
+    public void showProperty(BnbTable table){
         JFrame frame = new JFrame(bnb.getName());
         JFXPanel mapPanel = new JFXPanel();
         JPanel contentPanel = new JPanel(new BorderLayout());
         JPanel southPanel = new JPanel(new BorderLayout());
 
         frame.add(mapPanel,BorderLayout.PAGE_START);
-
+        System.out.println(bnb.getLatitude());
         Platform.runLater(()->{
             WebView webView = new WebView();
             mapPanel.setScene(new Scene(webView));
+            System.out.println("Loading maps");
             webView.getEngine().load("https://www.google.com/maps/search/?api=1&query="+bnb.getLatitude()+","+bnb.getLongitude());
+            System.out.println("Maps loaded");
         });
         //  panel.setSize(frame.getWidth(),frame.getHeight()/3);
 
@@ -43,10 +45,17 @@ public class SinglePropertyView {
         contentPanel.setLayout(new GridLayout(4,2,2,5));
         southPanel.add(contentPanel);
         frame.add(southPanel, BorderLayout.CENTER);
-        frame.pack();
-        frame.setSize(1000,1000);
         frame.setResizable(false);
         contentPanel.setBackground(new Color(255,255,255));
+        JButton back = new JButton("Back");
+        back.addActionListener((e)->{
+            frame.setVisible(false);
+            table.displayBnbList();
+        });
+        back.setSize(30,10);
+        frame.add(back,BorderLayout.AFTER_LAST_LINE);
+        frame.pack();
+        frame.setSize(1000,1000);
         frame.setVisible(true);
     }
 
