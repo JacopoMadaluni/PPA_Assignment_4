@@ -28,11 +28,23 @@ public abstract class BarChart extends ChartCentralPanel {
 
         JFreeChart barChart = ChartFactory.createBarChart(
                 title,
-                "Review Range by Listing Price",
-                "Number of Reviews",
+                getXLabel(),
+                getYLabel(),
                 (CategoryDataset) createDataset(listings, lowPrice, highPrice),
                 PlotOrientation.VERTICAL,
                 true, true, false);
         return barChart;
     }
+
+    /**
+     * Return the label of the ordinatae
+     * @return the label of the ordinatae
+     */
+    protected abstract String getYLabel();
+
+    /**
+     * Return the label of the abscissae
+     * @return the label of the abscissae
+     */
+    protected abstract String getXLabel();
 }
