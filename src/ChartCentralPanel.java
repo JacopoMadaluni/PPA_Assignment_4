@@ -3,6 +3,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -164,6 +165,20 @@ public abstract class ChartCentralPanel extends AppPanel {
         }
         return avg;
 
+    }
+
+    /**
+     * Return an arraylist containing all the neighbourhoods
+     * @return
+     */
+    protected ArrayList<String> getAllNeighbourhoods(){
+        ArrayList<String> nbr = new ArrayList<>();
+        for(AirbnbListing listing:listings){
+            if(!nbr.contains(listing.getNeighbourhood())){
+                nbr.add(listing.getNeighbourhood());
+            }
+        }
+        return nbr;
     }
 
     /**

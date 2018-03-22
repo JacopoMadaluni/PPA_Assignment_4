@@ -21,8 +21,9 @@ public class Map extends AppPanel
     private ArrayList<District> districts;
     private List<District> shownDistricts;
     private List<AirbnbListing> shownBnbs;
+    private JButton iconModeButton;
 
-    public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) throws IOException {
+    public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) {
         super(title, bnbs, lowPrice, maxPrice);
         districts = new ArrayList<>();
         shownDistricts = new ArrayList<>();
@@ -30,6 +31,7 @@ public class Map extends AppPanel
 
         District.reset();
         createMap();
+        createButton();
         fetchBnbs(bnbs); // don't include the bnbs outside the price range.
         createDistricts(); // create the districts of london
         initializeDistricts(); // initilize the districts properties
@@ -37,17 +39,36 @@ public class Map extends AppPanel
         setPreferredSize(new Dimension(prefW, prefH));
 
     }
-    private void createMap() throws IOException{
-        setLayout(null);
-        File img = new File("resources/maps/london1000px.png");
-        BufferedImage londonImage = ImageIO.read(img);
+    private void createMap(){
+        try {
+            setLayout(null);
+            File img = new File("resources/maps/london1000px.png");
+            BufferedImage londonImage = ImageIO.read(img);
 
-        prefW = londonImage.getWidth();
-        prefH = londonImage.getHeight();
-
-        backgroundImage = new ImageIcon("resources/maps/london1000px.png").getImage();
-
-
+            prefW = londonImage.getWidth();
+            prefH = londonImage.getHeight();
+            backgroundImage = new ImageIcon("resources/maps/london1000px.png").getImage();
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+    }
+    private void createButton(){
+        iconModeButton = new JButton();
+        iconModeButton.setBounds(0,0,100,30);
+        iconModeButton.setLocation(10,10);
+        iconModeButton.setText("Mode 1");
+        iconModeButton.addActionListener(e -> changeMode());
+        add(iconModeButton);
+    }
+    private void changeMode(){
+        if (District.getMode() == true){
+            District.setScaleMode();
+            iconModeButton.setText("Mode 2");
+        }else{
+            District.setLogMode();
+            iconModeButton.setText("Mode 1");
+        }
+        setDistrictsIcons();
     }
 
     @Override
@@ -146,8 +167,7 @@ public class Map extends AppPanel
     private void setDistrictsIcons(){
         for (District district : shownDistricts){
             try {
-                district.alternativeSetIcon();
-                //district.setCorrectIcon();
+                district.setCorrectIcon();
             }catch(IOException e){
                 System.out.println(e);
             }

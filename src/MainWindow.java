@@ -231,11 +231,7 @@ public class MainWindow {
         // TODO: Create panels and add them to the list accordingly.
         panels.clear();
         panels.add(new WelcomePanel("Welcome", chosenLow, chosenHigh));
-        try {
-            panels.add(new Map("Map", listings, chosenLow, chosenHigh));
-        } catch (IOException e) {
-            System.out.println("IO exception.");
-        }
+        panels.add(new Map("Map", listings, chosenLow, chosenHigh));
         try {
             panels.add(new StatsPanel((ArrayList<AirbnbListing>)listings, chosenLow, chosenHigh, 4));
         } catch (Exception e) {
