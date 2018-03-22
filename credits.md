@@ -10,6 +10,7 @@
 <br />
 from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 </div>
+- <b>AirBnB icon: </b> design by wearedesignstudio (icon found <a href="https://imjustcreative.com/airbnbs-new-logo-design-gets-mobbed/2014/07/17/airbnb-logo-design-by-wearedesignstudio" title="airbnbIcon">here</a>, 22 March 2018)
 <h3>LONDON MAP</h3>
 <div>
 From <a href="https://commons.wikimedia.org/wiki/File:Greater_London,_administrative_divisions_-_de_-_colored.svg" title="link">Wikipedia Commons</a>, the free media repository made
