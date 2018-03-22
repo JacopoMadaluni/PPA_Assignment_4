@@ -101,73 +101,9 @@ public class ReviewsPerDistrict extends BarChart {
      * @param lowPrice Lower price bound
      * @param highPrice Upper price bound*/
     private void setDistricts(int lowPrice, int highPrice){
-        reviewsPerDistrict.put(
-                "Kingston upon Thames",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Kingston upon Thames"));
-        reviewsPerDistrict.put("Croydon",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Croydon"));
-        reviewsPerDistrict.put("Bromley",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Bromley"));
-        reviewsPerDistrict.put("Hounslow",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Hounslow"));
-        reviewsPerDistrict.put("Ealing",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Ealing"));
-        reviewsPerDistrict.put("Havering",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Havering"));
-        reviewsPerDistrict.put("Hillington",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Hillington"));
-        reviewsPerDistrict.put("Harrow",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Harrow"));
-        reviewsPerDistrict.put("Brent",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Brent"));
-        reviewsPerDistrict.put("Barnet",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Barnet"));
-        reviewsPerDistrict.put("Enfield",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Enfield"));
-        reviewsPerDistrict.put("Waltham Forest",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Waltham Forest"));
-        reviewsPerDistrict.put("Redbridge",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Redbridge"));
-        reviewsPerDistrict.put("Sutton",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Sutton"));
-        reviewsPerDistrict.put("Lambeth",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Lambeth"));
-        reviewsPerDistrict.put("Southwark",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Southwark"));
-        reviewsPerDistrict.put("Lewisham",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Lewisham"));
-        reviewsPerDistrict.put("Greenwich",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Greenwich"));
-        reviewsPerDistrict.put("Bexley",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Bexley"));
-        reviewsPerDistrict.put("Richmond upon Thames",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Richmond upon Thames"));
-        reviewsPerDistrict.put("Merton",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Merton"));
-        reviewsPerDistrict.put("Wandsworth",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Wandsworth"));
-        reviewsPerDistrict.put("Hammersmith and Fulham",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Hammersmith and Fulham"));
-        reviewsPerDistrict.put("Kensington and Chelsea",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Kensington and Chelsea"));
-        reviewsPerDistrict.put("City of London",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "City of London"));
-        reviewsPerDistrict.put("Westminster",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Westminster"));
-        reviewsPerDistrict.put("Camden",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Camden"));
-        reviewsPerDistrict.put("Tower Hamlets",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Tower Hamlets"));
-        reviewsPerDistrict.put("Islington",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Islington"));
-        reviewsPerDistrict.put("Hackney",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Hackney"));
-        reviewsPerDistrict.put("Haringey",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Haringey"));
-        reviewsPerDistrict.put("Newham",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Newham"));
-        reviewsPerDistrict.put("Barking and Dagenham",
-                 getAvgReviewsPerDistrict(listings, lowPrice, highPrice, "Barking and Dagenham"));
+        for (String district: getAllNeighbourhoods()){
+            reviewsPerDistrict.put(district,getAvgReviewsPerDistrict(listings,lowPrice,highPrice,district));
+        }
     }
 
     /**
