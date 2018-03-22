@@ -16,6 +16,7 @@ import java.util.List;
 public class District extends JLabel {
 
     private static LinkedList<District> orderedDistricts = new LinkedList<>();
+    private static boolean scaleIcon = true;
 
     private int x;
     private int y;
@@ -24,6 +25,15 @@ public class District extends JLabel {
     private List<AirbnbListing> bnbs;
     private ImageIcon baseIcon;
 
+    public static boolean getMode(){
+        return scaleIcon;
+    }
+    public static void setLogMode(){
+        scaleIcon = true;
+    }
+    public static void setScaleMode(){
+        scaleIcon = false;
+    }
 
     /**
      * Creates a new District
@@ -167,10 +177,11 @@ public class District extends JLabel {
 
 
     public void setCorrectIcon() throws IOException{
-        //Image newImage = ImageIO.read(new File(getIconAddress()));
-        //baseIcon = new ImageIcon(newImage);
-        //setIcon(baseIcon);
-        alternativeSetIcon();
+        if (scaleIcon){
+            resizeIcon();
+        }else {
+            selectIconFromSource();
+        }
     }
 
 
@@ -207,15 +218,31 @@ public class District extends JLabel {
         }
     }
 
-    public void alternativeSetIcon() throws  IOException{
+    /**
+     * First way of selecting the right size of the house icon.
+     * getIconAddress chooses the right address based on the index
+     * in the ordered list of districts.
+     */
+    private void selectIconFromSource() throws IOException{
+        Image newImage = ImageIO.read(new File(getIconAddress()));
+        baseIcon = new ImageIcon(newImage);
+        setIcon(baseIcon);
+    }
+
+    /**
+     * Second way of selecting the right size of the house icon.
+     * Scale the base icon depending on the number of bnbs in the district.
+     * @throws IOException
+     */
+    private void resizeIcon() throws  IOException{
         double p = scaleFunction(numberOfBnbs);
         if (p == -1){
             setIcon(null);
             return;
         }
         int scale = (int) (p * 6);
-        if (scale < 30){
-            scale = 30;
+        if (scale < 20){
+            scale = 20;
         }else if (scale > 55){
             scale = 55;
         }
