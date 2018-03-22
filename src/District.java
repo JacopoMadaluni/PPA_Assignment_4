@@ -25,14 +25,28 @@ public class District extends JLabel {
     private List<AirbnbListing> bnbs;
     private ImageIcon baseIcon;
 
+    /**
+     * @return True if the disctricts are in scale mode.
+     */
     public static boolean getMode(){
         return scaleIcon;
     }
+
+    /**
+     * Set the Districts to scale the images to their right dimensions
+     */
     public static void setLogMode(){
         scaleIcon = true;
     }
+
+    /**
+     * Set the Districts to choose the right icon from the source.
+     */
     public static void setScaleMode(){
         scaleIcon = false;
+    }
+    public static void reset(){
+        orderedDistricts = new LinkedList<>();
     }
 
     /**
@@ -60,9 +74,7 @@ public class District extends JLabel {
         setSize(baseIcon.getIconWidth(), baseIcon.getIconHeight());
     }
 
-    public static void reset(){
-        orderedDistricts = new LinkedList<>();
-    }
+
 
     public void addBnb(AirbnbListing bnb){
         bnbs.add(bnb);
