@@ -2,13 +2,15 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ReviewsPerDistrict extends BarChart {
 
     //Selects te number of neighborhoods to display
-    private static final int topDistricts = 5;
+    private static final int topDistricts = 10;
     private HashMap<String,Double> reviewsPerDistrict;
     public ReviewsPerDistrict(String title, ArrayList<AirbnbListing> listings, int lowPrice, int highPrice){
         super(title,listings,lowPrice,highPrice);
@@ -35,11 +37,29 @@ public class ReviewsPerDistrict extends BarChart {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         try{
-            dataset.addValue(getAvgFromData(listings,lowPrice,highPrice,"number_of_review"),highBound,"All listings");
+            for (int i = topDistricts; i>0;i--)
+            dataset.addValue(getReviewAvg(i),getDistricName(i),"");
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return dataset;
+    }
+
+    private double getReviewAvg(int i){
+        ArrayList<Double> values = new ArrayList<>(reviewsPerDistrict.values());
+        Collections.sort(values);
+        Collections.reverse(values);
+        return values.get(i-1);
+    }
+    private String getDistricName(int i){
+        ArrayList<Double> values = new ArrayList<>(reviewsPerDistrict.values());
+        Collections.sort(values);
+        Collections.reverse(values);
+        for (Map.Entry e: reviewsPerDistrict.entrySet()){
+            if (e.getValue() == values.get(i-1))
+                return (String)e.getKey();
+        }
+        return "";
     }
 
     @Override
@@ -128,7 +148,7 @@ public class ReviewsPerDistrict extends BarChart {
                 sum += listing.getNumberOfReviews();
             }
         }
-        avg = sum/total;
+        avg = total !=0? sum/total: 0;
         return avg;
     }
 }
