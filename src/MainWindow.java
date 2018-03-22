@@ -53,9 +53,10 @@ public class MainWindow {
         JPanel bottom = createBottom();
         pane.add(bottom, BorderLayout.SOUTH);
 
-        frame.setLocationRelativeTo(null);
+
         frame.setMinimumSize(new Dimension(500, 200));
         frame.pack();
+        frame.setLocation(getLocation());
         frame.setVisible(true);
     }
 
@@ -144,30 +145,35 @@ public class MainWindow {
         }
         else if (currentPanelIndex > 0 && currentPanelIndex < panels.size()-1) { // One of second to second-last panel is displayed.
             leftButton.setEnabled(true);
-            leftButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex - 1).getTitle() +
-                    "</strong></font></p></html>");
+            leftButton.setToolTipText(getToolTipText(currentPanelIndex - 1));
             rightButton.setEnabled(true);
-            rightButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex + 1).getTitle() +
-                    "</strong></font></p></html>");
+            rightButton.setToolTipText(getToolTipText(currentPanelIndex + 1));
         }
         else if (currentPanelIndex == 0) { // First panel is displayed.
             leftButton.setEnabled(false);
             leftButton.setToolTipText(null);
             rightButton.setEnabled(true);
-            rightButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex + 1).getTitle() +
-                    "</strong></font></p></html>");
+            rightButton.setToolTipText(getToolTipText(currentPanelIndex + 1));
         }
         else { // Last panel is displayed.
             leftButton.setEnabled(true);
-            leftButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex - 1).getTitle() +
-                    "</strong></font></p></html>");
+            leftButton.setToolTipText(getToolTipText(currentPanelIndex - 1));
             rightButton.setEnabled(false);
             rightButton.setToolTipText(null);
         }
+    }
+
+    /**
+     * Generates the tip text for the left and right buttons according to the index of the next panel in
+     * that direction.
+     *
+     * @param index Index of the next panel in certain direction.
+     * @return Edited tip text that includes appropriate panel's title.
+     */
+    private String getToolTipText(int index) {
+        return "<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
+                "<i><font size=\"3\">Go to: </font></i>" + panels.get(index).getTitle() +
+                "</strong></font></p></html>";
     }
 
     /**
@@ -177,9 +183,9 @@ public class MainWindow {
         frame.getContentPane().remove(currentPanel);
         currentPanel = panels.get(currentPanelIndex);
         frame.getContentPane().add(currentPanel, BorderLayout.CENTER);
-        frame.getContentPane().repaint();
-        // frame.revalidate(); Try with actual panels what is the difference.
+        frame.repaint();
         frame.pack();
+        frame.setLocation(getLocation());
         updateButtons();
     }
 
@@ -237,7 +243,39 @@ public class MainWindow {
         } catch (Exception e) {
             System.out.println("Stats exception");
         }
-
+        setNewDimensions(1);
         updateCurrentPanel();
+    }
+
+    /**
+     * Determines the new position of the main window on screen according to the frame and screen size.
+     *
+     * @return Point of where the top left corner of the window will be.
+     */
+    private Point getLocation() {
+        int height = frame.getHeight();
+        int width = frame.getWidth();
+        int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+
+        int x = screenWidth/2 - width/2;
+        int y = screenHeight/2 - height/2;
+
+        return new Point(x, y);
+    }
+
+    /**
+     * Set dimensions of all sub panels to the same size. Currently all the panels are set to the size
+     * of the map.
+     *
+     * @param mapIndex Position of Map panel in the list of all panels.
+     */
+    private void setNewDimensions(int mapIndex) {
+        int mapHeight = panels.get(mapIndex).getHeight();
+        int mapWidth = panels.get(mapIndex).getWidth();
+
+        for (AppPanel panel : panels) {
+            panel.setPreferredSize(new Dimension(mapWidth, mapHeight));
+        }
     }
 }

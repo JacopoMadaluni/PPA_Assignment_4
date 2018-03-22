@@ -31,7 +31,11 @@ public class WelcomePanel extends AppPanel{
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 25, 10, 25));
 
-        add(createWelcomeLabel(), BorderLayout.NORTH);
+        JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        top.setOpaque(false);
+        top.add(createWelcomeLabel());
+        add(top, BorderLayout.NORTH);
+
         add(createPriceRangePanel(lowPrice, highPrice), BorderLayout.CENTER);
         add(createTips(), BorderLayout.SOUTH);
     }
@@ -39,7 +43,7 @@ public class WelcomePanel extends AppPanel{
     /**
      * Create a label with short welcome text.
      *
-     * @return Lable with some welcome text.
+     * @return Label with some welcome text.
      */
     private JLabel createWelcomeLabel() {
         String welcomeText ="<html>" +
