@@ -115,76 +115,11 @@ public class PriciestNeighbourhood extends BarChart {
      * max price
      */
     private void initialiseNeighbourhoods(int lowPrice, int highPrice){
-        neighbourhoodsPrices.put(
-                "Kingston upon Thames",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Kingston upon Thames"));
-        neighbourhoodsPrices.put("Croydon",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Croydon"));
-        neighbourhoodsPrices.put("Bromley",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Bromley"));
-        neighbourhoodsPrices.put("Hounslow",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Hounslow"));
-        neighbourhoodsPrices.put("Ealing",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Ealing"));
-        neighbourhoodsPrices.put("Havering",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Havering"));
-        neighbourhoodsPrices.put("Hillington",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Hillington"));
-        neighbourhoodsPrices.put("Harrow",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Harrow"));
-        neighbourhoodsPrices.put("Brent",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Brent"));
-        neighbourhoodsPrices.put("Barnet",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Barnet"));
-        neighbourhoodsPrices.put("Enfield",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Enfield"));
-        neighbourhoodsPrices.put("Waltham Forest",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Waltham Forest"));
-        neighbourhoodsPrices.put("Redbridge",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Redbridge"));
-        neighbourhoodsPrices.put("Sutton",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Sutton"));
-        neighbourhoodsPrices.put("Lambeth",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Lambeth"));
-        neighbourhoodsPrices.put("Southwark",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Southwark"));
-        neighbourhoodsPrices.put("Lewisham",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Lewisham"));
-        neighbourhoodsPrices.put("Greenwich",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Greenwich"));
-        neighbourhoodsPrices.put("Bexley",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Bexley"));
-        neighbourhoodsPrices.put("Richmond upon Thames",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Richmond upon Thames"));
-        neighbourhoodsPrices.put("Merton",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Merton"));
-        neighbourhoodsPrices.put("Wandsworth",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Wandsworth"));
-        neighbourhoodsPrices.put("Hammersmith and Fulham",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Hammersmith and Fulham"));
-        neighbourhoodsPrices.put("Kensington and Chelsea",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Kensington and Chelsea"));
-        neighbourhoodsPrices.put("City of London",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "City of London"));
-        neighbourhoodsPrices.put("Westminster",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Westminster"));
-        neighbourhoodsPrices.put("Camden",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Camden"));
-        neighbourhoodsPrices.put("Tower Hamlets",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Tower Hamlets"));
-        neighbourhoodsPrices.put("Islington",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Islington"));
-        neighbourhoodsPrices.put("Hackney",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Hackney"));
-        neighbourhoodsPrices.put("Haringey",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Haringey"));
-        neighbourhoodsPrices.put("Newham",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Newham"));
-        neighbourhoodsPrices.put("Barking and Dagenham",
-                getNeighbourhoodValue(listings, lowPrice, highPrice, "Barking and Dagenham"));
+        for(String neighburhoods: getAllNeighbourhoods()){
+            neighbourhoodsPrices.put(neighburhoods, getNeighbourhoodValue(listings, lowPrice, highPrice, neighburhoods));
+        }
     }
-
-
+    
 
     /**
      * Return the text to be displayed at the bottom of the central panel
