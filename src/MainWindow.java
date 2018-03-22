@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,8 @@ public class MainWindow {
     private List<AppPanel> panels;
     // Keep track of the index of the currently displayed panel.
     private int currentPanelIndex;
+    // List of all the properties.
+    private List<AirbnbListing> listings;
 
     // List of price range boundaries the user can choose from.
     private Integer[] prices;
@@ -31,11 +32,15 @@ public class MainWindow {
 
     /**
      * Initialise the main window of the application.
+     * Load all available properties from the CSV file. All panels will use the list
+     * created here to ensure consistency amongst the data displayed.
      */
     public MainWindow() {
         panels = new ArrayList<>();
         currentPanelIndex = 0;
-        prices = new Integer[]{0, 20, 50, 100, 200, 500, 1000, 5000, 8000}; // TODO: Decide on which prices to include. These values are just for testing purpcses.
+        AirbnbDataLoader loader = new AirbnbDataLoader();
+        listings = loader.load();
+        prices = createLists();
 
         frame = new JFrame("London properties - AirBnB");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -58,6 +63,33 @@ public class MainWindow {
         frame.pack();
         frame.setLocation(getLocation());
         frame.setVisible(true);
+    }
+
+    private Integer[] createLists() {
+        int maxPrice = 0;
+        for (AirbnbListing listing : listings) {
+            if (listing.getPrice() > maxPrice) {
+                maxPrice = listing.getPrice();
+            }
+        }
+        if (maxPrice < 10) {
+            // Very unlikely but is needed to prevent errors or duplication of the calculated values in the list.
+            return new Integer[]{0, 5, 10};
+        }
+        Integer[] list = new Integer[11];
+        list[0] = 0;
+        list[1] = (maxPrice/10);      // 10% of max price
+        list[2] = (maxPrice/10) * 2;  // 20%
+        list[3] = (maxPrice/10) * 3;  // 30%
+        list[4] = (maxPrice/10) * 4;  // 40%
+        list[5] = (maxPrice/10) * 5;  // ...
+        list[6] = (maxPrice/10) * 6;
+        list[7] = (maxPrice/10) * 7;
+        list[8] = (maxPrice/10) * 8;
+        list[9] = (maxPrice/10) * 9;
+        list[10] = maxPrice;
+
+        return list;
     }
 
     /**
@@ -231,10 +263,7 @@ public class MainWindow {
         if (chosenLow == chosenHigh) { // The prices cannot be the same.
             return;
         }
-        AirbnbDataLoader loader = new AirbnbDataLoader();
-        List<AirbnbListing> listings = loader.load();; // List of all the available properties.
 
-        // TODO: Create panels and add them to the list accordingly.
         panels.clear();
         panels.add(new WelcomePanel("Welcome", chosenLow, chosenHigh));
         panels.add(new Map("Map", listings, chosenLow, chosenHigh));
