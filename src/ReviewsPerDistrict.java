@@ -1,6 +1,5 @@
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class ReviewsPerDistrict extends BarChart {
 
     @Override
     public String getTitle() {
-        return "Average number of Reviews per District";
+        return "Average Number of Reviews per District";
     }
 
     public String getXLabel(){
@@ -38,7 +37,7 @@ public class ReviewsPerDistrict extends BarChart {
 
         try{
             for (int i = topDistricts; i>0;i--)
-            dataset.addValue(getReviewAvg(i),getDistricName(i),"");
+            dataset.addValue(getReviewAvg(i),getDistrictName(i),"");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -51,7 +50,7 @@ public class ReviewsPerDistrict extends BarChart {
         Collections.reverse(values);
         return values.get(i-1);
     }
-    private String getDistricName(int i){
+    private String getDistrictName(int i){
         ArrayList<Double> values = new ArrayList<>(reviewsPerDistrict.values());
         Collections.sort(values);
         Collections.reverse(values);
@@ -64,7 +63,7 @@ public class ReviewsPerDistrict extends BarChart {
 
     @Override
     public String getYLabel() {
-        return "Average number of reviews";
+        return "Average Number of Reviews";
     }
 
     private void setDistricts(int lowPrice, int highPrice){

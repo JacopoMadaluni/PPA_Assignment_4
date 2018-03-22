@@ -63,7 +63,7 @@ public class StatsPanel extends AppPanel {
         //pricies neighbourhood
         PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
 
-        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average number of reviews per district",listings,lowPrice,highPrice);
+        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per District",listings,lowPrice,highPrice);
        //add central panels to their subpanels
         centralPanels.add(avgReviewScore);
         centralPanels.add(totAvailableProperties);
