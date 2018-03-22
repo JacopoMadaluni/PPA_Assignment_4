@@ -23,7 +23,7 @@ public class Map extends AppPanel
     private List<AirbnbListing> shownBnbs;
     private JButton iconModeButton;
 
-    public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) throws IOException {
+    public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) {
         super(title, bnbs, lowPrice, maxPrice);
         districts = new ArrayList<>();
         shownDistricts = new ArrayList<>();
@@ -39,15 +39,18 @@ public class Map extends AppPanel
         setPreferredSize(new Dimension(prefW, prefH));
 
     }
-    private void createMap() throws IOException{
-        setLayout(null);
-        File img = new File("resources/maps/london1000px.png");
-        BufferedImage londonImage = ImageIO.read(img);
+    private void createMap(){
+        try {
+            setLayout(null);
+            File img = new File("resources/maps/london1000px.png");
+            BufferedImage londonImage = ImageIO.read(img);
 
-        prefW = londonImage.getWidth();
-        prefH = londonImage.getHeight();
-
-        backgroundImage = new ImageIcon("resources/maps/london1000px.png").getImage();
+            prefW = londonImage.getWidth();
+            prefH = londonImage.getHeight();
+            backgroundImage = new ImageIcon("resources/maps/london1000px.png").getImage();
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
     }
     private void createButton(){
         iconModeButton = new JButton();
