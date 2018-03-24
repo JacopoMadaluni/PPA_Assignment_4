@@ -47,12 +47,18 @@ public class AvgReviewScore extends BarChart{
         //name of group of bar graphs
         final String averageValue = "All listings";
 
+        Double[] bounds = calculateExponentialBounds(4, lowPrice, highPrice);
+        double lowStats = bounds[0];
+        double lowMidStats= bounds[1];
+        double highMidStats = bounds[2];
+        double highStats = bounds[3];
+
         // add values to dataset
         try {
-            dataset.addValue(getAvgFromData(listings, lowPrice,highPrice/4, "review_score"), lowBound, averageValue );
-            dataset.addValue(getAvgFromData(listings, highPrice/4,highPrice/4*2,"review_score"), mediumLowBound, averageValue );
-            dataset.addValue(getAvgFromData(listings, highPrice/4*2,highPrice/4*3,"review_score"), mediumHighBound, averageValue );
-            dataset.addValue(getAvgFromData(listings, highPrice/4*3,highPrice/4,"review_score"), highBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, lowPrice,lowStats, "review_score"), lowBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, lowStats,lowMidStats,"review_score"), mediumLowBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, lowMidStats,highMidStats,"review_score"), mediumHighBound, averageValue );
+            dataset.addValue(getAvgFromData(listings, highMidStats,highStats,"review_score"), highBound, averageValue );
             dataset.addValue(getAvgFromData(listings, lowPrice,highPrice,"review_score"), all , averageValue );
         } catch (Exception e) {
             e.printStackTrace();
