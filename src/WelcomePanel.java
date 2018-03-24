@@ -31,15 +31,19 @@ public class WelcomePanel extends AppPanel{
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 25, 10, 25));
 
-        add(createWelcomeLabel(), BorderLayout.NORTH);
-        add(createPriceRangePanel(lowPrice, highPrice), BorderLayout.CENTER);
+        JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        top.setOpaque(false);
+        top.add(createWelcomeLabel());
+        add(top, BorderLayout.NORTH);
+
+        add(createCentralPanel(lowPrice, highPrice), BorderLayout.CENTER);
         add(createTips(), BorderLayout.SOUTH);
     }
 
     /**
      * Create a label with short welcome text.
      *
-     * @return Lable with some welcome text.
+     * @return Label with some welcome text.
      */
     private JLabel createWelcomeLabel() {
         String welcomeText ="<html>" +
@@ -92,7 +96,7 @@ public class WelcomePanel extends AppPanel{
         String text = "<html>" +
                 "<font size=\"4\" color=\"black\">" +
                 "<p style=\"text-align: center;\">" +
-                "Your currently selected price range:<br><br>" +
+                "<br>Your currently selected price range:<br><br>" +
                 range +
                 "</p>" +
                 "</font>" +
@@ -100,5 +104,32 @@ public class WelcomePanel extends AppPanel{
         panel.add(new JLabel(text));
         panel.setPreferredSize(new Dimension(this.getWidth(),100));
         return panel;
+    }
+
+    /**
+     * Creates the central panel of the welcome window with an AirBnB logo and the selected price range.
+     *
+     * @param lowPrice Lower price boundary that the user has selected. <strong>-1 if no range is selected.</strong>
+     * @param highPrice Upper price boundary that the user has selected. <strong>-1 if no range is selected.</strong>
+     * @return Panel with icon and price range info.
+     */
+    private JPanel createCentralPanel(int lowPrice, int highPrice) {
+        JPanel all = new JPanel();
+        all.setOpaque(false);
+        all.setLayout(new BoxLayout(all, BoxLayout.PAGE_AXIS));
+
+        JPanel top = new JPanel(new BorderLayout());
+        top.setOpaque(false);
+        ImageIcon icon = new ImageIcon("resources/icons/airbnb-logo.png");
+        JLabel image = new JLabel(icon);
+        top.add(image, BorderLayout.CENTER);
+        all.add(top);
+
+        JPanel bottom = new JPanel(new BorderLayout());
+        bottom.setOpaque(false);
+        bottom.add(createPriceRangePanel(lowPrice, highPrice), BorderLayout.CENTER);
+        all.add(bottom);
+
+        return all;
     }
 }

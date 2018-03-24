@@ -37,7 +37,7 @@ public abstract class AppPanel extends JPanel{
      * Return all listings that are in the price range
      * @param listings the entirety of all listings in the dataset
      */
-    private ArrayList<AirbnbListing> getListingsInRange(List<AirbnbListing> listings) {
+    protected ArrayList<AirbnbListing> getListingsInRange(List<AirbnbListing> listings) {
         ArrayList<AirbnbListing> listingsInRange = new ArrayList<>();
         for(AirbnbListing listing: listings){
             if(listing.getPrice() <= highPrice && listing.getPrice()>= lowPrice){

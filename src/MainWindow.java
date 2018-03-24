@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,8 @@ public class MainWindow {
     private List<AppPanel> panels;
     // Keep track of the index of the currently displayed panel.
     private int currentPanelIndex;
+    // List of all the properties.
+    private List<AirbnbListing> listings;
 
     // List of price range boundaries the user can choose from.
     private Integer[] prices;
@@ -31,11 +32,15 @@ public class MainWindow {
 
     /**
      * Initialise the main window of the application.
+     * Load all available properties from the CSV file. All panels will use the list
+     * created here to ensure consistency amongst the data displayed.
      */
     public MainWindow() {
         panels = new ArrayList<>();
         currentPanelIndex = 0;
-        prices = new Integer[]{0, 20, 50, 100, 200, 500, 1000, 5000, 8000}; // TODO: Decide on which prices to include. These values are just for testing purpcses.
+        AirbnbDataLoader loader = new AirbnbDataLoader();
+        listings = loader.load();
+        prices = createLists();
 
         frame = new JFrame("London properties - AirBnB");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -53,10 +58,38 @@ public class MainWindow {
         JPanel bottom = createBottom();
         pane.add(bottom, BorderLayout.SOUTH);
 
-        frame.setLocationRelativeTo(null);
+
         frame.setMinimumSize(new Dimension(500, 200));
         frame.pack();
+        frame.setLocation(getLocation());
         frame.setVisible(true);
+    }
+
+    private Integer[] createLists() {
+        int maxPrice = 0;
+        for (AirbnbListing listing : listings) {
+            if (listing.getPrice() > maxPrice) {
+                maxPrice = listing.getPrice();
+            }
+        }
+        if (maxPrice < 10) {
+            // Very unlikely but is needed to prevent errors or duplication of the calculated values in the list.
+            return new Integer[]{0, 5, 10};
+        }
+        Integer[] list = new Integer[11];
+        list[0] = 0;
+        list[1] = (maxPrice/10);      // 10% of max price
+        list[2] = (maxPrice/10) * 2;  // 20%
+        list[3] = (maxPrice/10) * 3;  // 30%
+        list[4] = (maxPrice/10) * 4;  // 40%
+        list[5] = (maxPrice/10) * 5;  // ...
+        list[6] = (maxPrice/10) * 6;
+        list[7] = (maxPrice/10) * 7;
+        list[8] = (maxPrice/10) * 8;
+        list[9] = (maxPrice/10) * 9;
+        list[10] = maxPrice;
+
+        return list;
     }
 
     /**
@@ -144,30 +177,35 @@ public class MainWindow {
         }
         else if (currentPanelIndex > 0 && currentPanelIndex < panels.size()-1) { // One of second to second-last panel is displayed.
             leftButton.setEnabled(true);
-            leftButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex - 1).getTitle() +
-                    "</strong></font></p></html>");
+            leftButton.setToolTipText(getToolTipText(currentPanelIndex - 1));
             rightButton.setEnabled(true);
-            rightButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex + 1).getTitle() +
-                    "</strong></font></p></html>");
+            rightButton.setToolTipText(getToolTipText(currentPanelIndex + 1));
         }
         else if (currentPanelIndex == 0) { // First panel is displayed.
             leftButton.setEnabled(false);
             leftButton.setToolTipText(null);
             rightButton.setEnabled(true);
-            rightButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex + 1).getTitle() +
-                    "</strong></font></p></html>");
+            rightButton.setToolTipText(getToolTipText(currentPanelIndex + 1));
         }
         else { // Last panel is displayed.
             leftButton.setEnabled(true);
-            leftButton.setToolTipText("<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
-                    "<i><font size=\"3\">Go to: </font></i>" + panels.get(currentPanelIndex - 1).getTitle() +
-                    "</strong></font></p></html>");
+            leftButton.setToolTipText(getToolTipText(currentPanelIndex - 1));
             rightButton.setEnabled(false);
             rightButton.setToolTipText(null);
         }
+    }
+
+    /**
+     * Generates the tip text for the left and right buttons according to the index of the next panel in
+     * that direction.
+     *
+     * @param index Index of the next panel in certain direction.
+     * @return Edited tip text that includes appropriate panel's title.
+     */
+    private String getToolTipText(int index) {
+        return "<html><p style=\"background-color:white;\"><font size=\"5\" color=\"black\"><strong>" +
+                "<i><font size=\"3\">Go to: </font></i>" + panels.get(index).getTitle() +
+                "</strong></font></p></html>";
     }
 
     /**
@@ -177,9 +215,9 @@ public class MainWindow {
         frame.getContentPane().remove(currentPanel);
         currentPanel = panels.get(currentPanelIndex);
         frame.getContentPane().add(currentPanel, BorderLayout.CENTER);
-        frame.getContentPane().repaint();
-        // frame.revalidate(); Try with actual panels what is the difference.
+        frame.repaint();
         frame.pack();
+        frame.setLocation(getLocation());
         updateButtons();
     }
 
@@ -225,10 +263,7 @@ public class MainWindow {
         if (chosenLow == chosenHigh) { // The prices cannot be the same.
             return;
         }
-        AirbnbDataLoader loader = new AirbnbDataLoader();
-        List<AirbnbListing> listings = loader.load();; // List of all the available properties.
 
-        // TODO: Create panels and add them to the list accordingly.
         panels.clear();
         panels.add(new WelcomePanel("Welcome", chosenLow, chosenHigh));
         panels.add(new Map("Map", listings, chosenLow, chosenHigh));
@@ -237,7 +272,39 @@ public class MainWindow {
         } catch (Exception e) {
             System.out.println("Stats exception");
         }
-
+        setNewDimensions(1);
         updateCurrentPanel();
+    }
+
+    /**
+     * Determines the new position of the main window on screen according to the frame and screen size.
+     *
+     * @return Point of where the top left corner of the window will be.
+     */
+    private Point getLocation() {
+        int height = frame.getHeight();
+        int width = frame.getWidth();
+        int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+
+        int x = screenWidth/2 - width/2;
+        int y = screenHeight/2 - height/2;
+
+        return new Point(x, y);
+    }
+
+    /**
+     * Set dimensions of all sub panels to the same size. Currently all the panels are set to the size
+     * of the map.
+     *
+     * @param mapIndex Position of Map panel in the list of all panels.
+     */
+    private void setNewDimensions(int mapIndex) {
+        int mapHeight = panels.get(mapIndex).getHeight();
+        int mapWidth = panels.get(mapIndex).getWidth();
+
+        for (AppPanel panel : panels) {
+            panel.setPreferredSize(new Dimension(mapWidth, mapHeight));
+        }
     }
 }

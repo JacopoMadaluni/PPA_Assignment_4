@@ -61,7 +61,7 @@ public class SinglePropertyView {
 
     private JLabel makeLabel(String text){
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Helvetica",Font.PLAIN,20));
+        label.setFont(new Font("Helvetica",Font.PLAIN,17));
         return label;
     }
 }

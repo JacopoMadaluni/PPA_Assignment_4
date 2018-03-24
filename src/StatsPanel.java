@@ -63,12 +63,18 @@ public class StatsPanel extends AppPanel {
         //pricies neighbourhood
         PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
 
+        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per District",listings,lowPrice,highPrice);
 
-       //add central panels to their subpanels
+        // average price per room type
+        AverageRoomtypePrice roomtypePrice = new AverageRoomtypePrice("Average price per room type", listings, lowPrice, highPrice);
+
+        //add central panels to their subpanels
         centralPanels.add(avgReviewScore);
         centralPanels.add(totAvailableProperties);
         centralPanels.add(totEntireHomeOrApts);
         centralPanels.add(priciestNeighbourhood);
+        centralPanels.add(reviewsPerDistrict);
+        centralPanels.add(roomtypePrice);
 
     }
 
