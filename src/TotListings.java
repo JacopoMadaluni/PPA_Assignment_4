@@ -34,23 +34,28 @@ public class TotListings extends PieChart {
 
         DefaultPieDataset dataset = new DefaultPieDataset();
 
+        Double[] bounds = calculateExponentialBounds(4, lowPrice, highPrice);
+        double lowStats = bounds[0];
+        double lowMidStats= bounds[1];
+        double highMidStats = bounds[2];
+        double highStats = bounds[3];
+
         try {
         //low category
         dataset.setValue(lowBound, new Double(
-                getTotFromData(listings, lowPrice, highPrice/4)
+                getTotFromData(listings, lowPrice, lowStats)
         ));
-
         //mediumlow category
         dataset.setValue(mediumLowBound, new Double(
-                getTotFromData(listings, highPrice/4, highPrice/4*2)
+                getTotFromData(listings, lowStats, lowMidStats)
         ));
         //mediumhigh category
         dataset.setValue(mediumHighBound, new Double(
-                getTotFromData(listings, highPrice/4*2, highPrice/4*3)
+                getTotFromData(listings, lowMidStats, highMidStats)
         ));
         //high category
         dataset.setValue(highBound, new Double(
-                getTotFromData(listings, highPrice/4*3, highPrice)
+                getTotFromData(listings, highMidStats, highStats)
         ));
         } catch (Exception e) {
             e.printStackTrace();

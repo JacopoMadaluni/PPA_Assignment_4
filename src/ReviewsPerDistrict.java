@@ -15,7 +15,7 @@ import java.util.Map;
 public class ReviewsPerDistrict extends BarChart {
 
     //Selects te number of neighborhoods to display
-    private static final int topDistricts = 10;
+    private static final int topDistricts = 5;
     //Collection of all districts with their average number of reviews
     private HashMap<String,Double> reviewsPerDistrict;
 
