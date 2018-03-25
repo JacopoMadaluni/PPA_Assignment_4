@@ -7,7 +7,7 @@ import org.jfree.data.general.PieDataset;
  * A type of central panel that displays a piechart with the given data.
  * Needs subclass with dataset in order to diplay information.
  * @author Danilo Del Busso
- * @version 21.03.2018
+ * @version 25.03.2018
  */
 public abstract class PieChart extends ChartCentralPanel {
 

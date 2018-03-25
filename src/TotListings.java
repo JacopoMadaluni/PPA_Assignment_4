@@ -8,7 +8,7 @@ import java.util.List;
  * the total number of listings it is given as well as the number of listings
  * in price subsections (e.g. the number of properties of price between 0£ - 500£)
  * @author Danilo Del Busso
- * @version 21.03.2018
+ * @version 25.03.2018
  */
 public class TotListings extends PieChart {
     /**
@@ -42,21 +42,13 @@ public class TotListings extends PieChart {
 
         try {
         //low category
-        dataset.setValue(getLowBound(), new Double(
-                getTotFromData(listings, lowPrice, lowStats)
-        ));
+        dataset.setValue(getLowBound(), getTotFromData(listings, lowPrice, lowStats));
         //mediumlow category
-        dataset.setValue(getMediumLowBound(), new Double(
-                getTotFromData(listings, lowStats, lowMidStats)
-        ));
+        dataset.setValue(getMediumLowBound(), getTotFromData(listings, lowStats, lowMidStats));
         //mediumhigh category
-        dataset.setValue(getMediumHighBound(), new Double(
-                getTotFromData(listings, lowMidStats, highMidStats)
-        ));
+        dataset.setValue(getMediumHighBound(), getTotFromData(listings, lowMidStats, highMidStats));
         //high category
-        dataset.setValue(getHighBound(), new Double(
-                getTotFromData(listings, highMidStats, highStats)
-        ));
+        dataset.setValue(getHighBound(), getTotFromData(listings, highMidStats, highStats));
         } catch (Exception e) {
             e.printStackTrace();
         }

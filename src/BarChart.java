@@ -4,6 +4,12 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import java.util.List;
 
+/**
+ * This class lays the foundations for the creation of a bar chart. It creates the
+ * chart and initialises the bounds in which its elements are subdivided.
+ * @author Danilo Del Busso
+ * @version 25.03.2018
+ */
 public abstract class BarChart extends ChartCentralPanel {
 
 

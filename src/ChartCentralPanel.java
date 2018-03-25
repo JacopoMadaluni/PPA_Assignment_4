@@ -11,7 +11,7 @@ import java.util.List;
  * A special panel to be inserted in a StatsSubPanel.
  * It contains a statistic result calculated from the dataset it's given.
  * @author Danilo Del Busso
- * @version 21.03.2018
+ * @version 25.03.2018
  */
 public abstract class ChartCentralPanel extends AppPanel {
     private String lowBound;
@@ -38,7 +38,7 @@ public abstract class ChartCentralPanel extends AppPanel {
     /**
      * Creates box at the bottom of the panel showing some information
      */
-    protected void createBottomBox(){
+    void createBottomBox(){
         JTextArea total = new JTextArea ();
         total.setEditable(false);
         //retrieve text from subclass
@@ -88,9 +88,10 @@ public abstract class ChartCentralPanel extends AppPanel {
      * @param listings the dataset used for calculation
      * @param lowPrice the lower bound of the price range
      * @param highPrice the upper bound of the price range
-     * @return
+     * @return Return the total number of listings in given price range from a given
+     * dataset of listings
      */
-    protected Double getTotFromData(List<AirbnbListing> listings, double lowPrice, double highPrice) throws Exception {
+    protected Double getTotFromData(List<AirbnbListing> listings, double lowPrice, double highPrice){
         Double sum = 0.0;
         for(AirbnbListing listing : listings){
             if(listing.getPrice() <= highPrice && listing.getPrice() >= lowPrice){
@@ -113,26 +114,27 @@ public abstract class ChartCentralPanel extends AppPanel {
         double avg = 0;
         for(AirbnbListing listing: listings){
             if(listing.getPrice()<= highPrice && listing.getPrice() >= lowPrice){
-                if(column.equals("review_score")){
-                    //TODO ask kolling pls
-                }
-                else if(column.equals("price")){
-                    sum+=listing.getPrice();
-                }
-                else if(column.equals("minimum_nights")){
-                    sum+=listing.getMinimumNights();
-                }
-                else if(column.equals("number_of_review")){
-                    sum+=listing.getNumberOfReviews();
-                }
-                else if(column.equals("review_per_month")){
-                    sum+=listing.getReviewsPerMonth();
-                }
-                else if(column.equals("availability_365")){
-                    sum+=listing.getAvailability365();
-                }
-                else{
-                    throw new Exception("The column does not contain values that can return an average. Not numerical.");
+                switch (column) {
+                    case "review_score":
+                        //TODO ask kolling pls
+                        break;
+                    case "price":
+                        sum += listing.getPrice();
+                        break;
+                    case "minimum_nights":
+                        sum += listing.getMinimumNights();
+                        break;
+                    case "number_of_review":
+                        sum += listing.getNumberOfReviews();
+                        break;
+                    case "review_per_month":
+                        sum += listing.getReviewsPerMonth();
+                        break;
+                    case "availability_365":
+                        sum += listing.getAvailability365();
+                        break;
+                    default:
+                        throw new Exception("The column does not contain values that can return an average. Not numerical.");
                 }
             }
         }
@@ -190,7 +192,7 @@ public abstract class ChartCentralPanel extends AppPanel {
 
     /**
      * Return an arraylist containing all the neighbourhoods
-     * @return
+     * @return an arraylist containing all the neighbourhoods
      */
     protected ArrayList<String> getAllNeighbourhoods(){
         ArrayList<String> nbr = new ArrayList<>();
@@ -205,7 +207,7 @@ public abstract class ChartCentralPanel extends AppPanel {
     /**
      * Initialise and create the chart
      */
-    protected void createChart(String title){
+    private void createChart(String title){
         ChartPanel chartPanel = new ChartPanel(getChart(title));
         add(chartPanel, BorderLayout.CENTER);
     }

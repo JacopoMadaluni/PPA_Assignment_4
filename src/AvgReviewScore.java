@@ -7,7 +7,7 @@ import java.util.List;
  * This class initialises and creates the dataset needed for a barchart in order to display
  * the average review score of all listings in the dataset
  * @author Danilo Del Busso
- * @version 21.03.2018
+ * @version 25.03.2018
  */
 public class AvgReviewScore extends BarChart{
     /**

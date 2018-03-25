@@ -5,7 +5,7 @@ import java.util.ArrayList;
     * show individual central panels with statistics about the listings in
     * the main application.
     * @author Danilo Del Busso, Luka Kralj
-    * @version 21.03.2018
+    * @version 25.03.2018
     */
 public class StatsPanel extends AppPanel {
 
@@ -24,8 +24,6 @@ public class StatsPanel extends AppPanel {
      * to show initial statistics.
      * @param listings the list of all listings in the application
      * @param lowPrice the lower bound for price range search
-     * @param highPrice the upper bound for price range search
-     * @throws Exception
      */
     public StatsPanel(ArrayList<AirbnbListing> listings, int lowPrice, int highPrice, int numberOfSubPanels) throws Exception {
         super("Statistics", listings, lowPrice, highPrice);
@@ -36,8 +34,8 @@ public class StatsPanel extends AppPanel {
         //set the layout to be GridLayout, 2 rows and 2 columns with a spacing of 10 pixels between each subpanel
         setLayout(new GridLayout(2,2,10,10));
         //initialise data structures containing panels shown
-        centralPanels = new ArrayList<AppPanel>();
-        statsSubPanels = new ArrayList<StatsSubPanel>();
+        centralPanels = new ArrayList<>();
+        statsSubPanels = new ArrayList<>();
         //initialise and add visual elements
         initialiseCentralPanels();
         initialiseSubPanels(numberOfSubPanels); //"containers" for central panels
@@ -50,7 +48,7 @@ public class StatsPanel extends AppPanel {
      * These special panels are referred to as "central panels" and contain charts
      * drawing statistics and/or graphs that are inferred from the dataset they're given.
      */
-    public void initialiseCentralPanels(){
+    private void initialiseCentralPanels(){
         //average review score of all listings
         AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, lowPrice, highPrice);
 
@@ -115,7 +113,7 @@ public class StatsPanel extends AppPanel {
                 }
                 indexOfCurrentPanel++;
                 AppPanel newPanel = centralPanels.get(indexOfCurrentPanel);
-                if (!centralPanelIsVisible(newPanel)){
+                if (centralPanelNotVisible(newPanel)){
                     return newPanel;
                 }
             }
@@ -143,7 +141,7 @@ public class StatsPanel extends AppPanel {
                 }
                 indexOfCurrentPanel--;
                 AppPanel newPanel = centralPanels.get(indexOfCurrentPanel);
-                if (!centralPanelIsVisible(newPanel)){
+                if (centralPanelNotVisible(newPanel)){
                     return newPanel;
                 }
             }
@@ -167,7 +165,7 @@ public class StatsPanel extends AppPanel {
             return centralPanels.get(0);
         }
         for(AppPanel panel : centralPanels){
-            if(!centralPanelIsVisible(panel)){
+            if(centralPanelNotVisible(panel)){
                 return panel;
             }
         }
@@ -179,28 +177,28 @@ public class StatsPanel extends AppPanel {
      * @param panelToCheck the central panel we're looking for on screen
      * @return true if the centralPanel is currently visible on screen.
      */
-    private boolean centralPanelIsVisible(AppPanel panelToCheck) {
+    private boolean centralPanelNotVisible(AppPanel panelToCheck) {
         if(!statsSubPanels.isEmpty()){
             for(StatsSubPanel subPanel: statsSubPanels){
                 String panelToCheckName = panelToCheck.getTitle();
-                AppPanel subPanelCentralPanel = (AppPanel) subPanel.getCentralPanel();
+                AppPanel subPanelCentralPanel = subPanel.getCentralPanel();
                 String subPanelCentralPanelName = subPanelCentralPanel.getTitle();
                 //if it is found as centralPanel of a subPanel then it is visible
                 if(panelToCheckName.equals(subPanelCentralPanelName)){
-                    return true;
+                    return false;
                 }
             }
         }
         //if it is not found as centralPanel of a subPanel then it not is visible
-        return false;
+        return true;
 
     }
 
     /**
      * Return an arraylist containing the listings with room type = "Entire home/apt"
-     * @return
+     * @return an arraylist containing the listings with room type = "Entire home/apt"
      */
-    public ArrayList<AirbnbListing> getListingsByRoomType(String roomType) {
+    private ArrayList<AirbnbListing> getListingsByRoomType(String roomType) {
         ArrayList<AirbnbListing> entireHomeOrAptListings = new ArrayList<>();
         for(AirbnbListing listing : listings){
             if (listing.getRoom_type().equals(roomType)){
