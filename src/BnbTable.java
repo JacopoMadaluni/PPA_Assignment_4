@@ -3,31 +3,59 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BnbTable Class. This class creates a table with basic
+ * information about a list of Airbnb's given.
+ */
 public class BnbTable {
-    private District district;
     private List<AirbnbListing> bnbs;
     private JFrame frame;
+    private String name;
+
+    /**
+     * Creates a BnbTable object specific to a district
+     * @param district District of the properties
+     */
     public BnbTable(District district){
-        this.district = district;
         this.bnbs = district.getBnbs();
+        this.name = "Airbnb's in "+district.getName();
         this.displayBnbList();
     }
 
+    /**
+     * Creates a BnbTable object specific to a list of
+     * properties
+     * @param bnbs List of Airbnb's
+     */
+    public BnbTable(ArrayList<AirbnbListing> bnbs){
+        this.bnbs = bnbs;
+        this.name = "My List";
+        this.displayBnbList();
+    }
+
+    /**
+     * Displays the table of properties.
+     */
     public void displayBnbList(){
-        frame = new JFrame("Airbnb's in "+district.getName());
+        frame = new JFrame(name);
         JScrollPane scrollPane = new JScrollPane(makeTable());
         frame.setContentPane(scrollPane);
         frame.pack();
         frame.setVisible(true);
     }
 
+    /**
+     * Creates the table with all the information
+     * @return Table
+     */
     private JTable makeTable(){
         String [] columns = {"Name","Price","Room type","Reviews"};
         Object[][] data = gatherData(columns);
         JTable table = new JTable(data,columns);
-        table.setName("Properties in "+district.getName());
+        table.setName(name);
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         //If a row is clicked, it will expand to show more information specific to that Airbnb
@@ -62,10 +90,22 @@ public class BnbTable {
         table.getRowSorter().toggleSortOrder(0);
         return table;
     }
+
+    /**
+     * Closes the window and displays a
+     * SinglePropertyView specific to an Airbnb
+     * @param bnb AirBnb
+     */
     private void showProperty(AirbnbListing bnb){
         frame.dispose();
         new SinglePropertyView(bnb,this).showProperty();
     }
+
+    /**
+     * Gathers all the information from the AirBnb's
+     * @param columns Columns of the table
+     * @return Data to populate the Table with
+     */
     private Object [][] gatherData(String[] columns){
         Object [][] data = new Object[bnbs.size()][columns.length];
         for (int property = 0; property<bnbs.size();property++){
@@ -75,6 +115,11 @@ public class BnbTable {
         return data;
     }
 
+    /**
+     * Gets an AirBnb with the given name
+     * @param name Name of the property
+     * @return Property with the given name
+     */
     private AirbnbListing getPropertyByName(String name){
         for (AirbnbListing bnb: bnbs){
             if (bnb.getName().equals(name))
