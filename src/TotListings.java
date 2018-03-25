@@ -8,7 +8,7 @@ import java.util.List;
  * the total number of listings it is given as well as the number of listings
  * in price subsections (e.g. the number of properties of price between 0£ - 500£)
  * @author Danilo Del Busso
- * @version 21.03.2018
+ * @version 25.03.2018
  */
 public class TotListings extends PieChart {
     /**
