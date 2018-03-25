@@ -30,7 +30,7 @@ public class BnbTable {
      * properties
      * @param bnbs List of Airbnb's
      */
-    public BnbTable(ArrayList<AirbnbListing> bnbs){
+    public BnbTable(List<AirbnbListing> bnbs){
         this.bnbs = bnbs;
         this.name = "My List";
         this.displayBnbList();

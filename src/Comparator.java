@@ -1,21 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Comparator {
-    private JFrame frame;
+public class Comparator extends AppPanel {
 
     public Comparator(){
-        frame = new JFrame("AirBnb Comparator");
-        Container container = frame.getContentPane();
-        JLabel status = new JLabel(Main.getMyList().isEmpty()? "No properties in My List, please add them in the" +
-                "single property view":"You have "+Main.getMyList().size()+" properties");
+        super("Comparator",Main.getMyList(),0,0);
+
+        JLabel status = new JLabel(listings.isEmpty()? "No properties in My List, please add them in the" +
+                " single property view":"You have "+listings.size()+" properties");
         JButton viewList = new JButton("View List");
-        viewList.setEnabled(!Main.getMyList().isEmpty());
+        viewList.setEnabled(!listings.isEmpty());
         viewList.addActionListener((e)->{
-            BnbTable table = new BnbTable(Main.getMyList());
+            BnbTable table = new BnbTable(listings);
             table.displayBnbList();
         });
-    }
+        add(status);
+        add(viewList);
 
+    }
 
 }
