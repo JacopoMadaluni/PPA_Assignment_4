@@ -92,54 +92,6 @@ public abstract class ChartCentralPanel extends AppPanel {
     }
 
     /**
-     * Calculate the max value of a column from the listings.
-     * @param listings the dataset used for calculation
-     * @param lowPrice the lower bound of the price range
-     * @param highPrice the upper bound of the price range
-     * @param column the column name used as filter for calculation. It has to be a column containing numerical values
-     * @return the max value of a column from the listings.
-     */
-    protected double getMaxFromData(List<AirbnbListing> listings, int lowPrice, int highPrice, String column) throws Exception {
-        double currentValue = 0;
-        for(AirbnbListing listing : listings){
-            if(listing.getPrice()<= highPrice && listing.getPrice() >= lowPrice){
-                if(column.equals("review_score")){
-                    //TODO ask kolling pls
-                }
-                else if(column.equals("price")){
-                    if(listing.getPrice()>currentValue){
-                        currentValue = listing.getPrice();
-                    }
-                }
-                else if(column.equals("minimum_nights")){
-                    if(listing.getMinimumNights()>currentValue){
-                        currentValue = listing.getMinimumNights();
-                    }
-                }
-                }
-                else if(column.equals("number_of_review")){
-                    if(listing.getNumberOfReviews()>currentValue){
-                        currentValue = listing.getNumberOfReviews();
-                    }
-                }
-                else if(column.equals("review_per_month")){
-                    if(listing.getReviewsPerMonth()>currentValue){
-                        currentValue = listing.getReviewsPerMonth();
-                    }
-                }
-                else if(column.equals("availability_365")){
-                    if(listing.getAvailability365()>currentValue){
-                        currentValue = listing.getAvailability365();
-                    }
-                }
-                else{
-                    throw new Exception("The column does not contain values that can return a max. Not numerical.");
-                }
-        }
-        return currentValue;
-    }
-
-    /**
      * Calculate the average value of a column values from the listings.
      * @param listings the dataset used for calculation
      * @param lowPrice the lower bound of the price range
