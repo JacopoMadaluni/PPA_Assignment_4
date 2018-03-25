@@ -17,7 +17,7 @@ import java.awt.*;
 public class SinglePropertyView {
     private AirbnbListing bnb;
     private BnbTable table;
-
+    private JFrame frame;
     /**
      * Creates a Single Property View
      * @param bnb Airbnb to display information of
@@ -33,7 +33,7 @@ public class SinglePropertyView {
      * as the Google Maps implementation.
      */
     public void showProperty(){
-        JFrame frame = new JFrame(bnb.getName());
+        frame = new JFrame(bnb.getName());
         frame.setContentPane(getContent());
         frame.pack();
         frame.setSize(1000,1000);
@@ -77,9 +77,22 @@ public class SinglePropertyView {
 
         southPanel.add(contentPanel);
 
+        //Creates an add/remove to My List button
+        JButton addToList = new JButton(Main.getMyList().contains(bnb)? "Remove from My List": "Add to My List");
+        addToList.addActionListener((e)->{
+            if (Main.getMyList().contains(bnb))
+                Main.getMyList().remove(bnb);
+            else
+                Main.getMyList().add(bnb);
+            addToList.setText((Main.getMyList().contains(bnb)? "Remove from My List": "Add to My List"));
+        });
+        southPanel.add(addToList,BorderLayout.PAGE_END);
+
+        //Back button
         JButton back = new JButton("Back");
         back.addActionListener((e)->{
-            frame.setVisible(false);
+            this.frame.setVisible(false);
+            System.out.println(frame.isVisible());
             table.displayBnbList();
         });
         frame.add(back,BorderLayout.AFTER_LAST_LINE);
