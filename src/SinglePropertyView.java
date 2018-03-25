@@ -6,29 +6,61 @@ import javafx.scene.web.WebView;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * SinglePropertyView Class. This will display
+ * a window showing all the information related to
+ * a specific Airbnb as well as an embedded
+ * Google Maps application.
+ * @author Alvaro Rausell
+ * @version 20/03/2018
+ */
 public class SinglePropertyView {
     private AirbnbListing bnb;
+    private BnbTable table;
 
-    public SinglePropertyView(AirbnbListing bnb){
+    /**
+     * Creates a Single Property View
+     * @param bnb Airbnb to display information of
+     * @param table Table of properties to open when this window is dismissed
+     */
+    public SinglePropertyView(AirbnbListing bnb,BnbTable table){
         this.bnb = bnb;
+        this.table = table;
     }
 
-    public void showProperty(BnbTable table){
+    /**
+     * Shows a window with all the Airbnb information as well
+     * as the Google Maps implementation.
+     */
+    public void showProperty(){
         JFrame frame = new JFrame(bnb.getName());
-        JFXPanel mapPanel = new JFXPanel();
-        JPanel contentPanel = new JPanel(new BorderLayout());
-        JPanel southPanel = new JPanel(new BorderLayout());
+        frame.setContentPane(getContent());
+        frame.pack();
+        frame.setSize(1000,1000);
+        frame.setVisible(true);
+    }
 
+    /**
+     * Returns the content of the information view.
+     */
+    public Container getContent(){
+        JFrame frame = new JFrame(bnb.getName());
+        frame.setResizable(false);
+
+        JFXPanel mapPanel = new JFXPanel();
         frame.add(mapPanel,BorderLayout.PAGE_START);
-        System.out.println(bnb.getLatitude());
+
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setLayout(new GridLayout(4,2,2,5));
+        contentPanel.setBackground(new Color(255,255,255));
+        JPanel southPanel = new JPanel(new BorderLayout());
+        frame.add(southPanel, BorderLayout.CENTER);
+        //Starts Google Maps
         Platform.runLater(()->{
             WebView webView = new WebView();
             mapPanel.setScene(new Scene(webView));
-            System.out.println("Loading maps");
             webView.getEngine().load("https://www.google.com/maps/search/?api=1&query="+bnb.getLatitude()+","+bnb.getLongitude());
-            System.out.println("Maps loaded");
         });
-        //  panel.setSize(frame.getWidth(),frame.getHeight()/3);
 
         //GROUP 1
         contentPanel.add(makeLabel("  "+bnb.getName()+" (ID: "+bnb.getId()+")"));
@@ -42,23 +74,23 @@ public class SinglePropertyView {
         //GROUP 4
         contentPanel.add(bnb.getReviewsPerMonth() != -1?makeLabel("  Number of reviews: "+bnb.getNumberOfReviews()+" ("+bnb.getReviewsPerMonth()+" reviews/month)"):makeLabel("  No reviews"));
         contentPanel.add(makeLabel("Host name: "+bnb.getHost_name()+" (ID: "+bnb.getHost_id()+")"));
-        contentPanel.setLayout(new GridLayout(4,2,2,5));
+
         southPanel.add(contentPanel);
-        frame.add(southPanel, BorderLayout.CENTER);
-        frame.setResizable(false);
-        contentPanel.setBackground(new Color(255,255,255));
+
         JButton back = new JButton("Back");
         back.addActionListener((e)->{
             frame.setVisible(false);
             table.displayBnbList();
         });
-        back.setSize(30,10);
         frame.add(back,BorderLayout.AFTER_LAST_LINE);
-        frame.pack();
-        frame.setSize(1000,1000);
-        frame.setVisible(true);
+        return frame.getContentPane();
     }
 
+    /**
+     * Makes a JLabel with predefined settings
+     * @param text text to display
+     * @return JLabel object
+     */
     private JLabel makeLabel(String text){
         JLabel label = new JLabel(text);
         label.setFont(new Font("Helvetica",Font.PLAIN,17));

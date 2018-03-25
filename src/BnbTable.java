@@ -64,7 +64,7 @@ public class BnbTable {
     }
     private void showProperty(AirbnbListing bnb){
         frame.dispose();
-        new SinglePropertyView(bnb).showProperty(this);
+        new SinglePropertyView(bnb,this).showProperty();
     }
     private Object [][] gatherData(String[] columns){
         Object [][] data = new Object[bnbs.size()][columns.length];
