@@ -31,13 +31,13 @@ public abstract class PieChart extends ChartCentralPanel {
      */
     @Override
     protected JFreeChart getChart(String title) {
-        JFreeChart pie =   ChartFactory.createPieChart(
+        initialiseExponentialBounds();
+        return   ChartFactory.createPieChart(
                 title,   // chart title
                 (PieDataset) createDataset(listings, lowPrice, highPrice),          // data
                 true,             // include legend
                 true,
                 false);
-        return pie;
     }
 
 }

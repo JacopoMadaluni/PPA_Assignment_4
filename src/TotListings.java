@@ -42,19 +42,19 @@ public class TotListings extends PieChart {
 
         try {
         //low category
-        dataset.setValue(lowBound, new Double(
+        dataset.setValue(getLowBound(), new Double(
                 getTotFromData(listings, lowPrice, lowStats)
         ));
         //mediumlow category
-        dataset.setValue(mediumLowBound, new Double(
+        dataset.setValue(getMediumLowBound(), new Double(
                 getTotFromData(listings, lowStats, lowMidStats)
         ));
         //mediumhigh category
-        dataset.setValue(mediumHighBound, new Double(
+        dataset.setValue(getMediumHighBound(), new Double(
                 getTotFromData(listings, lowMidStats, highMidStats)
         ));
         //high category
-        dataset.setValue(highBound, new Double(
+        dataset.setValue(getHighBound(), new Double(
                 getTotFromData(listings, highMidStats, highStats)
         ));
         } catch (Exception e) {
