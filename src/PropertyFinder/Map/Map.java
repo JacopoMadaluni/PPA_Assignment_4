@@ -66,7 +66,7 @@ public class Map extends AppPanel
         add(iconModeButton);
     }
     private void changeMode(){
-        if (District.getMode() == true){
+        if (District.getMode()){
             District.setScaleMode();
             iconModeButton.setText("Mode 2");
         }else{

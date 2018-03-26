@@ -1,6 +1,7 @@
 package PropertyFinder;
 
 import PropertyFinder.Map.Map;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -247,6 +248,12 @@ public class MainWindow {
         frame.pack();
         frame.setLocation(currentLocation);
         frame.setSize(currentSize);
+
+        Rectangle target = currentPanel.getBounds();
+        Rectangle start = new Rectangle(target.x + frame.getWidth(), target.y, target.width, target.height);
+        Animation animation = new Animation(currentPanel, start, target);
+        animation.start();
+
         updateButtons();
     }
 
@@ -297,11 +304,11 @@ public class MainWindow {
 
         panels.clear();
         panels.add(new WelcomePanel("Welcome", chosenLow, chosenHigh));
-        panels.add(new Map("PropertyFinder.Map.Map", listings, chosenLow, chosenHigh));
+        panels.add(new Map("Map", listings, chosenLow, chosenHigh));
         try {
             panels.add(new StatsPanel((ArrayList<AirbnbListing>)listings, chosenLow, chosenHigh, 4));
         } catch (Exception e) {
-            System.out.println("PropertyFinder.Stats exception.");
+            System.out.println("Stats exception.");
         }
         updateCurrentPanel();
     }
