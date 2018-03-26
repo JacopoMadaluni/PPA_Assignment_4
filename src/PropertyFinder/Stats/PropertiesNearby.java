@@ -1,3 +1,5 @@
+package PropertyFinder.Stats;
+
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.json.JSONException;
@@ -10,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.util.ArrayList;
+import PropertyFinder.*;
 import java.util.List;
 
 /**
@@ -19,10 +22,10 @@ import java.util.List;
  * @author Luka Kralj
  * @version 26 March 2018
  */
-public class PropertiesNearby extends AppPanel{
-    JTextField input;
-    JLabel display;
-    List<AirbnbListing> sortedList;
+public class PropertiesNearby extends AppPanel {
+    private JTextField input;
+    private JLabel display;
+    private List<AirbnbListing> sortedList;
 
     /**
      * Create a new panel which displays the number of properties in the range of 5 miles from the given address.

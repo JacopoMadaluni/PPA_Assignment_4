@@ -1,3 +1,5 @@
+package PropertyFinder.Stats;
+
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 import java.util.ArrayList;
@@ -5,14 +7,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import PropertyFinder.*;
 
 /**
  * This class creates a bar chart representing the
  * average number of reviews per district. It extends the
- * BarChart class to create the graph.
+ * PropertyFinder.StatsrtyFinder.BarChart class to create the graph.
  * @author Alvaro Rausell
  * @version 22.03.2018*/
-public class ReviewsPerDistrict extends BarChart {
+public class ReviewsPerDistrict extends PropertyFinder.Stats.BarChart {
 
     //Selects te number of neighborhoods to display
     private static final int topDistricts = 5;
@@ -20,8 +23,8 @@ public class ReviewsPerDistrict extends BarChart {
     private HashMap<String,Double> reviewsPerDistrict;
 
     /**
-     * Creates the ReviewsPerDistrict object by calling the constructor
-     * from BarChart.
+     * Creates the PropertyFinder.StatsrtyFinder.ReviewsPerDistrict object by calling the constructor
+     * from PropertyFinder.StatsrtyFinder.BarChart.
      * @param title Title of the graph
      * @param listings Collection of Airbnb's from which to take the data
      * @param lowPrice Minimum price that the properties may cost
@@ -32,11 +35,11 @@ public class ReviewsPerDistrict extends BarChart {
 
     @Override
     public String getTitle() {
-        return "Average Number of Reviews per District";
+        return "Average Number of Reviews per PropertyFinder.Map.District";
     }
 
     public String getXLabel(){
-        return "District";
+        return "PropertyFinder.Map.District";
     }
 
     @Override
@@ -77,7 +80,7 @@ public class ReviewsPerDistrict extends BarChart {
         return values.get(i-1);
     }
     /**
-     * Gets the name of the District based on an index.
+     * Gets the name of the PropertyFinder.Map.District based on an index.
      * This index represents the order by number of reviews.
      * @param i position in the number of reviews scale
      * @return Name of the district at the given position*/

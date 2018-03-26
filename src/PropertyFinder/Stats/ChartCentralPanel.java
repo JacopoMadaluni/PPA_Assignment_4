@@ -1,3 +1,5 @@
+package PropertyFinder.Stats;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
@@ -6,9 +8,10 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import PropertyFinder.*;
 
 /**
- * A special panel to be inserted in a StatsSubPanel.
+ * A special panel to be inserted in a PropertyFinder.StatsSubPanel.
  * It contains a statistic result calculated from the dataset it's given.
  * @author Danilo Del Busso
  * @version 25.03.2018
@@ -20,7 +23,7 @@ public abstract class ChartCentralPanel extends AppPanel {
     private String highBound;
 
     /**
-     *  Create a new Central Panel to be displayed in the StatsSubPanel.
+     *  Create a new Central Panel to be displayed in the PropertyFinder.StatsSubPanel.
      *  Initialise range bounds, set layout and append a JTextArea as well as creating
      *  the chart that will be displayed.
      * @param title     Title of the panel.

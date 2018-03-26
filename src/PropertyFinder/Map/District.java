@@ -1,3 +1,6 @@
+package PropertyFinder.Map;
+
+import PropertyFinder.AirbnbListing;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +53,7 @@ public class District extends JLabel {
     }
 
     /**
-     * Creates a new District
+     * Creates a new PropertyFinder.Map.District
      * @param name The name of the district.
      * @param x The absolute x on the map.
      * @param y The absolute y on the map.
@@ -148,7 +151,7 @@ public class District extends JLabel {
         }
         if (orderedDistricts.size() == 33) {
             // Didnt find the district that should be there
-            System.err.println("Error: District not found in the list");
+            System.err.println("Error: PropertyFinder.Map.District not found in the list");
         }
         return "resources/district_icons/sized_icons/icon_0.png";
     }

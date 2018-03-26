@@ -1,4 +1,4 @@
- 
+package PropertyFinder;
 
 /**
  * Represents one listing of a property for rental on Airbnb.
@@ -147,7 +147,7 @@ public class AirbnbListing {
 
     @Override
     public String toString() {
-        return "AirbnbListing{" +
+        return "PropertyFinder.AirbnbListing{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", host_id='" + host_id + '\'' +

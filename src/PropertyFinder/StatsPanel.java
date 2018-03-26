@@ -1,7 +1,16 @@
+package PropertyFinder;
+
+import PropertyFinder.Stats.AverageRoomtypePrice;
+import PropertyFinder.Stats.AvgReviewScore;
+import PropertyFinder.Stats.PriciestNeighbourhood;
+import PropertyFinder.Stats.PropertiesNearby;
+import PropertyFinder.Stats.ReviewsPerDistrict;
+import PropertyFinder.Stats.TotListings;
+
 import java.awt.*;
 import java.util.ArrayList;
 
-/**A Stats Panel has a number of subpanels in GridLayout that
+/**A PropertyFinder.Stats Panel has a number of subpanels in GridLayout that
     * show individual central panels with statistics about the listings in
     * the main application.
     * @author Danilo Del Busso, Luka Kralj
@@ -44,7 +53,7 @@ public class StatsPanel extends AppPanel {
 
 
     /**
-     * Inserts the panels that contain different statistics in the StatsPanel.
+     * Inserts the panels that contain different statistics in the PropertyFinder.StatsPanel.
      * These special panels are referred to as "central panels" and contain charts
      * drawing statistics and/or graphs that are inferred from the dataset they're given.
      */
@@ -61,7 +70,7 @@ public class StatsPanel extends AppPanel {
         //pricies neighbourhood
         PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
 
-        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per District",listings,lowPrice,highPrice);
+        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per PropertyFinder.Map.District",listings,lowPrice,highPrice);
 
         // average price per room type
         AverageRoomtypePrice roomtypePrice = new AverageRoomtypePrice("Average price per room type", listings, lowPrice, highPrice);
@@ -81,7 +90,7 @@ public class StatsPanel extends AppPanel {
     /**
      * Create Instances of the StatsSubPanels and add
      * them to the statisticsPanels so they can be displayed
-     * @param numberOfPanels the number of "containers" (StatsSubPanel) that are shown at any time on screen
+     * @param numberOfPanels the number of "containers" (PropertyFinder.StatsSubPanel) that are shown at any time on screen
      */
     private void initialiseSubPanels(int numberOfPanels) throws Exception {
         //check if the number of central panels is bigger than the expected number of sub panels that have

@@ -1,7 +1,10 @@
+package PropertyFinder.Stats;
+
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.text.DecimalFormat;
 import java.util.List;
+import PropertyFinder.*;
 
 /**
  * This class initialises and creates the dataset needed for a barchart in order to display
@@ -9,7 +12,7 @@ import java.util.List;
  * @author Danilo Del Busso
  * @version 25.03.2018
  */
-public class AvgReviewScore extends BarChart{
+public class AvgReviewScore extends PropertyFinder.Stats.BarChart {
     /**
      * This Panel shows the average review score of available properties
      *

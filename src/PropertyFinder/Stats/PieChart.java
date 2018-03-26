@@ -1,4 +1,8 @@
+package PropertyFinder.Stats;
+
 import java.util.ArrayList;
+
+import PropertyFinder.AirbnbListing;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.PieDataset;

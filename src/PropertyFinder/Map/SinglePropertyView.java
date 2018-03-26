@@ -1,13 +1,15 @@
+package PropertyFinder.Map;
+
+import PropertyFinder.AirbnbListing;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
-
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * SinglePropertyView Class. This will display
+ * PropertyFinder.Map.SinglePropertyView Class. This will display
  * a window showing all the information related to
  * a specific Airbnb as well as an embedded
  * Google Maps application.
