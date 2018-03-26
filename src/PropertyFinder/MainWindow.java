@@ -1,17 +1,18 @@
 package PropertyFinder;
 
 import PropertyFinder.Map.Map;
-
+import com.sun.istack.internal.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Represents the main window of the application.
  *
  * @author Luka Kralj
- * @version 14 March 2018
+ * @version 27 March 2018
  *
  * TODO: Test behaviour with actual panels.
  */
@@ -168,7 +169,7 @@ public class MainWindow {
             currentPanelIndex--;
             currentLocation = frame.getLocation();
             currentSize = frame.getSize();
-            updateCurrentPanel();
+            updateCurrentPanel("left");
         });
         leftButton.setEnabled(false);
         leftButton.setPreferredSize(new Dimension(60, 20));
@@ -181,7 +182,7 @@ public class MainWindow {
             currentPanelIndex++;
             currentLocation = frame.getLocation();
             currentSize = frame.getSize();
-            updateCurrentPanel();
+            updateCurrentPanel("right");
         });
         rightButton.setEnabled(false);
         rightButton.setPreferredSize(new Dimension(60, 20));
@@ -239,8 +240,26 @@ public class MainWindow {
 
     /**
      * Displays a new panel according to the current panel index and update buttons accordingly.
+     * If direction is null there is no animation, but the panel is still updated.
+     * @param direction Direction in which we moved.
+     *                  <strong>Valid directions: "left", "right", null.</strong>
      */
-    private void updateCurrentPanel() {
+    private void updateCurrentPanel(@Nullable String direction) {
+        Rectangle original = new Rectangle(currentPanel.getBounds().x, currentPanel.getBounds().y, currentPanel.getBounds().width, currentPanel.getBounds().height);
+        if (direction != null) {
+            AppPanel newPanel = panels.get(currentPanelIndex);
+            Rectangle target = new Rectangle(original.x, original.y, original.width, original.height);
+            Rectangle start;
+            if (direction.equals("right")) {
+                start = new Rectangle(target.x + frame.getWidth(), target.y, target.width, target.height);
+            }
+            else {
+                start = new Rectangle(target.x - frame.getWidth(), target.y, target.width, target.height);
+            }
+            Animation animation = new Animation(newPanel, start, target);
+            animation.run();
+        }
+
         frame.getContentPane().remove(currentPanel);
         currentPanel = panels.get(currentPanelIndex);
         frame.getContentPane().add(currentPanel, BorderLayout.CENTER);
@@ -248,11 +267,6 @@ public class MainWindow {
         frame.pack();
         frame.setLocation(currentLocation);
         frame.setSize(currentSize);
-
-        Rectangle target = currentPanel.getBounds();
-        Rectangle start = new Rectangle(target.x + frame.getWidth(), target.y, target.width, target.height);
-        Animation animation = new Animation(currentPanel, start, target);
-        animation.start();
 
         updateButtons();
     }
@@ -310,7 +324,7 @@ public class MainWindow {
         } catch (Exception e) {
             System.out.println("Stats exception.");
         }
-        updateCurrentPanel();
+        updateCurrentPanel(null);
     }
 
     /**

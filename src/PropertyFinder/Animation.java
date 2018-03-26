@@ -13,7 +13,7 @@ public class Animation {
     // Time in milliseconds, how long we want the animation to be.
     public static final int RUN_TIME = 300;
 
-    private AppPanel panel;
+    private JPanel panel;
     private Rectangle start;
     private Rectangle target;
 
@@ -26,7 +26,7 @@ public class Animation {
      * @param start Starting bounds of the panel, panel starts moving from here.
      * @param target Target bound of the panel, panel moves here.
      */
-    public Animation(AppPanel panel, Rectangle start, Rectangle target) {
+    public Animation(JPanel panel, Rectangle start, Rectangle target) {
         this.panel = panel;
         this.start = start;
         this.target = target;
@@ -35,7 +35,7 @@ public class Animation {
     /**
      * Runs the animation.
      */
-    public void start() {
+    public void run() {
         // The lower the delay the smoother the animation is.
         Timer timer = new Timer(0, e -> {
                 long duration = System.currentTimeMillis() - startTime;
