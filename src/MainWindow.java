@@ -87,7 +87,7 @@ public class MainWindow {
         list[7] = (maxPrice/10) * 7;
         list[8] = (maxPrice/10) * 8;
         list[9] = (maxPrice/10) * 9;
-        list[10] = maxPrice;
+        list[10] = maxPrice + 100; // To make sure that all the listings will be included.
 
         return list;
     }
