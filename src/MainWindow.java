@@ -76,7 +76,6 @@ public class MainWindow {
             // Very unlikely but is needed to prevent errors or duplication of the calculated values in the list.
             return new Integer[]{0, 5, 10};
         }
-        maxPrice += 100; // To make sure that all the listings will be included.
         Integer[] list = new Integer[11];
         list[0] = 0;
         list[1] = (maxPrice/10);      // 10% of max price
@@ -88,7 +87,7 @@ public class MainWindow {
         list[7] = (maxPrice/10) * 7;
         list[8] = (maxPrice/10) * 8;
         list[9] = (maxPrice/10) * 9;
-        list[10] = maxPrice;
+        list[10] = maxPrice + 100; // To make sure that all the listings will be included.
 
         return list;
     }
