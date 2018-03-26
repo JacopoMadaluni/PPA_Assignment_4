@@ -10,7 +10,7 @@ import javax.swing.*;
  * This class represents the London districts map.
  * !!! Resources not yet uploaded. This class is still working on local resources !!!
  *
- * @author Jacopo Madaluni and Alvaro Rausell
+ * @author Jacopo Madaluni 1737569
  * @version 14-03-2018
  */
 public class Map extends AppPanel

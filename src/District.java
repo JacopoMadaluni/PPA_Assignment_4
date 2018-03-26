@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * The district class represent a district area on the
  * London map.
+ * @author Jacopo Madaluni 1737569
  */
 public class District extends JLabel {
 
@@ -57,11 +58,12 @@ public class District extends JLabel {
      */
     public District(String name, int x, int y){
         super();
-        try {
-            baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
-        }catch (IOException ex){
-            System.out.println(ex);
-        }
+        //try {
+        //    baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
+        //}catch (IOException ex){
+        //    System.out.println(ex);
+        //}
+        baseIcon = null;
         setIcon(baseIcon);
         this.name = name;
         this.x = x;
@@ -88,7 +90,6 @@ public class District extends JLabel {
     public List<AirbnbListing> getBnbs(){
         return bnbs;
     }
-
     public String getName(){
         return name;
     }
@@ -123,12 +124,7 @@ public class District extends JLabel {
             public void mousePressed(MouseEvent e){
                 mousePress();
             }
-
-
         });
-
-
-
         try {
             fix();
         }catch(IOException ex){
@@ -136,10 +132,18 @@ public class District extends JLabel {
         }
     }
 
+    /**
+     * This method opens a the window with all the properties in the district when
+     * the icon is clicked.
+     */
     private void openTableWindow(){
         new BnbTable(this);
     }
 
+    /**
+     * This method return the correct icon address from resources when the district is
+     * not is scale mode.
+     */
     private String getIconAddress(){
         for (int i = 0; i< orderedDistricts.size() ; i++){
             if (orderedDistricts.get(i).equals(this)){
