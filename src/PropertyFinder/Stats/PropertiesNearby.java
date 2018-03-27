@@ -5,6 +5,7 @@ import org.apache.commons.httpclient.util.URIUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,11 +25,12 @@ import java.util.List;
  */
 public class PropertiesNearby extends AppPanel {
     private JTextField input;
+    private JTextField range;
     private JLabel display;
     private List<AirbnbListing> sortedList;
 
     /**
-     * Create a new panel which displays the number of properties in the range of 5 miles from the given address.
+     * Create a new panel which displays the number of properties in the given range from the given address.
      *
      * @param listings List of all results from the CSV file.
      * @param lowPrice Lower price boundary of the properties the user wants to see.
@@ -60,75 +62,115 @@ public class PropertiesNearby extends AppPanel {
      * TODO: Format layouts.
      */
     private void initialisePanel() {
-        JPanel all = new JPanel();//BorderLayout());
-        all.setLayout(new BoxLayout(all, BoxLayout.PAGE_AXIS));
+        setBackground(Color.WHITE);
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JPanel top = new JPanel(new BorderLayout());
+        top.setOpaque(false);
 
         JLabel title = new JLabel();
-        title.setText("<html><h2>Properties near me</h2></html>");
+        title.setText("<html><h1>" + getTitle() + "</h1></html>");
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        titlePanel.setOpaque(false);
         titlePanel.add(title);
+        top.add(title, BorderLayout.NORTH);
 
-        all.add(title); //, BorderLayout.NORTH);
 
-        input = new JTextField("Enter your address here.");
-        input.selectAll();
-        input.setEditable(true);
-
-        JButton search = new JButton("<html><b>Search</b></html>");
-        search.addActionListener(e -> searchClicked());
-
-        display = new JLabel("No.");
-
-        all.add(input);
-        all.add(search);
-        all.add(display);
-        /*
         JPanel central = new JPanel(new BorderLayout());
+        central.setOpaque(false);
+        central.setOpaque(false);
 
+        JPanel inputs = new JPanel();
+        inputs.setOpaque(false);
+        inputs.setLayout(new BoxLayout(inputs, BoxLayout.PAGE_AXIS));
+        JPanel addressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        addressPanel.setOpaque(false);
+        JLabel address = new JLabel("Enter your address here:");
+        addressPanel.add(address);
+        inputs.add(addressPanel);
 
-        JPanel buttons = new JPanel();
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.PAGE_AXIS));
-
-        input = new JTextField("Enter your address here.");
-        input.selectAll();
+        JPanel inputPanel = new JPanel();
+        inputPanel.setOpaque(false);
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
+        input = new JTextField();
         input.setEditable(true);
-        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         inputPanel.add(input);
+        inputs.add(inputPanel);
 
+        inputs.add(Box.createRigidArea(new Dimension(inputs.getWidth(), 10)));
+
+        JPanel rangePanel = new JPanel();
+        rangePanel.setOpaque(false);
+        rangePanel.setLayout(new BoxLayout(rangePanel, BoxLayout.LINE_AXIS));
+        rangePanel.add(new JLabel("Enter range (in miles): "));
+
+        JPanel rng = new JPanel();
+        rng.setOpaque(false);
+        rng.setLayout(new BoxLayout(rng, BoxLayout.LINE_AXIS));
+        range = new JTextField();
+        range.setEditable(true);
+        rng.add(range);
+        rangePanel.add(rng);
+        inputs.add(rangePanel);
+
+        inputs.add(Box.createRigidArea(new Dimension(inputs.getWidth(), 10)));
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        searchPanel.setOpaque(false);
         JButton search = new JButton("<html><b>Search</b></html>");
         search.addActionListener(e -> searchClicked());
-        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         searchPanel.add(search);
+        inputs.add(searchPanel);
 
-        buttons.add(inputPanel);
-        buttons.add(searchPanel);
+        central.add(inputs, BorderLayout.NORTH);
 
-        central.add(buttons, BorderLayout.NORTH);
 
         display = new JLabel("No.");
-        JPanel displayPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        displayPanel.add(display);
+        central.add(display, BorderLayout.CENTER);
+        top.add(central, BorderLayout.CENTER);
 
-        central.add(displayPanel, BorderLayout.CENTER);
+        add(top, BorderLayout.NORTH);
 
-        all.add(central, BorderLayout.CENTER);
-        */
 
-        add(all);
+
     }
 
     /**
      * Invoked when the search button is clicked.
      */
     private void searchClicked() {
-        String address = input.getText();
+        String address = input.getText().trim();
+        String distance = range.getText().trim();
+        double rangeInMiles;
         if (address.isEmpty()) {
-            input.setText("Enter your address first.");
-            input.selectAll();
+            showWarning("Enter you address first!");
             return;
         }
+        else if (distance.isEmpty()) {
+            showWarning("Please specify a valid range (in miles)!");
+            return;
+        }
+        else {
+            try {
+                rangeInMiles = Double.parseDouble(distance);
+            }
+            catch (NumberFormatException e) {
+                showWarning("Range must be a number!");
+                return;
+            }
+        }
         String response = searchAddress(address);
-        displayLocation(response);
+        displayLocation(response, rangeInMiles);
+    }
+
+    /**
+     * Pops up a warning message if the input is invalid.
+     *
+     * @param message Message to show.
+     */
+    private void showWarning(String message) {
+        JOptionPane.showMessageDialog(this, new JLabel(message), "Invalid input", JOptionPane.WARNING_MESSAGE);
     }
 
     /**
@@ -202,9 +244,12 @@ public class PropertiesNearby extends AppPanel {
     /**
      * Gets latitude and longitude for the address that user entered and displays the correct info.
      *
+     * TODO: Add message according to the "status" of the response.
+     *
      * @param jsonString Response from the API as Json string.
+     * @param rangeInMiles Distance from address which the user wants statistics for.
      */
-    private void displayLocation(String jsonString) {
+    private void displayLocation(String jsonString, double rangeInMiles) {
         double lat = 0;
         double lng = 0;
         boolean locationFound;
@@ -219,13 +264,14 @@ public class PropertiesNearby extends AppPanel {
         }
 
         if (locationFound) {
-            setDisplay(lat, lng);
+            setDisplay(lat, lng, rangeInMiles);
         }
         else {
             // Some error occurred when parsing the data.
             // Sometimes resolved when clicking the search button again.
             display.setText("<html><p style=\"text-align: center;\">" +
-                    "<font size=\"3\" color=\"gray\"><i>An error occurred.<br>Please, try again.</i></font>" +
+                    "<font size=\"3\" color=\"gray\"><i>" +
+                    "Sorry, an error occurred while obtaining your location.<br>Please, try again.</i></font>" +
                     "</p></html>");
         }
 
@@ -247,16 +293,18 @@ public class PropertiesNearby extends AppPanel {
     }
 
     /**
-     * Displays the number of properties that are within 5 miles from the address that the user entered.
+     * Displays the number of properties that are within the specified range
+     * from the address that the user entered.
      *
      * @param lat Latitude of the address.
      * @param lng Longitude of the address.
+     * @param rangeInMiles Distance in miles.
      */
-    private void setDisplay(double lat, double lng) {
+    private void setDisplay(double lat, double lng, double rangeInMiles) {
         int counter = 0;
         for (AirbnbListing listing : sortedList) {
             double distance = calculateDistance(lat, lng, listing.getLatitude(), listing.getLongitude());
-            if (distance < 5) { // If closer than 5 miles.
+            if (distance < rangeInMiles) {
                 counter++;
             }
         }
@@ -282,5 +330,19 @@ public class PropertiesNearby extends AppPanel {
                 Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng1 - lng2);
         double arcLength = Math.acos(theCos);
         return arcLength * 3963.1676;  // Earth radius in miles.
+    }
+
+
+    /**
+     * Only for testing.
+     * TODO: delete
+     */
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        AirbnbDataLoader loader = new AirbnbDataLoader();
+        frame.getContentPane().add(new PropertiesNearby(loader.load(), 0, 5000));
+        frame.pack();
+        frame.setVisible(true);
     }
 }
