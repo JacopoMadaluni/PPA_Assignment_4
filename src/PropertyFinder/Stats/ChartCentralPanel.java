@@ -41,7 +41,7 @@ public abstract class ChartCentralPanel extends AppPanel {
     /**
      * Creates box at the bottom of the panel showing some information
      */
-    void createBottomBox(){
+    protected void createBottomBox(){
         JTextArea total = new JTextArea ();
         total.setEditable(false);
         //retrieve text from subclass

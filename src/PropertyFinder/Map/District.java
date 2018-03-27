@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * The district class represent a district area on the
  * London map.
+ * @author Jacopo Madaluni 1737569
  */
 public class District extends JLabel {
 
@@ -31,25 +32,26 @@ public class District extends JLabel {
     /**
      * @return True if the disctricts are in scale mode.
      */
-    public static boolean getMode(){
+    public static boolean scalingIcons(){
         return scaleIcon;
     }
 
     /**
      * Set the Districts to scale the images to their right dimensions
      */
-    public static void setLogMode(){
-        scaleIcon = true;
+    public static void setResMode(){
+        scaleIcon = false;
     }
 
     /**
      * Set the Districts to choose the right icon from the source.
      */
     public static void setScaleMode(){
-        scaleIcon = false;
+        scaleIcon = true;
     }
     public static void reset(){
         orderedDistricts = new LinkedList<>();
+        scaleIcon = true;
     }
 
     /**
@@ -60,11 +62,7 @@ public class District extends JLabel {
      */
     public District(String name, int x, int y){
         super();
-        try {
-            baseIcon = new ImageIcon(ImageIO.read(new File(getIconAddress())));
-        }catch (IOException ex){
-            System.out.println(ex);
-        }
+        baseIcon = null;
         setIcon(baseIcon);
         this.name = name;
         this.x = x;
@@ -78,32 +76,54 @@ public class District extends JLabel {
     }
 
 
-
+    /**
+     * Adds an AirBnb to the district.
+     * The count is incremented by one
+     * @param bnb The AirbnbListing to add.
+     */
     public void addBnb(AirbnbListing bnb){
         bnbs.add(bnb);
         numberOfBnbs++;
     }
 
-
+    /**
+     * @return The number of properties in the district.
+     */
     public int getNumberOfBnbs() {
         return numberOfBnbs;
     }
+
+    /**
+     * @return The List of properties in the district.
+     */
     public List<AirbnbListing> getBnbs(){
         return bnbs;
     }
 
+    /**
+     * @return The name of the District.
+     */
     public String getName(){
         return name;
     }
+
+    /**
+     * @return The absolute X position on the map.
+     */
     public int getX(){
         return x;
     }
+
+    /**
+     * @return The absolute Y position on the map.
+     */
     public int getY(){
         return y;
     }
 
-
-
+    /**
+     * Initializes the Mouse Events.
+     */
     private void initialize() {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -126,12 +146,7 @@ public class District extends JLabel {
             public void mousePressed(MouseEvent e){
                 mousePress();
             }
-
-
         });
-
-
-
         try {
             fix();
         }catch(IOException ex){
@@ -139,10 +154,18 @@ public class District extends JLabel {
         }
     }
 
+    /**
+     * This method opens a the window with all the properties in the district when
+     * the icon is clicked.
+     */
     private void openTableWindow(){
         new BnbTable(this);
     }
 
+    /**
+     * This method return the correct icon address from resources when the district is
+     * not is scale mode.
+     */
     private String getIconAddress(){
         for (int i = 0; i< orderedDistricts.size() ; i++){
             if (orderedDistricts.get(i).equals(this)){
@@ -156,11 +179,18 @@ public class District extends JLabel {
         return "resources/district_icons/sized_icons/icon_0.png";
     }
 
-
+    /**
+     * Returns the zoomed icon address in the resources folder.
+     */
     private String getZoomedIconAddress(){
         return "resources/district_icons/zoomed_icon_medium.png";
     }
 
+    /**
+     * This method fixes a visual bug of the images.
+     * It is called the first time a district is created.
+     * @throws IOException
+     */
     private void fix() throws IOException{
         mouseEnter();
         setIcon(baseIcon);
@@ -191,6 +221,10 @@ public class District extends JLabel {
     }
 
 
+    /**
+     * The method sets the correct icon depending on which mode is selected.
+     * @throws IOException
+     */
     public void setCorrectIcon() throws IOException{
         if (scaleIcon){
             resizeIcon();
@@ -199,7 +233,9 @@ public class District extends JLabel {
         }
     }
 
-
+    /**
+     * Action that gets performed when the MousePressed Event happens.
+     */
     private void mousePress(){
         try{
             Image newImage = ImageIO.read(new File("resources/district_icons/icon_mouse_pressed.png"));
@@ -210,7 +246,9 @@ public class District extends JLabel {
         }
     }
 
-
+    /**
+     * Action that gets performed when the cursor leaves the icon.
+     */
     private void mouseExit(){
         try{
             setCorrectIcon();
@@ -220,6 +258,9 @@ public class District extends JLabel {
         }
     }
 
+    /**
+     * Action that gets performed when the curson enters the icon.
+     */
     private void mouseEnter(){
         try {
             Image newImage = ImageIO.read(new File(getZoomedIconAddress()));
@@ -256,8 +297,8 @@ public class District extends JLabel {
             return;
         }
         int scale = (int) (p * 6);
-        if (scale < 20){
-            scale = 20;
+        if (scale < 25){
+            scale = 25;
         }else if (scale > 55){
             scale = 55;
         }
@@ -267,6 +308,11 @@ public class District extends JLabel {
         setIcon(baseIcon);
     }
 
+    /**
+     * The logarithmic function that scales the images.
+     * @param x The number of bnbs.
+     * @return The result of ln(x). If x < 1 return the special value -1.
+     */
     private double scaleFunction(int x){
         if (x < 1){
             return -1;
