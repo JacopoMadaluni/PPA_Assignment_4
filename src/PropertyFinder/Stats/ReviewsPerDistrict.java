@@ -35,11 +35,11 @@ public class ReviewsPerDistrict extends PropertyFinder.Stats.BarChart {
 
     @Override
     public String getTitle() {
-        return "Average Number of Reviews per PropertyFinder.Map.District";
+        return "Average Number of Reviews per District";
     }
 
     public String getXLabel(){
-        return "PropertyFinder.Map.District";
+        return "District";
     }
 
     @Override
