@@ -38,8 +38,8 @@ public class Map extends AppPanel
         initializeDistricts(); // initilize the districts properties
 
         setPreferredSize(new Dimension(prefW, prefH));
-
     }
+
     private void createMap(){
         try {
             setLayout(null);
@@ -68,12 +68,12 @@ public class Map extends AppPanel
         add(iconModeButton);
     }
     private void changeMode(){
-        if (District.getMode() == true){
+        if (District.scalingIcons()){
+            District.setResMode();
+            mode.setText("Currently choosing icons from resources");
+        }else{
             District.setScaleMode();
             mode.setText("Currently scaling the images");
-        }else{
-            District.setLogMode();
-            mode.setText("Currently choosing icons from resources");
         }
         setDistrictsIcons();
     }
@@ -120,11 +120,11 @@ public class Map extends AppPanel
         districts.add(new District("Richmond upon Thames", 220 ,455));
         districts.add(new District("Merton", 346 ,475));
         districts.add(new District("Wandsworth", 350 ,415));
-        districts.add(new District("Hammersmith and Fulham", 345 ,310));
+        districts.add(new District("Hammersmith and Fulham", 340 ,310));
         districts.add(new District("Kensington and Chelsea", 400 ,350));
         districts.add(new District("City of London", 497 ,311));
         districts.add(new District("Westminster", 410 ,300));
-        districts.add(new District("Camden", 410 ,230));
+        districts.add(new District("Camden", 410 ,240));
         districts.add(new District("Tower Hamlets", 555 ,290));
         districts.add(new District("Islington", 470 ,230));
         districts.add(new District("Hackney", 530 ,230));
