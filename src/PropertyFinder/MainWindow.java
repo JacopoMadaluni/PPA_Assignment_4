@@ -13,8 +13,6 @@ import java.util.List;
  *
  * @author Luka Kralj
  * @version 27 March 2018
- *
- * TODO: Test behaviour with actual panels.
  */
 public class MainWindow {
     private JFrame frame;
