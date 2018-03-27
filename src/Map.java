@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 /**
  * This class represents the London districts map.
- * !!! Resources not yet uploaded. This class is still working on local resources !!!
  *
  * @author Jacopo Madaluni 1737569
  * @version 14-03-2018
@@ -24,6 +23,14 @@ public class Map extends AppPanel
     private JButton iconModeButton;
     private JLabel mode;
 
+
+    /**
+     * Creates a new map.
+     * @param title The title of the map.
+     * @param bnbs The complete List of AirbnbListings in London.
+     * @param lowPrice The minimum price chosen by the user.
+     * @param maxPrice The maximum price chosen by the user.
+     */
     public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) {
         super(title, bnbs, lowPrice, maxPrice);
         districts = new ArrayList<>();
@@ -40,6 +47,9 @@ public class Map extends AppPanel
         setPreferredSize(new Dimension(prefW, prefH));
     }
 
+    /**
+     * Internal method that creates the actual map.
+     */
     private void createMap(){
         try {
             setLayout(null);
@@ -59,6 +69,10 @@ public class Map extends AppPanel
 
         add(mode);
     }
+
+    /**
+     * Internal method that creates the change mode button.
+     */
     private void createButton(){
         iconModeButton = new JButton();
         iconModeButton.setBounds(0,0,150,30);
@@ -67,6 +81,10 @@ public class Map extends AppPanel
         iconModeButton.addActionListener(e -> changeMode());
         add(iconModeButton);
     }
+
+    /**
+     * Changes the mode from scale to resources or the other way around.
+     */
     private void changeMode(){
         if (District.scalingIcons()){
             District.setResMode();
@@ -97,6 +115,10 @@ public class Map extends AppPanel
     }
 
 
+    /**
+     * Internal method that creates and adds all the districts with the relative X and Y
+     * positions on the map.
+     */
     private void createDistricts(){
         districts.add(new District("Kingston upon Thames", 280,520));
         districts.add(new District("Croydon",  480,540));
@@ -134,7 +156,10 @@ public class Map extends AppPanel
     }
 
     /**
-     * Initializes the districts to contain only
+     * Initializes the districts.
+     * 1) The method assigns every property to the correct district.
+     * 2) Every district is put in the sorted Array based on the number of properties.
+     * 3) Calls the setDistrictsIcons() method.
      */
     private void initializeDistricts(){
         // assign the bnbs to the correct district
@@ -158,6 +183,19 @@ public class Map extends AppPanel
     }
 
     /**
+     * Set the correct icon for each district.
+     */
+    private void setDistrictsIcons(){
+        for (District district : shownDistricts){
+            try {
+                district.setCorrectIcon();
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }
+
+    /**
      * Fetches all the Air bnbs and removes all the objects out of the price
      * range chosen by the user.
      * @param bnbs
@@ -170,16 +208,5 @@ public class Map extends AppPanel
             }
         }
     }
-
-    private void setDistrictsIcons(){
-        for (District district : shownDistricts){
-            try {
-                district.setCorrectIcon();
-            }catch(IOException e){
-                System.out.println(e);
-            }
-        }
-    }
-
 
 }
