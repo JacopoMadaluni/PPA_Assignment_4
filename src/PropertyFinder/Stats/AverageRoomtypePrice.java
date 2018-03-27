@@ -3,11 +3,19 @@ package PropertyFinder.Stats;
 import PropertyFinder.*;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+
+/**
+ * This class draws a statistics panel with the average price per
+ * room type.
+ * @author Jacopo Madaluni 1737569
+ */
 public class AverageRoomtypePrice extends BarChart {
 
     private List<AirbnbListing> bnbToShow;
