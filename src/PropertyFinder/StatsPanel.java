@@ -70,7 +70,7 @@ public class StatsPanel extends AppPanel {
         //pricies neighbourhood
         PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
 
-        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per PropertyFinder.Map.District",listings,lowPrice,highPrice);
+        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per District",listings,lowPrice,highPrice);
 
         // average price per room type
         AverageRoomtypePrice roomtypePrice = new AverageRoomtypePrice("Average price per room type", listings, lowPrice, highPrice);
