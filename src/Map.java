@@ -10,7 +10,7 @@ import javax.swing.*;
  * This class represents the London districts map.
  * !!! Resources not yet uploaded. This class is still working on local resources !!!
  *
- * @author Jacopo Madaluni and Alvaro Rausell
+ * @author Jacopo Madaluni 1737569
  * @version 14-03-2018
  */
 public class Map extends AppPanel
@@ -22,6 +22,7 @@ public class Map extends AppPanel
     private List<District> shownDistricts;
     private List<AirbnbListing> shownBnbs;
     private JButton iconModeButton;
+    private JLabel mode;
 
     public Map(String title, List<AirbnbListing> bnbs, int lowPrice, int maxPrice) {
         super(title, bnbs, lowPrice, maxPrice);
@@ -51,22 +52,28 @@ public class Map extends AppPanel
         }catch(IOException ex){
             System.out.println(ex);
         }
+
+        mode = new JLabel("Currently scaling the images");
+        mode.setFont(new Font(mode.getName(), Font.PLAIN, 18));
+        mode.setBounds(170,15, 1000,20);
+
+        add(mode);
     }
     private void createButton(){
         iconModeButton = new JButton();
-        iconModeButton.setBounds(0,0,100,30);
+        iconModeButton.setBounds(0,0,150,30);
         iconModeButton.setLocation(10,10);
-        iconModeButton.setText("Mode 1");
+        iconModeButton.setText("Change mode");
         iconModeButton.addActionListener(e -> changeMode());
         add(iconModeButton);
     }
     private void changeMode(){
         if (District.getMode() == true){
             District.setScaleMode();
-            iconModeButton.setText("Mode 2");
+            mode.setText("Currently scaling the images");
         }else{
             District.setLogMode();
-            iconModeButton.setText("Mode 1");
+            mode.setText("Currently choosing icons from resources");
         }
         setDistrictsIcons();
     }

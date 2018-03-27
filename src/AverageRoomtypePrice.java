@@ -7,6 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+
+/**
+ * This class draws a statistics panel with the average price per
+ * room type.
+ * @author Jacopo Madaluni 1737569
+ */
 public class AverageRoomtypePrice extends BarChart{
 
     private List<AirbnbListing> bnbToShow;
