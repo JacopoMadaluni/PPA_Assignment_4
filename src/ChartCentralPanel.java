@@ -3,7 +3,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +11,13 @@ import java.util.List;
  * A special panel to be inserted in a StatsSubPanel.
  * It contains a statistic result calculated from the dataset it's given.
  * @author Danilo Del Busso
- * @version 21.03.2018
+ * @version 25.03.2018
  */
 public abstract class ChartCentralPanel extends AppPanel {
-    protected String lowBound;
-    protected String mediumLowBound;
-    protected String mediumHighBound;
-    protected String highBound;
+    private String lowBound;
+    private String mediumLowBound;
+    private String mediumHighBound;
+    private String highBound;
 
     /**
      *  Create a new Central Panel to be displayed in the StatsSubPanel.
@@ -32,7 +31,6 @@ public abstract class ChartCentralPanel extends AppPanel {
     public ChartCentralPanel(String title, List<AirbnbListing> listings, int lowPrice, int highPrice) {
         super(title, listings, lowPrice, highPrice);
         setLayout(new BorderLayout());
-        initialiseExponentialBounds();
         createChart(title);
         setVisible(true);
     }
@@ -40,12 +38,12 @@ public abstract class ChartCentralPanel extends AppPanel {
     /**
      * Creates box at the bottom of the panel showing some information
      */
-    protected void createBottomBox(){
+    void createBottomBox(){
         JTextArea total = new JTextArea ();
         total.setEditable(false);
         //retrieve text from subclass
         total.setText(getBottomText());
-        total.setFont(new Font("Arial", Font.BOLD, 20));
+        total.setFont(new Font("Arial", Font.BOLD, 10));
         add(total, BorderLayout.SOUTH);
     }
 
@@ -74,14 +72,26 @@ public abstract class ChartCentralPanel extends AppPanel {
     }
 
     /**
+     * Initialise bound values for graphs. Divide them in 4 categories using
+     * natural exponential function
+     */
+    protected void initialiseLinearBounds(){
+        lowBound=    lowPrice + "£ to "+ (highPrice/4) +"£";
+        mediumLowBound=   (highPrice/4) +"£ to " +(highPrice/4*2)+"£";
+        mediumHighBound=  (highPrice/4*2)+"£ to " +(highPrice/4*3)+"£";
+        highBound=    (highPrice/4*3)+"£ to " +highPrice +"£";
+    }
+
+    /**
      * Calculate total number of listings in given price range from a given
      * dataset of listings
      * @param listings the dataset used for calculation
      * @param lowPrice the lower bound of the price range
      * @param highPrice the upper bound of the price range
-     * @return
+     * @return Return the total number of listings in given price range from a given
+     * dataset of listings
      */
-    protected Double getTotFromData(List<AirbnbListing> listings, double lowPrice, double highPrice) throws Exception {
+    protected Double getTotFromData(List<AirbnbListing> listings, double lowPrice, double highPrice){
         Double sum = 0.0;
         for(AirbnbListing listing : listings){
             if(listing.getPrice() <= highPrice && listing.getPrice() >= lowPrice){
@@ -89,54 +99,6 @@ public abstract class ChartCentralPanel extends AppPanel {
             }
         }
         return sum;
-    }
-
-    /**
-     * Calculate the max value of a column from the listings.
-     * @param listings the dataset used for calculation
-     * @param lowPrice the lower bound of the price range
-     * @param highPrice the upper bound of the price range
-     * @param column the column name used as filter for calculation. It has to be a column containing numerical values
-     * @return the max value of a column from the listings.
-     */
-    protected double getMaxFromData(List<AirbnbListing> listings, int lowPrice, int highPrice, String column) throws Exception {
-        double currentValue = 0;
-        for(AirbnbListing listing : listings){
-            if(listing.getPrice()<= highPrice && listing.getPrice() >= lowPrice){
-                if(column.equals("review_score")){
-                    //TODO ask kolling pls
-                }
-                else if(column.equals("price")){
-                    if(listing.getPrice()>currentValue){
-                        currentValue = listing.getPrice();
-                    }
-                }
-                else if(column.equals("minimum_nights")){
-                    if(listing.getMinimumNights()>currentValue){
-                        currentValue = listing.getMinimumNights();
-                    }
-                }
-                }
-                else if(column.equals("number_of_review")){
-                    if(listing.getNumberOfReviews()>currentValue){
-                        currentValue = listing.getNumberOfReviews();
-                    }
-                }
-                else if(column.equals("review_per_month")){
-                    if(listing.getReviewsPerMonth()>currentValue){
-                        currentValue = listing.getReviewsPerMonth();
-                    }
-                }
-                else if(column.equals("availability_365")){
-                    if(listing.getAvailability365()>currentValue){
-                        currentValue = listing.getAvailability365();
-                    }
-                }
-                else{
-                    throw new Exception("The column does not contain values that can return a max. Not numerical.");
-                }
-        }
-        return currentValue;
     }
 
     /**
@@ -152,26 +114,27 @@ public abstract class ChartCentralPanel extends AppPanel {
         double avg = 0;
         for(AirbnbListing listing: listings){
             if(listing.getPrice()<= highPrice && listing.getPrice() >= lowPrice){
-                if(column.equals("review_score")){
-                    //TODO ask kolling pls
-                }
-                else if(column.equals("price")){
-                    sum+=listing.getPrice();
-                }
-                else if(column.equals("minimum_nights")){
-                    sum+=listing.getMinimumNights();
-                }
-                else if(column.equals("number_of_review")){
-                    sum+=listing.getNumberOfReviews();
-                }
-                else if(column.equals("review_per_month")){
-                    sum+=listing.getReviewsPerMonth();
-                }
-                else if(column.equals("availability_365")){
-                    sum+=listing.getAvailability365();
-                }
-                else{
-                    throw new Exception("The column does not contain values that can return an average. Not numerical.");
+                switch (column) {
+                    case "review_score":
+                        //TODO ask kolling pls
+                        break;
+                    case "price":
+                        sum += listing.getPrice();
+                        break;
+                    case "minimum_nights":
+                        sum += listing.getMinimumNights();
+                        break;
+                    case "number_of_review":
+                        sum += listing.getNumberOfReviews();
+                        break;
+                    case "review_per_month":
+                        sum += listing.getReviewsPerMonth();
+                        break;
+                    case "availability_365":
+                        sum += listing.getAvailability365();
+                        break;
+                    default:
+                        throw new Exception("The column does not contain values that can return an average. Not numerical.");
                 }
             }
         }
@@ -229,7 +192,7 @@ public abstract class ChartCentralPanel extends AppPanel {
 
     /**
      * Return an arraylist containing all the neighbourhoods
-     * @return
+     * @return an arraylist containing all the neighbourhoods
      */
     protected ArrayList<String> getAllNeighbourhoods(){
         ArrayList<String> nbr = new ArrayList<>();
@@ -244,7 +207,7 @@ public abstract class ChartCentralPanel extends AppPanel {
     /**
      * Initialise and create the chart
      */
-    protected void createChart(String title){
+    private void createChart(String title){
         ChartPanel chartPanel = new ChartPanel(getChart(title));
         add(chartPanel, BorderLayout.CENTER);
     }
@@ -268,4 +231,33 @@ public abstract class ChartCentralPanel extends AppPanel {
      * @return the text to be displayed at the bottom of the central panel
      */
     public abstract String getBottomText();
+
+    /**
+     * Return the lowest bound of price range subdivisions
+     * @return the lowest bound of price range subdivisions
+     */
+    protected String getLowBound() {
+        return lowBound;
+    }
+    /**
+     * Return the medium-low bound of price range subdivisions
+     * @return the medium-low lowest bound of price range subdivisions
+     */
+    protected String getMediumLowBound() {
+        return mediumLowBound;
+    }
+    /**
+     * Return the medium-high bound of price range subdivisions
+     * @return the medium-high bound of price range subdivisions
+     */
+    protected String getMediumHighBound() {
+        return mediumHighBound;
+    }
+    /**
+     * Return the highest bound of price range subdivisions
+     * @return the highest bound of price range subdivisions
+     */
+    protected String getHighBound() {
+        return highBound;
+    }
 }

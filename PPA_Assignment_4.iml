@@ -15,5 +15,8 @@
     <orderEntry type="library" name="commons-lang3-3.7" level="project" />
     <orderEntry type="library" name="jfreechart-1.0.19-demo" level="project" />
     <orderEntry type="library" name="jcommon-1.0.23" level="project" />
+    <orderEntry type="library" name="org.apache.commons.httpclient" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="json-20180130" level="project" />
   </component>
 </module>

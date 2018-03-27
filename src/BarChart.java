@@ -2,9 +2,14 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class lays the foundations for the creation of a bar chart. It creates the
+ * chart and initialises the bounds in which its elements are subdivided.
+ * @author Danilo Del Busso
+ * @version 25.03.2018
+ */
 public abstract class BarChart extends ChartCentralPanel {
 
 
@@ -25,15 +30,14 @@ public abstract class BarChart extends ChartCentralPanel {
      */
     @Override
     protected JFreeChart getChart(String title) {
-
-        JFreeChart barChart = ChartFactory.createBarChart(
+        initialiseLinearBounds();
+       return ChartFactory.createBarChart(
                 title,
                 getXLabel(),
                 getYLabel(),
                 (CategoryDataset) createDataset(listings, lowPrice, highPrice),
                 PlotOrientation.VERTICAL,
                 true, true, false);
-        return barChart;
     }
 
     /**
