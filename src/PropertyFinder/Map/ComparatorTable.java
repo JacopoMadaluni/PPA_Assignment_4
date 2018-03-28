@@ -7,17 +7,25 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
+/**
+ * This class creates a table with extended information given a list of
+ * properties.
+ * @author Alvaro Rausell
+ * @version 28/03/2018
+ */
 public class ComparatorTable extends BnbTable {
     public ComparatorTable(List<AirbnbListing> bnbs){
         super(bnbs);
         frame.setVisible(false);
     }
-    public JTable makeTable() throws IOException, URISyntaxException {
-        String [] columns = {"Name","Price","Room type","Reviews","Neighborhood","Crime rate per 1000","Availability per year"};
+    /**
+     * Creates the table with all the information
+     * @return Table
+     */
+    public JTable makeTable(){
+        String [] columns = {"Name","Price","Room type","Reviews","Neighborhood","Crime rate per 1000 citizens","Availability per year"};
         Object[][] data = gatherData(columns);
         JTable table = new JTable(data,columns);
         table.setName(name);
@@ -59,6 +67,12 @@ public class ComparatorTable extends BnbTable {
         table.getRowSorter().toggleSortOrder(0);
         return table;
     }
+
+    /**
+     * Gathers all the information from the AirBnb's
+     * @param columns Columns of the table
+     * @return Data to populate the Table with
+     */
     protected Object [][] gatherData(String[] columns) {
         Object [][] data = new Object[bnbs.size()][columns.length];
         for (int property = 0; property<bnbs.size();property++) {

@@ -1,11 +1,7 @@
 package PropertyFinder;
-import PropertyFinder.Map.BnbTable;
 import PropertyFinder.Map.ComparatorTable;
-
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class Comparator extends AppPanel {
 
