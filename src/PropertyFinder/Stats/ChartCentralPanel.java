@@ -6,8 +6,9 @@ import org.jfree.data.general.Dataset;
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
+
 import PropertyFinder.*;
 
 /**
@@ -46,7 +47,7 @@ public abstract class ChartCentralPanel extends AppPanel {
         total.setEditable(false);
         //retrieve text from subclass
         total.setText(getBottomText());
-        total.setFont(new Font("Arial", Font.BOLD, 10));
+        total.setFont(new Font("Arial", Font.BOLD, 15));
         add(total, BorderLayout.SOUTH);
     }
 
@@ -115,19 +116,18 @@ public abstract class ChartCentralPanel extends AppPanel {
     protected Double getAvgFromData(List<AirbnbListing> listings, double lowPrice, double highPrice, String column) throws Exception {
         int sum = 0;
         double avg = 0;
+        int numberOfProps = 0;
         for(AirbnbListing listing: listings){
             if(listing.getPrice()<= highPrice && listing.getPrice() >= lowPrice){
+                numberOfProps++;
                 switch (column) {
-                    case "review_score":
-                        //TODO ask kolling pls
-                        break;
                     case "price":
                         sum += listing.getPrice();
                         break;
                     case "minimum_nights":
                         sum += listing.getMinimumNights();
                         break;
-                    case "number_of_review":
+                    case "number_of_reviews":
                         sum += listing.getNumberOfReviews();
                         break;
                     case "review_per_month":
@@ -141,8 +141,8 @@ public abstract class ChartCentralPanel extends AppPanel {
                 }
             }
         }
-        if(listings.size() > 0){
-            avg = sum/listings.size();
+        if(numberOfProps > 0){
+            avg = sum/numberOfProps;
         }
         return avg;
 
@@ -205,6 +205,22 @@ public abstract class ChartCentralPanel extends AppPanel {
             }
         }
         return nbr;
+    }
+
+    /**
+     * Returns the borough by its key value in the given hasmap
+     * @param i the position (e.g. 1 is the element with the highest number of listings)
+     * @return the borough by its key value in listingsPerBorough
+     */
+    protected String getBoroughByPosition(int i, HashMap<String, Double> hashMap) {
+        ArrayList<Double> values = new ArrayList<>(hashMap.values());
+        Collections.sort(values);
+        Collections.reverse(values);
+        for (Map.Entry e: hashMap.entrySet()){
+            if (e.getValue() == values.get(i-1))
+                return (String)e.getKey();
+        }
+        return "";
     }
 
     /**
