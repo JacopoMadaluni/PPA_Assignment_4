@@ -1,6 +1,7 @@
 package PropertyFinder.Map;
 
 import PropertyFinder.AirbnbListing;
+import PropertyFinder.MainWindow;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
@@ -80,13 +81,13 @@ public class SinglePropertyView {
         southPanel.add(contentPanel);
 
         //Creates an add/remove to My List button
-        JButton addToList = new JButton(Main.getMyList().contains(bnb)? "Remove from My List": "Add to My List");
+        JButton addToList = new JButton(MainWindow.getMyList().contains(bnb)? "Remove from My List": "Add to My List");
         addToList.addActionListener((e)->{
-            if (Main.getMyList().contains(bnb))
-                Main.getMyList().remove(bnb);
+            if (MainWindow.getMyList().contains(bnb))
+                MainWindow.getMyList().remove(bnb);
             else
-                Main.getMyList().add(bnb);
-            addToList.setText((Main.getMyList().contains(bnb)? "Remove from My List": "Add to My List"));
+                MainWindow.getMyList().add(bnb);
+            addToList.setText((MainWindow.getMyList().contains(bnb)? "Remove from My List": "Add to My List"));
         });
         southPanel.add(addToList,BorderLayout.PAGE_END);
 

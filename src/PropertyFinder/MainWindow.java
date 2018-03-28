@@ -1,15 +1,18 @@
+package PropertyFinder;
+
+import PropertyFinder.Map.Map;
+import com.sun.istack.internal.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Represents the main window of the application.
  *
  * @author Luka Kralj
- * @version 14 March 2018
- *
- * TODO: Test behaviour with actual panels.
+ * @version 27 March 2018
  */
 public class MainWindow {
     private JFrame frame;
@@ -30,12 +33,22 @@ public class MainWindow {
     private JComboBox<Integer> lowPrice; // Lower price boundary.
     private JComboBox<Integer> highPrice; // Upper price boundary.
 
+    // Current size and location of the main window.
+    // For the main window to maintain its location on the screen when the user moves it there.
+    private Dimension currentSize;
+    private Point currentLocation;
+
+    private static ArrayList<AirbnbListing> myList; //List of favorite listings
+
+
     /**
      * Initialise the main window of the application.
      * Load all available properties from the CSV file. All panels will use the list
      * created here to ensure consistency amongst the data displayed.
      */
     public MainWindow() {
+        myList = new ArrayList<>();
+        listings = new ArrayList<>();
         panels = new ArrayList<>();
         currentPanelIndex = 0;
         AirbnbDataLoader loader = new AirbnbDataLoader();
@@ -50,21 +63,36 @@ public class MainWindow {
         JPanel top = createTop();
         pane.add(top, BorderLayout.NORTH);
 
-        // Create the welcome panel and display it.
         panels.add(new WelcomePanel("Welcome", -1, -1));
-        currentPanel = panels.get(0);
+        panels.add(new Map("never displayed", new ArrayList<>(), 0, 0));
+        currentPanel = panels.get(1);
         pane.add(currentPanel, BorderLayout.CENTER);
-
         JPanel bottom = createBottom();
         pane.add(bottom, BorderLayout.SOUTH);
 
-
-        frame.setMinimumSize(new Dimension(500, 200));
         frame.pack();
-        frame.setLocation(getLocation());
+        currentSize = frame.getSize();
+
+        pane.remove(currentPanel);
+        currentPanel = panels.get(0);
+        panels.remove(1);
+        pane.add(currentPanel, BorderLayout.CENTER);
+        frame.repaint();
+
+        frame.pack();
+        frame.setSize(currentSize);
+        currentLocation = getCentralLocation();
+        frame.setLocation(currentLocation);
         frame.setVisible(true);
     }
 
+    /**
+     * Creates list from which the user chooses the price range.
+     * The values are determined by the price of the most expensive property;
+     * values increase by 10% of the maximum value.
+     *
+     * @return List of values to create drop-down lists with.
+     */
     private Integer[] createLists() {
         int maxPrice = 0;
         for (AirbnbListing listing : listings) {
@@ -87,7 +115,7 @@ public class MainWindow {
         list[7] = (maxPrice/10) * 7;
         list[8] = (maxPrice/10) * 8;
         list[9] = (maxPrice/10) * 9;
-        list[10] = maxPrice;
+        list[10] = maxPrice + 100; // To make sure that all the listings will be included.
 
         return list;
     }
@@ -141,7 +169,9 @@ public class MainWindow {
         leftButton = new JButton("<");
         leftButton.addActionListener(e -> {
             currentPanelIndex--;
-            updateCurrentPanel();
+            currentLocation = frame.getLocation();
+            currentSize = frame.getSize();
+            updateCurrentPanel("left");
         });
         leftButton.setEnabled(false);
         leftButton.setPreferredSize(new Dimension(60, 20));
@@ -152,7 +182,9 @@ public class MainWindow {
         rightButton = new JButton(">");
         rightButton.addActionListener(e -> {
             currentPanelIndex++;
-            updateCurrentPanel();
+            currentLocation = frame.getLocation();
+            currentSize = frame.getSize();
+            updateCurrentPanel("right");
         });
         rightButton.setEnabled(false);
         rightButton.setPreferredSize(new Dimension(60, 20));
@@ -210,17 +242,36 @@ public class MainWindow {
 
     /**
      * Displays a new panel according to the current panel index and update buttons accordingly.
+     * If direction is null there is no animation, but the panel is still updated.
+     * @param direction Direction in which we moved.
+     *                  <strong>Valid directions: "left", "right", null.</strong>
      */
-    private void updateCurrentPanel() {
+    private void updateCurrentPanel(@Nullable String direction) {
+        Rectangle original = new Rectangle(currentPanel.getBounds().x, currentPanel.getBounds().y, currentPanel.getBounds().width, currentPanel.getBounds().height);
+        if (direction != null) {
+            AppPanel newPanel = panels.get(currentPanelIndex);
+            Rectangle target = new Rectangle(original.x, original.y, original.width, original.height);
+            Rectangle start;
+            if (direction.equals("right")) {
+                start = new Rectangle(target.x + frame.getWidth(), target.y, target.width, target.height);
+            }
+            else {
+                start = new Rectangle(target.x - frame.getWidth(), target.y, target.width, target.height);
+            }
+            Animation animation = new Animation(newPanel, start, target);
+            animation.run();
+        }
+
         frame.getContentPane().remove(currentPanel);
         currentPanel = panels.get(currentPanelIndex);
         frame.getContentPane().add(currentPanel, BorderLayout.CENTER);
         frame.repaint();
         frame.pack();
-        frame.setLocation(getLocation());
+        frame.setLocation(currentLocation);
+        frame.setSize(currentSize);
+
         updateButtons();
     }
-
 
     /**
      * This method is called when the user selects the lower price boundary in the appropriate
@@ -254,7 +305,10 @@ public class MainWindow {
      * drop-down list. The method executed the loading of data and creates the main app panels
      * with appropriate parameters.
      */
-    private void highPriceClicked() {
+    public void highPriceClicked() {
+        currentSize = frame.getSize();
+        currentLocation = frame.getLocation();
+
         if (lowPrice.getSelectedItem() == null || highPrice.getSelectedItem() == null) {
             return;
         }
@@ -270,18 +324,19 @@ public class MainWindow {
         try {
             panels.add(new StatsPanel((ArrayList<AirbnbListing>)listings, chosenLow, chosenHigh, 4));
         } catch (Exception e) {
-            System.out.println("Stats exception");
+            System.out.println("Stats exception.");
         }
-        setNewDimensions(1);
-        updateCurrentPanel();
+        panels.add(new Comparator(this));
+        updateCurrentPanel(null);
     }
 
     /**
-     * Determines the new position of the main window on screen according to the frame and screen size.
+     * Determines the new position of the main window on screen according to the frame and screen size
+     * so that the window is displayed in the middle of the screen.
      *
      * @return Point of where the top left corner of the window will be.
      */
-    private Point getLocation() {
+    private Point getCentralLocation() {
         int height = frame.getHeight();
         int width = frame.getWidth();
         int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -292,19 +347,7 @@ public class MainWindow {
 
         return new Point(x, y);
     }
-
-    /**
-     * Set dimensions of all sub panels to the same size. Currently all the panels are set to the size
-     * of the map.
-     *
-     * @param mapIndex Position of Map panel in the list of all panels.
-     */
-    private void setNewDimensions(int mapIndex) {
-        int mapHeight = panels.get(mapIndex).getHeight();
-        int mapWidth = panels.get(mapIndex).getWidth();
-
-        for (AppPanel panel : panels) {
-            panel.setPreferredSize(new Dimension(mapWidth, mapHeight));
-        }
+    public static ArrayList<AirbnbListing> getMyList() {
+        return myList;
     }
 }

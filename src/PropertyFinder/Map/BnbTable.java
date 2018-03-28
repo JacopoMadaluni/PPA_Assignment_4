@@ -6,6 +6,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +16,9 @@ import java.util.List;
  * information about a list of Airbnb's given.
  */
 public class BnbTable {
-    private List<AirbnbListing> bnbs;
-    private JFrame frame;
-    private String name;
+    protected List<AirbnbListing> bnbs;
+    protected JFrame frame;
+    protected String name;
 
     /**
      * Creates a BnbTable object specific to a district
@@ -99,7 +101,7 @@ public class BnbTable {
      * SinglePropertyView specific to an Airbnb
      * @param bnb AirBnb
      */
-    private void showProperty(AirbnbListing bnb){
+    protected void showProperty(AirbnbListing bnb){
         frame.dispose();
         new SinglePropertyView(bnb,this).showProperty();
     }
@@ -109,7 +111,7 @@ public class BnbTable {
      * @param columns Columns of the table
      * @return Data to populate the Table with
      */
-    private Object [][] gatherData(String[] columns){
+    protected Object [][] gatherData(String[] columns) throws IOException, URISyntaxException {
         Object [][] data = new Object[bnbs.size()][columns.length];
         for (int property = 0; property<bnbs.size();property++){
             AirbnbListing bnb = bnbs.get(property);
@@ -123,7 +125,7 @@ public class BnbTable {
      * @param name Name of the property
      * @return Property with the given name
      */
-    private AirbnbListing getPropertyByName(String name){
+    protected AirbnbListing getPropertyByName(String name){
         for (AirbnbListing bnb: bnbs){
             if (bnb.getName().equals(name))
                 return bnb;
