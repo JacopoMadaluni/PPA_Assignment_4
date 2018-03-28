@@ -1,3 +1,6 @@
+package PropertyFinder.Stats;
+
+import PropertyFinder.*;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -13,7 +16,7 @@ import java.util.List;
  * room type.
  * @author Jacopo Madaluni 1737569
  */
-public class AverageRoomtypePrice extends BarChart{
+public class AverageRoomtypePrice extends BarChart {
 
     private List<AirbnbListing> bnbToShow;
     private HashMap<String, Integer> rooms;

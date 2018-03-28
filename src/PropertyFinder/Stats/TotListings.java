@@ -1,3 +1,6 @@
+package PropertyFinder.Stats;
+
+import PropertyFinder.AirbnbListing;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import java.util.ArrayList;

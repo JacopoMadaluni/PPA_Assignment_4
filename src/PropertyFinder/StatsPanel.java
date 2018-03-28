@@ -1,3 +1,12 @@
+package PropertyFinder;
+
+import PropertyFinder.Stats.AverageRoomtypePrice;
+import PropertyFinder.Stats.AvgReviewScore;
+import PropertyFinder.Stats.PriciestNeighbourhood;
+import PropertyFinder.Stats.PropertiesNearby;
+import PropertyFinder.Stats.ReviewsPerDistrict;
+import PropertyFinder.Stats.TotListings;
+
 import java.awt.*;
 import java.util.ArrayList;
 

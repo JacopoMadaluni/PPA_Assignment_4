@@ -1,3 +1,7 @@
+package PropertyFinder.Map;
+
+import PropertyFinder.AirbnbListing;
+import PropertyFinder.AppPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -6,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 /**
  * This class represents the London districts map.
  *
