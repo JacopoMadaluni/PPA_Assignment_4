@@ -33,13 +33,9 @@ public class ReviewsPerDistrict extends BarChart {
         super(title,listings,lowPrice,highPrice);
     }
 
-    @Override
-    public String getTitle() {
-        return "Average Number of Reviews per District";
-    }
 
     public String getXLabel(){
-        return "District";
+        return "Borough";
     }
 
     @Override
@@ -61,7 +57,7 @@ public class ReviewsPerDistrict extends BarChart {
 
         try{
             for (int i = topDistricts; i>0;i--)
-            dataset.addValue(getReviewAvg(i),getDistrictName(i),"");
+            dataset.addValue(getReviewAvg(i),getBoroughByPosition(i, reviewsPerDistrict),"");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -79,26 +75,13 @@ public class ReviewsPerDistrict extends BarChart {
         Collections.reverse(values);
         return values.get(i-1);
     }
-    /**
-     * Gets the name of the District based on an index.
-     * This index represents the order by number of reviews.
-     * @param i position in the number of reviews scale
-     * @return Name of the district at the given position*/
-    private String getDistrictName(int i){
-        ArrayList<Double> values = new ArrayList<>(reviewsPerDistrict.values());
-        Collections.sort(values);
-        Collections.reverse(values);
-        for (Map.Entry e: reviewsPerDistrict.entrySet()){
-            if (e.getValue() == values.get(i-1))
-                return (String)e.getKey();
-        }
-        return "";
-    }
+
 
     @Override
     public String getYLabel() {
         return "Average Number of Reviews";
     }
+
     /**
      * Sets up the collection of district names and average number of reviews
      * @param lowPrice Lower price bound

@@ -66,7 +66,7 @@ public class TotListings extends PieChart {
     @Override
     public String getBottomText() {
         try {
-            return (getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£: "+getTotFromData(listings, lowPrice, highPrice));
+            return (getTitle() + " between " + lowPrice+"£ and "+ highPrice+"£:\n► "+getTotFromData(listings, lowPrice, highPrice));
         } catch (Exception e) {
             e.printStackTrace();
             return "";
