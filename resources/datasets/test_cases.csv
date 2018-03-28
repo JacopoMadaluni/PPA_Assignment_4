@@ -1,0 +1,14 @@
+id,name,host_id,host_name,neighbourhood,latitude,longitude,room_type,price,minimum_nights,number_of_reviews,last_review,reviews_per_month,calculated_host_listings_count,availability_365
+15896822,Double room in newly refurbished flat,69018624,Dafina,Kingston upon Thames,51.41003566,-0.306322953,Private room,23,7,1,03/12/2016,0.32,1,61
+592844, Stunning large room,2926478,Sam,Barnet,51.64777043,-0.199979452,Private room,90,1,0,,,1,365
+8421270,The Rainbow Palace (2s),14378194,Rebecca,Lambeth,51.45928003,-0.118878576,Private room,52,1,0,,,3,365
+8843942,Lovely central one-bedroom flat,2841985,Stefania,Lambeth,51.48888585,-0.118295731,Entire home/apt,93,3,23,05/02/2017,1.41,1,39
+7787338,Central London,15385496,Hilal,Southwark,51.50136603,-0.101517354,Private room,40,5,2,29/05/2016,0.2,3,365
+5916593,Amazing heart of London City stay,30725738,Shane,City of London,51.51071695,-0.093385618,Entire home/apt,139,2,123,02/03/2017,5.5,1,62
+16660131,(PAD)Amazing apartment close to Hyde Park up to 12,78411912,Eniko,Westminster,51.51762713,-0.181169516,Entire home/apt,200,2,0,,,76,100
+7692398,Huge Double Room in a Modern Flat inWest Hampstead,24655367,Fabio Rodrigo,Camden,51.54713061,-0.197735155,Private room,90,5,0,,,1,0
+9589452,Luxury apartment riverside living,4015230,Christopher,Tower Hamlets,51.50213713,-0.024238531,Entire home/apt,95,2,0,,,1,0
+7448101,Converted warehouse flat in Angel,39008449,Arsham,Islington,51.53066223,-0.112870036,Entire home/apt,120,1,12,29/09/2016,1.19,1,0
+16723148,Luxury Apartment in Zone 1,14006467,Okan,Hackney,51.54646772,-0.076050709,Entire home/apt,70,1,12,03/03/2017,9.73,6,62
+7831696,Amazing view flat in East London,3224858,Guillaume,Hackney,51.54581302,-0.074854025,Entire home/apt,103,2,6,22/08/2016,0.36,1,0
+11518841,Large 1 bedroom flat in Hackney,16938017,Hannah,Hackney,51.55207908,-0.046242709,Entire home/apt,65,1,4,01/04/2016,0.33,2,0

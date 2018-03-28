@@ -21,7 +21,7 @@ class MapTest extends GroovyTestCase{
             }
         }
         assert (districtTest.getNumberOfBnbs() == 2);
-        
+
 
 
     }
