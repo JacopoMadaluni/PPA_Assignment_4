@@ -15,7 +15,7 @@ import java.awt.event.ComponentEvent;
  * @version 16 March 2018
  */
 public class WelcomePanel extends AppPanel{
-    public static final Image background = Toolkit.getDefaultToolkit().createImage("resources/icons/bg1.jpeg");
+    private static final Image background = Toolkit.getDefaultToolkit().createImage("resources/icons/bg1.jpeg");
 
     /**
      * Create a welcome panel.
