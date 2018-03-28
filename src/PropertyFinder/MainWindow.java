@@ -59,27 +59,18 @@ public class MainWindow {
         pane.add(top, BorderLayout.NORTH);
 
         panels.add(new WelcomePanel("Welcome", -1, -1));
-        panels.add(new Map("never displayed", new ArrayList<>(), 0, 0));
-        currentPanel = panels.get(1);
+        currentPanel = panels.get(0);
+        currentPanel.setSize(1000, 1000);
         pane.add(currentPanel, BorderLayout.CENTER);
 
         JPanel bottom = createBottom();
         pane.add(bottom, BorderLayout.SOUTH);
-
         frame.pack();
         currentSize = frame.getSize();
-
-        pane.remove(currentPanel);
-        currentPanel = panels.get(0);
-        panels.remove(1);
-        pane.add(currentPanel, BorderLayout.CENTER);
-        frame.repaint();
-
-        frame.pack();
-        frame.setSize(currentSize);
         currentLocation = getCentralLocation();
         frame.setLocation(currentLocation);
         frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     /**
@@ -122,6 +113,7 @@ public class MainWindow {
      */
     private JPanel createTop() {
         JPanel top = new JPanel(new BorderLayout());
+        top.setBackground(Color.WHITE);
 
         JPanel lists = new JPanel(new FlowLayout());
         lowPrice = new JComboBox<>(prices);
@@ -145,9 +137,12 @@ public class MainWindow {
         lists.add(lowPrice);
         lists.add(new JLabel(" To: "));
         lists.add(highPrice);
-
+        lists.setBackground(Color.WHITE);
         top.add(lists, BorderLayout.EAST);
         top.add(new JSeparator(), BorderLayout.SOUTH);
+        JLabel logo = new JLabel(new ImageIcon("resources/icons/top-bar.png"));
+        logo.setSize(new Dimension(logo.getWidth(), 45));
+        top.add(logo, BorderLayout.CENTER);
         return top;
     }
 
@@ -196,7 +191,7 @@ public class MainWindow {
      * side the appropriate button is disabled.
      * If button is enabled there will be a tip text message showing the title of the next panel in that direction.
      */
-    private void updateButtons() {
+    public void updateButtons() {
         if (panels.size() == 1) { // There is only one panel available.
             leftButton.setEnabled(false);
             leftButton.setToolTipText(null);
@@ -254,7 +249,7 @@ public class MainWindow {
             else {
                 start = new Rectangle(target.x - frame.getWidth(), target.y, target.width, target.height);
             }
-            Animation animation = new Animation(newPanel, start, target);
+            Animation animation = new Animation(newPanel, start, target, this);
             animation.run();
         }
 
@@ -341,5 +336,14 @@ public class MainWindow {
         int y = screenHeight/2 - height/2;
 
         return new Point(x, y);
+    }
+
+    /**
+     * Disables both buttons.
+     * Needed in the Animation to prevent panel location inaccuracies.
+     */
+    public void disableButtons() {
+        rightButton.setEnabled(false);
+        leftButton.setEnabled(false);
     }
 }

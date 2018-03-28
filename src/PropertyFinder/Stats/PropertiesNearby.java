@@ -1,5 +1,7 @@
 package PropertyFinder.Stats;
 
+import PropertyFinder.Map.BnbTable;
+import PropertyFinder.Map.District;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.json.JSONException;
@@ -7,6 +9,7 @@ import org.json.JSONObject;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,10 +27,14 @@ import java.util.List;
  * @version 26 March 2018
  */
 public class PropertiesNearby extends AppPanel {
-    private JTextField input;
-    private JTextField range;
-    private JLabel display;
-    private List<AirbnbListing> sortedList;
+    private static final int QUERY_COUNT_LIMIT = 10; // Maximum number of queries.
+
+    private JTextField input; // Address
+    private JTextField range; // Range in miles
+    private JLabel displayInfo; // Number of properties or error message
+    private JButton showResults; // Opens new table with properties, if set
+    private List<AirbnbListing> sortedList; // Only listings within a valid price range.
+    private int queryCounter; // Prevents infinite loop while querying the API.
 
     /**
      * Create a new panel which displays the number of properties in the given range from the given address.
@@ -39,6 +46,7 @@ public class PropertiesNearby extends AppPanel {
     public PropertiesNearby(List<AirbnbListing> listings, int lowPrice, int highPrice) {
         super("Properties near me", listings, lowPrice, highPrice);
         sortedList = getSortedList();
+        queryCounter = 0;
         initialisePanel();
     }
 
@@ -124,16 +132,42 @@ public class PropertiesNearby extends AppPanel {
         inputs.add(searchPanel);
 
         central.add(inputs, BorderLayout.NORTH);
-
-
-        display = new JLabel("No.");
-        central.add(display, BorderLayout.CENTER);
         top.add(central, BorderLayout.CENTER);
-
         add(top, BorderLayout.NORTH);
 
+        JPanel results = new JPanel(new BorderLayout());
+        results.setOpaque(false);
 
+        JPanel topInfo = new JPanel(new BorderLayout());
+        topInfo.setOpaque(false);
+        JPanel infoLabel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        infoLabel.setOpaque(false);
+        displayInfo = new JLabel();
+        displayInfo.setText("<html><p style=\"text-align: center;\">" +
+                "<font size=\"3\" color=\"gray\"><i>" +
+                "Please enter an your address <br>and preferred range above.</i></font>" +
+                "</p></html>");
+        infoLabel.add(displayInfo);
+        topInfo.add(infoLabel, BorderLayout.CENTER);
+        results.add(topInfo, BorderLayout.NORTH);
 
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(panel.getWidth(), 10)));
+
+        JPanel button = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        button.setOpaque(false);
+        showResults = new JButton("Show results");
+        showResults.setVisible(false);
+        showResults.setEnabled(false);
+        button.add(showResults);
+        panel.add(button);
+        panel.add(Box.createRigidArea(new Dimension(panel.getWidth(), 20)));
+
+        results.add(panel, BorderLayout.CENTER);
+
+        add(results, BorderLayout.CENTER);
     }
 
     /**
@@ -228,7 +262,7 @@ public class PropertiesNearby extends AppPanel {
 
         try {
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
+                //System.out.println(output);
                 jsonString += output.trim();
             }
         }
@@ -244,71 +278,102 @@ public class PropertiesNearby extends AppPanel {
     /**
      * Gets latitude and longitude for the address that user entered and displays the correct info.
      *
-     * TODO: Add message according to the "status" of the response.
      *
      * @param jsonString Response from the API as Json string.
      * @param rangeInMiles Distance from address which the user wants statistics for.
      */
     private void displayLocation(String jsonString, double rangeInMiles) {
-        double lat = 0;
-        double lng = 0;
-        boolean locationFound;
-        try {
-            lat = getLocationComponent(jsonString, "lat");
-            lng = getLocationComponent(jsonString, "lng");
-            locationFound = true;
-        }
-        catch (JSONException e) {
-            e.getMessage();
-            locationFound = false;
-        }
+        JSONObject object = new JSONObject(jsonString);
+        String status = (String) object.get("status");
+        System.out.println(status);
 
-        if (locationFound) {
-            setDisplay(lat, lng, rangeInMiles);
+
+        if (status.equals("OK")) {
+            try {
+                JSONObject location = object.getJSONArray("results").getJSONObject(0).getJSONObject("geometry")
+                        .getJSONObject("location");
+                double lat = (double) location.get("lat");
+                double lng = (double) location.get("lng");
+
+                String address = (String) object.getJSONArray("results").getJSONObject(0).get("formatted_address");
+                setDisplayInfo(lat, lng, rangeInMiles, address);
+            }
+            catch (JSONException e) {
+                displayInfo.setText("<html><p style=\"text-align: center;\">" +
+                        "<font size=\"3\" color=\"gray\"><i>" +
+                        "Sorry, an error occurred while obtaining your location.<br>Please, try again.</i></font>" +
+                        "</p></html>");
+            }
+            queryCounter = 0;
+        }
+        else if (status.equals("OVER_QUERY_LIMIT") && queryCounter <= QUERY_COUNT_LIMIT) {
+            queryCounter++;
+            searchClicked();
+        }
+        else if (status.equals("ZERO_RESULTS")) {
+            displayInfo.setText("<html><p style=\"text-align: center;\">" +
+                    "<font size=\"3\" color=\"gray\"><i>" +
+                    "Sorry, we couldn't find that address.<br>Please, try again.</i></font>" +
+                    "</p></html>");
+            queryCounter = 0;
         }
         else {
-            // Some error occurred when parsing the data.
-            // Sometimes resolved when clicking the search button again.
-            display.setText("<html><p style=\"text-align: center;\">" +
+            // Some other error occurred when parsing the data.
+            displayInfo.setText("<html><p style=\"text-align: center;\">" +
                     "<font size=\"3\" color=\"gray\"><i>" +
                     "Sorry, an error occurred while obtaining your location.<br>Please, try again.</i></font>" +
                     "</p></html>");
+            queryCounter = 0;
         }
 
-
-    }
-
-    /**
-     * Reads json string and returns the right location component, e.g. latitude or longitude.
-     *
-     * @param jsonString Response from the API as Json string.
-     * @param key Location component, either "lat" or "lng", for latitude or longitude, respectively.
-     * @return The value of the selected component.
-     * @throws JSONException The exception is thrown if the results array is empty, or any other key is missing.
-     */
-    private double getLocationComponent(String jsonString, String key) throws JSONException {
-        JSONObject object = new JSONObject(jsonString);
-        return (double) object.getJSONArray("results").getJSONObject(0).getJSONObject("geometry")
-                .getJSONObject("location").get(key);
     }
 
     /**
      * Displays the number of properties that are within the specified range
      * from the address that the user entered.
+     * Updates the button that shows all the properties in the given range.
+     * If there are no properties the button is disabled.
      *
      * @param lat Latitude of the address.
      * @param lng Longitude of the address.
      * @param rangeInMiles Distance in miles.
      */
-    private void setDisplay(double lat, double lng, double rangeInMiles) {
-        int counter = 0;
+    private void setDisplayInfo(double lat, double lng, double rangeInMiles, String formattedAddres) {
+        ArrayList<AirbnbListing> bnbs = new ArrayList<>();
         for (AirbnbListing listing : sortedList) {
             double distance = calculateDistance(lat, lng, listing.getLatitude(), listing.getLongitude());
             if (distance < rangeInMiles) {
-                counter++;
+                bnbs.add(listing);
             }
         }
-        display.setText("There are " + counter + " properties near you.");
+
+        displayInfo.setText("<html>Showing results for: <br>" +
+                "<i>" + formattedAddres + "</i><br>" +
+                "There are " + bnbs.size() + " properties near you." +
+                "</html>");
+
+        if (bnbs.size() > 0) {
+            showResults.setVisible(true);
+            showResults.setEnabled(true);
+            for (ActionListener al : showResults.getActionListeners()){
+                showResults.removeActionListener(al);
+            }
+            showResults.addActionListener(e -> {
+                District district = new District("my range", 0, 0);
+                for (AirbnbListing bnb : bnbs) {
+                    district.addBnb(bnb);
+                }
+                new BnbTable(district);
+            });
+        }
+        else {
+            showResults.setVisible(false);
+            showResults.setEnabled(false);
+            for (ActionListener al : showResults.getActionListeners()){
+                showResults.removeActionListener(al);
+            }
+        }
+        revalidate();
     }
 
     /**
