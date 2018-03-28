@@ -91,7 +91,10 @@ public class MainWindow {
             @Override
             public void mouseEntered(MouseEvent e) {
                 currentPanel.repaint();
-
+            }
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mouseEntered(e);
             }
         });
     }
