@@ -4,6 +4,7 @@ import PropertyFinder.Map.Map;
 import com.sun.istack.internal.Nullable;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,18 +60,36 @@ public class MainWindow {
         pane.add(top, BorderLayout.NORTH);
 
         panels.add(new WelcomePanel("Welcome", -1, -1));
-        currentPanel = panels.get(0);
-        currentPanel.setSize(1000, 1000);
+        panels.add(new Map("never displayed", new ArrayList<>(), 0, 0));
+        currentPanel = panels.get(1);
         pane.add(currentPanel, BorderLayout.CENTER);
 
         JPanel bottom = createBottom();
         pane.add(bottom, BorderLayout.SOUTH);
+
         frame.pack();
         currentSize = frame.getSize();
+
+        pane.remove(currentPanel);
+        currentPanel = panels.get(0);
+        panels.remove(1);
+        pane.add(currentPanel, BorderLayout.CENTER);
+        frame.repaint();
+
+        frame.pack();
+        frame.setSize(currentSize);
         currentLocation = getCentralLocation();
         frame.setLocation(currentLocation);
         frame.setVisible(true);
         frame.setResizable(false);
+
+        frame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                currentPanel.repaint();
+
+            }
+        });
     }
 
     /**
@@ -123,7 +142,7 @@ public class MainWindow {
         lowPrice.setFocusable(false);
         lowPrice.addActionListener(e -> lowPriceClicked());
         lowPrice.setSelectedIndex(-1);
-        //lowPrice.setBorder(new LineBorder(new Color(62, 196, 248), 1, true)); // TODO: useful if the whole JComboBox has round corners and different arrow (define separate class?)
+
         highPrice = new JComboBox<>(prices);
         highPrice.setPreferredSize(new Dimension(70, 30));
         highPrice.setOpaque(true);
