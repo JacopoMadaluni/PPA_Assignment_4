@@ -111,7 +111,7 @@ public class BnbTable {
      * @param columns Columns of the table
      * @return Data to populate the Table with
      */
-    protected Object [][] gatherData(String[] columns) throws IOException, URISyntaxException {
+    protected Object [][] gatherData(String[] columns){
         Object [][] data = new Object[bnbs.size()][columns.length];
         for (int property = 0; property<bnbs.size();property++){
             AirbnbListing bnb = bnbs.get(property);

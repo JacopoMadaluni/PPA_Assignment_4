@@ -2,7 +2,6 @@ package PropertyFinder.Map;
 
 import PropertyFinder.AirbnbListing;
 import PropertyFinder.CriminalInfoLoader;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -10,10 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ComparatorTable extends BnbTable {
-    public ComparatorTable(ArrayList<AirbnbListing> bnbs){
+    public ComparatorTable(List<AirbnbListing> bnbs){
         super(bnbs);
         frame.setVisible(false);
     }
@@ -60,11 +59,13 @@ public class ComparatorTable extends BnbTable {
         table.getRowSorter().toggleSortOrder(0);
         return table;
     }
-    protected Object [][] gatherData(String[] columns) throws IOException, URISyntaxException {
+    protected Object [][] gatherData(String[] columns) {
         Object [][] data = new Object[bnbs.size()][columns.length];
-        for (int property = 0; property<bnbs.size();property++){
+        for (int property = 0; property<bnbs.size();property++) {
             AirbnbListing bnb = bnbs.get(property);
-            data[property] = new Object[]{bnb.getName(),bnb.getPrice(),bnb.getRoom_type(),bnb.getNumberOfReviews(),bnb.getNeighbourhood(), CriminalInfoLoader.getBoroughCrimeRate(bnb.getNeighbourhood()),bnb.getAvailability365()};
+            try {
+                data[property] = new Object[]{bnb.getName(), bnb.getPrice(), bnb.getRoom_type(), bnb.getNumberOfReviews(), bnb.getNeighbourhood(), CriminalInfoLoader.getBoroughCrimeRate(bnb.getNeighbourhood()), bnb.getAvailability365()};
+            } catch (Exception e){}
         }
         return data;
     }

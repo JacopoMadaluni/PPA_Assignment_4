@@ -1,7 +1,11 @@
 package PropertyFinder;
 import PropertyFinder.Map.BnbTable;
+import PropertyFinder.Map.ComparatorTable;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Comparator extends AppPanel {
 
@@ -10,12 +14,6 @@ public class Comparator extends AppPanel {
         listings = mainWindow.getMyList();
         JLabel status = new JLabel(listings.isEmpty()? "No properties in My List, please add them in the" +
                 " single property view or, if you have done so already, press the 'refresh button'":"You have "+listings.size()+(listings.size() > 1?" properties":" property"));
-        JButton viewList = new JButton("View List");
-        viewList.setEnabled(!listings.isEmpty());
-        viewList.addActionListener((e)->{
-            BnbTable table = new BnbTable(listings);
-            table.displayBnbList();
-        });
         JButton refresh = new JButton("Refresh");
         refresh.addActionListener((e)->{
             System.out.println("Done");
@@ -24,15 +22,24 @@ public class Comparator extends AppPanel {
         JButton compare = new JButton("Compare properties");
         compare.setVisible(!listings.isEmpty());
         compare.addActionListener((e)->{
-            setLabels();
+            try {
+                JScrollPane comparison = new JScrollPane(new ComparatorTable(listings).makeTable());
+                add(comparison);
+                compare.setVisible(false);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
         });
-        add(refresh,BorderLayout.AFTER_LAST_LINE);
-        add(status);
-        add(viewList);
+        setLayout(new BorderLayout());
+        compare.setSize(100,25);
+        JPanel buttons = new JPanel();
+        buttons.add(compare);
+        buttons.add(refresh);
+        add(buttons,BorderLayout.AFTER_LAST_LINE);
+        add(status,BorderLayout.PAGE_START);
     }
 
-    public void setLabels(){
-        String [] messages = {"The cheaptest property is: ",""};
-    }
+
 
 }
