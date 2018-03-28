@@ -38,12 +38,17 @@ public class MainWindow {
     private Dimension currentSize;
     private Point currentLocation;
 
+    private static ArrayList<AirbnbListing> myList; //List of favorite listings
+
+
     /**
      * Initialise the main window of the application.
      * Load all available properties from the CSV file. All panels will use the list
      * created here to ensure consistency amongst the data displayed.
      */
     public MainWindow() {
+        myList = new ArrayList<>();
+        listings = new ArrayList<>();
         panels = new ArrayList<>();
         currentPanelIndex = 0;
         AirbnbDataLoader loader = new AirbnbDataLoader();
@@ -62,7 +67,6 @@ public class MainWindow {
         currentPanel = panels.get(0);
         currentPanel.setSize(1000, 1000);
         pane.add(currentPanel, BorderLayout.CENTER);
-
         JPanel bottom = createBottom();
         pane.add(bottom, BorderLayout.SOUTH);
         frame.pack();
@@ -296,7 +300,7 @@ public class MainWindow {
      * drop-down list. The method executed the loading of data and creates the main app panels
      * with appropriate parameters.
      */
-    private void highPriceClicked() {
+    public void highPriceClicked() {
         currentSize = frame.getSize();
         currentLocation = frame.getLocation();
 
@@ -317,6 +321,7 @@ public class MainWindow {
         } catch (Exception e) {
             System.out.println("Stats exception.");
         }
+        panels.add(new Comparator(this));
         updateCurrentPanel(null);
     }
 
@@ -336,6 +341,9 @@ public class MainWindow {
         int y = screenHeight/2 - height/2;
 
         return new Point(x, y);
+    }
+    public static ArrayList<AirbnbListing> getMyList() {
+        return myList;
     }
 
     /**
