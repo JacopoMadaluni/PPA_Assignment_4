@@ -148,6 +148,11 @@ public class MainWindow {
 
         top.add(lists, BorderLayout.EAST);
         top.add(new JSeparator(), BorderLayout.SOUTH);
+
+        JLabel logo = new JLabel(new ImageIcon("resources/icons/small-airbnb-logo.png"));
+        logo.setSize(new Dimension(100, 50));
+        top.add(logo, BorderLayout.WEST);
+
         return top;
     }
 

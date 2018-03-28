@@ -9,8 +9,13 @@
 - <b>Moon</b>, <b>cityscape</b>, <b>budget</b>, <b>review</b> and <b>London Underground Sign</b> icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a>.
 <br />
 from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
-</div>
+<br/>
 - <b>AirBnB icon: </b> design by wearedesignstudio (icon found <a href="https://imjustcreative.com/airbnbs-new-logo-design-gets-mobbed/2014/07/17/airbnb-logo-design-by-wearedesignstudio" title="airbnbIcon">here</a>, 22 March 2018)
+<br/>
+- <b>Background image: </b> found <a href="https://www.central-london-apartments.com/blog/london-serviced-apartment-with-a-view/" title="airbnbIcon">here</a>, 28 March 2018)
+
+</div>
+
 <h3>LONDON MAP</h3>
 <div>
 From <a href="https://commons.wikimedia.org/wiki/File:Greater_London,_administrative_divisions_-_de_-_colored.svg" title="link">Wikipedia Commons</a>, the free media repository made

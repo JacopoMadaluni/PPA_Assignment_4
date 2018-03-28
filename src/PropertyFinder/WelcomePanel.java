@@ -13,6 +13,7 @@ import java.awt.*;
  * @version 16 March 2018
  */
 public class WelcomePanel extends AppPanel{
+    private static Image background = Toolkit.getDefaultToolkit().createImage("resources/icons/room-bg.jpg");
 
     /**
      * Create a welcome panel.
@@ -28,8 +29,7 @@ public class WelcomePanel extends AppPanel{
     public WelcomePanel(String title, int lowPrice, int highPrice) {
         super(title, null, lowPrice, highPrice);
 
-        setOpaque(true);
-        setBackground(new Color(214, 219, 223));
+        setOpaque(false);
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 25, 10, 25));
 
@@ -133,5 +133,12 @@ public class WelcomePanel extends AppPanel{
         all.add(bottom);
 
         return all;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.drawImage(background, 0, 0, null);
     }
 }
