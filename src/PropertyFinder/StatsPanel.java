@@ -10,7 +10,7 @@ import PropertyFinder.Stats.TotListings;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**A PropertyFinder.Stats Panel has a number of subpanels in GridLayout that
+/**A Stats Panel has a number of subpanels in GridLayout that
     * show individual central panels with statistics about the listings in
     * the main application.
     * @author Danilo Del Busso, Luka Kralj
@@ -53,7 +53,7 @@ public class StatsPanel extends AppPanel {
 
 
     /**
-     * Inserts the panels that contain different statistics in the PropertyFinder.StatsPanel.
+     * Inserts the panels that contain different statistics in the StatsPanel.
      * These special panels are referred to as "central panels" and contain charts
      * drawing statistics and/or graphs that are inferred from the dataset they're given.
      */
@@ -90,7 +90,7 @@ public class StatsPanel extends AppPanel {
     /**
      * Create Instances of the StatsSubPanels and add
      * them to the statisticsPanels so they can be displayed
-     * @param numberOfPanels the number of "containers" (PropertyFinder.StatsSubPanel) that are shown at any time on screen
+     * @param numberOfPanels the number of "containers" (StatsSubPanel) that are shown at any time on screen
      */
     private void initialiseSubPanels(int numberOfPanels) throws Exception {
         //check if the number of central panels is bigger than the expected number of sub panels that have

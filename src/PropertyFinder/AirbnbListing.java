@@ -147,7 +147,7 @@ public class AirbnbListing {
 
     @Override
     public String toString() {
-        return "PropertyFinder.AirbnbListing{" +
+        return "AirbnbListing{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", host_id='" + host_id + '\'' +

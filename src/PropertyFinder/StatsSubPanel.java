@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 /**
  * This is a special panel contained in the grid layout of
- * the main PropertyFinder.StatsPanel, and it has the function of creating
+ * the main StatsPanel, and it has the function of creating
  * and assigning functionality to the two side buttons as well
  * as holding the central statistic panel.
  * @author Danilo Del Busso, Luka Kralj
@@ -21,10 +21,10 @@ public class StatsSubPanel extends JPanel {
     /**
      * Constructor for PropertyFinder.StatsSubPanel, it creates the two side buttons
      * present in every SubPanel that allow for switching between central panels
-     * and paints an initial central panel via the PropertyFinder.StatsPanel in which it
+     * and paints an initial central panel via the StatsPanel in which it
      * is contained.
      *
-     * @param mainStatsPanel the PropertyFinder.StatsPanel that contains this subpanel
+     * @param mainStatsPanel the StatsPanel that contains this subpanel
      */
     public StatsSubPanel(StatsPanel mainStatsPanel) {
 

@@ -55,7 +55,7 @@ public class District extends JLabel {
     }
 
     /**
-     * Creates a new PropertyFinder.Map.District
+     * Creates a new District
      * @param name The name of the district.
      * @param x The absolute x on the map.
      * @param y The absolute y on the map.
@@ -174,7 +174,7 @@ public class District extends JLabel {
         }
         if (orderedDistricts.size() == 33) {
             // Didnt find the district that should be there
-            System.err.println("Error: PropertyFinder.Map.District not found in the list");
+            System.err.println("Error: District not found in the list");
         }
         return "resources/district_icons/sized_icons/icon_0.png";
     }

@@ -12,10 +12,10 @@ import PropertyFinder.*;
 /**
  * This class creates a bar chart representing the
  * average number of reviews per district. It extends the
- * PropertyFinder.StatsrtyFinder.BarChart class to create the graph.
+ * BarChart class to create the graph.
  * @author Alvaro Rausell
  * @version 22.03.2018*/
-public class ReviewsPerDistrict extends PropertyFinder.Stats.BarChart {
+public class ReviewsPerDistrict extends BarChart {
 
     //Selects te number of neighborhoods to display
     private static final int topDistricts = 5;
@@ -23,8 +23,8 @@ public class ReviewsPerDistrict extends PropertyFinder.Stats.BarChart {
     private HashMap<String,Double> reviewsPerDistrict;
 
     /**
-     * Creates the PropertyFinder.StatsrtyFinder.ReviewsPerDistrict object by calling the constructor
-     * from PropertyFinder.StatsrtyFinder.BarChart.
+     * Creates the ReviewsPerDistrict object by calling the constructor
+     * from BarChart.
      * @param title Title of the graph
      * @param listings Collection of Airbnb's from which to take the data
      * @param lowPrice Minimum price that the properties may cost
@@ -80,7 +80,7 @@ public class ReviewsPerDistrict extends PropertyFinder.Stats.BarChart {
         return values.get(i-1);
     }
     /**
-     * Gets the name of the PropertyFinder.Map.District based on an index.
+     * Gets the name of the District based on an index.
      * This index represents the order by number of reviews.
      * @param i position in the number of reviews scale
      * @return Name of the district at the given position*/

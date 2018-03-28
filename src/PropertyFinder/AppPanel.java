@@ -19,7 +19,7 @@ public abstract class AppPanel extends JPanel{
 
     /**
      * Create a new panel to be displayed in the main window.
-     * The list of all the available properties is created only once in the PropertyFinder.MainWindow class to
+     * The list of all the available properties is created only once in the MainWindow class to
      * ensure all the panels use the same set of data.
      * lowPrice and highPrice determine the price range of the properties the user wants to
      * see statistics about.

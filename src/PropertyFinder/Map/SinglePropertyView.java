@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * PropertyFinder.Map.SinglePropertyView Class. This will display
+ * SinglePropertyView Class. This will display
  * a window showing all the information related to
  * a specific Airbnb as well as an embedded
  * Google Maps application.

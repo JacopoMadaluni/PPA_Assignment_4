@@ -12,7 +12,7 @@ import PropertyFinder.*;
  * @author Danilo Del Busso
  * @version 25.03.2018
  */
-public class AvgReviewScore extends PropertyFinder.Stats.BarChart {
+public class AvgReviewScore extends BarChart {
     /**
      * This Panel shows the average review score of available properties
      *
