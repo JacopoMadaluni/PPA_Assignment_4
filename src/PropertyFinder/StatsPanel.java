@@ -1,3 +1,12 @@
+package PropertyFinder;
+
+import PropertyFinder.Stats.AverageRoomtypePrice;
+import PropertyFinder.Stats.AvgReviewScore;
+import PropertyFinder.Stats.PriciestNeighbourhood;
+import PropertyFinder.Stats.PropertiesNearby;
+import PropertyFinder.Stats.ReviewsPerDistrict;
+import PropertyFinder.Stats.TotListings;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -66,6 +75,7 @@ public class StatsPanel extends AppPanel {
         // average price per room type
         AverageRoomtypePrice roomtypePrice = new AverageRoomtypePrice("Average price per room type", listings, lowPrice, highPrice);
 
+        PropertiesNearby propertiesNearby = new PropertiesNearby(listings, lowPrice, highPrice);
         //add central panels to their subpanels
         centralPanels.add(avgReviewScore);
         centralPanels.add(totAvailableProperties);
@@ -73,7 +83,7 @@ public class StatsPanel extends AppPanel {
         centralPanels.add(priciestNeighbourhood);
         centralPanels.add(reviewsPerDistrict);
         centralPanels.add(roomtypePrice);
-
+        centralPanels.add(propertiesNearby);
     }
 
 

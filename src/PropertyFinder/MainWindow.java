@@ -272,7 +272,6 @@ public class MainWindow {
         } catch (Exception e) {
             System.out.println("Stats exception");
         }
-        panels.add(new Comparator());
         setNewDimensions(1);
         updateCurrentPanel();
     }

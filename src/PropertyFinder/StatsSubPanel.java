@@ -1,3 +1,5 @@
+package PropertyFinder;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +19,7 @@ public class StatsSubPanel extends JPanel {
     private JPanel centralPanel;
 
     /**
-     * Constructor for StatsSubPanel, it creates the two side buttons
+     * Constructor for PropertyFinder.StatsSubPanel, it creates the two side buttons
      * present in every SubPanel that allow for switching between central panels
      * and paints an initial central panel via the StatsPanel in which it
      * is contained.

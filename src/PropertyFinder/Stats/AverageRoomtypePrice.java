@@ -1,3 +1,6 @@
+package PropertyFinder.Stats;
+
+import PropertyFinder.*;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -7,7 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-public class AverageRoomtypePrice extends BarChart{
+
+/**
+ * This class draws a statistics panel with the average price per
+ * room type.
+ * @author Jacopo Madaluni 1737569
+ */
+public class AverageRoomtypePrice extends BarChart {
 
     private List<AirbnbListing> bnbToShow;
     private HashMap<String, Integer> rooms;
@@ -61,6 +70,10 @@ public class AverageRoomtypePrice extends BarChart{
         return dataset;
     }
 
+    /**
+     * Internal method.
+     * @return The list with all the different types of room.
+     */
     private List<String> getRoomTypes(){
         List<String> roomTypes = new ArrayList<>();
         for (AirbnbListing bnb: bnbToShow){
@@ -72,6 +85,10 @@ public class AverageRoomtypePrice extends BarChart{
         return roomTypes;
     }
 
+    /**
+     * Computes the average price for each room type.
+     * Room type and average price are stored in the HashMap rooms Field.
+     */
     private void computeAverages(){
         List<String> roomTypes = getRoomTypes();
         for (String roomType : roomTypes){

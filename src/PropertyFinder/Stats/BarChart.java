@@ -1,8 +1,11 @@
+package PropertyFinder.Stats;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import java.util.List;
+import PropertyFinder.*;
 
 /**
  * This class lays the foundations for the creation of a bar chart. It creates the

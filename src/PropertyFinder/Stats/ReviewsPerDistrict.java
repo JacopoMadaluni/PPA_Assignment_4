@@ -1,3 +1,5 @@
+package PropertyFinder.Stats;
+
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 import java.util.ArrayList;
@@ -5,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import PropertyFinder.*;
 
 /**
  * This class creates a bar chart representing the

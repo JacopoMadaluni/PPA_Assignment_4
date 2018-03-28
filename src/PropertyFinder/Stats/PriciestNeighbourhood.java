@@ -1,7 +1,10 @@
+package PropertyFinder.Stats;
+
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.text.DecimalFormat;
 import java.util.*;
+import PropertyFinder.*;
 
 /**
  * This panel shows the priciest neighbourhoods and their values

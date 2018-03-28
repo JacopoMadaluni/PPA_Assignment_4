@@ -1,4 +1,4 @@
- 
+package PropertyFinder;
 
 /**
  * Represents one listing of a property for rental on Airbnb.

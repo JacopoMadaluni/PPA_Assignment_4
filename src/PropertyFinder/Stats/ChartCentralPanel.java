@@ -1,3 +1,5 @@
+package PropertyFinder.Stats;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
@@ -6,6 +8,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import PropertyFinder.*;
 
 /**
  * A special panel to be inserted in a StatsSubPanel.
@@ -38,7 +41,7 @@ public abstract class ChartCentralPanel extends AppPanel {
     /**
      * Creates box at the bottom of the panel showing some information
      */
-    void createBottomBox(){
+    protected void createBottomBox(){
         JTextArea total = new JTextArea ();
         total.setEditable(false);
         //retrieve text from subclass
