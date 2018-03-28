@@ -3,6 +3,8 @@ package PropertyFinder;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * Represents an initial panel that is already shown at the start of the application.
@@ -13,6 +15,7 @@ import java.awt.*;
  * @version 16 March 2018
  */
 public class WelcomePanel extends AppPanel{
+    private static final Image background = Toolkit.getDefaultToolkit().createImage("resources/icons/bg1.jpeg");
 
     /**
      * Create a welcome panel.
@@ -28,8 +31,7 @@ public class WelcomePanel extends AppPanel{
     public WelcomePanel(String title, int lowPrice, int highPrice) {
         super(title, null, lowPrice, highPrice);
 
-        setOpaque(true);
-        setBackground(new Color(214, 219, 223));
+        setOpaque(false);
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 25, 10, 25));
 
@@ -47,16 +49,31 @@ public class WelcomePanel extends AppPanel{
      *
      * @return Label with some welcome text.
      */
-    private JLabel createWelcomeLabel() {
+    private JPanel createWelcomeLabel() {
         String welcomeText ="<html>" +
-                "<h2 style=\"text-align: center;\"><strong>WELCOME!</strong></h2>" +
                 "<font size=\"4\" color=\"black\">" +
                 "<p style=\"text-align: center;\">This is a London AirBnB property finder that helps you locate the available rooms that are just about right for your budget.</p>" +
                 "<p style=\"text-align: center;\"><br></p>" +
                 "</font>" +
                 "</html>";
 
-        return new JLabel(welcomeText);
+        JLabel text = new JLabel(welcomeText);
+        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        textPanel.setOpaque(false);
+        textPanel.add(text);
+
+        JLabel ribbon = new JLabel(new ImageIcon("resources/icons/welcome.png"));
+        JPanel ribbonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        ribbonPanel.setOpaque(false);
+        ribbonPanel.add(ribbon);
+
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
+        panel.add(ribbonPanel);
+        panel.add(textPanel);
+        return panel;
     }
 
     /**
@@ -122,7 +139,7 @@ public class WelcomePanel extends AppPanel{
 
         JPanel top = new JPanel(new BorderLayout());
         top.setOpaque(false);
-        ImageIcon icon = new ImageIcon("resources/icons/airbnb-logo.png");
+        ImageIcon icon = new ImageIcon("resources/icons/circle-logo.png");
         JLabel image = new JLabel(icon);
         top.add(image, BorderLayout.CENTER);
         all.add(top);
@@ -133,5 +150,12 @@ public class WelcomePanel extends AppPanel{
         all.add(bottom);
 
         return all;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
+        super.paintComponent(g);
+
     }
 }

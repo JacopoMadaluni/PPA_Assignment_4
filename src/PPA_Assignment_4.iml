@@ -20,14 +20,6 @@
     <orderEntry type="library" name="org.apache.commons.httpclient" level="project" />
     <orderEntry type="library" name="commons-codec-1.10" level="project" />
     <orderEntry type="library" name="httpclient-4.5.4" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/groovy-all-2.4.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="javacsv" level="project" />
   </component>
 </module>

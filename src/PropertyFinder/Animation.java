@@ -16,6 +16,7 @@ public class Animation {
     private JPanel panel;
     private Rectangle start;
     private Rectangle target;
+    private MainWindow parent;
 
     private long startTime;
 
@@ -26,10 +27,11 @@ public class Animation {
      * @param start Starting bounds of the panel, panel starts moving from here.
      * @param target Target bound of the panel, panel moves here.
      */
-    public Animation(JPanel panel, Rectangle start, Rectangle target) {
+    public Animation(JPanel panel, Rectangle start, Rectangle target, MainWindow parent) {
         this.panel = panel;
         this.start = start;
         this.target = target;
+        this.parent = parent;
     }
 
     /**
@@ -38,10 +40,12 @@ public class Animation {
     public void run() {
         // The lower the delay the smoother the animation is.
         Timer timer = new Timer(0, e -> {
+                parent.disableButtons();
                 long duration = System.currentTimeMillis() - startTime;
                 double progress = (double)duration / (double)RUN_TIME;
                 if (progress > 1f) {
                     progress = 1f;
+                    parent.updateButtons();
                     ((Timer)e.getSource()).stop();
                 }
                 Rectangle newBounds = newBounds(start, target, progress);
@@ -114,7 +118,5 @@ public class Animation {
 
         return value;
     }
-
-
 }
 

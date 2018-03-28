@@ -1,12 +1,5 @@
 package PropertyFinder;
-
-import PropertyFinder.Stats.AverageRoomtypePrice;
-import PropertyFinder.Stats.AvgReviewScore;
-import PropertyFinder.Stats.PriciestNeighbourhood;
-import PropertyFinder.Stats.PropertiesNearby;
-import PropertyFinder.Stats.ReviewsPerDistrict;
-import PropertyFinder.Stats.TotListings;
-
+import PropertyFinder.Stats.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -59,7 +52,7 @@ public class StatsPanel extends AppPanel {
      */
     private void initialiseCentralPanels(){
         //average review score of all listings
-        AvgReviewScore avgReviewScore = new AvgReviewScore("Average Review Score", listings, lowPrice, highPrice);
+        AvgReviewsPerProperty avgReviewsPerProperty = new AvgReviewsPerProperty("Average Number of Reviews Per Property Per Price Range", listings, lowPrice, highPrice);
 
         //total number of properties
         TotListings totAvailableProperties = new TotListings(
@@ -70,20 +63,27 @@ public class StatsPanel extends AppPanel {
         //pricies neighbourhood
         PriciestNeighbourhood priciestNeighbourhood = new PriciestNeighbourhood("Priciest Neighbourhood", listings, lowPrice, highPrice);
 
-        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per District",listings,lowPrice,highPrice);
+        ReviewsPerDistrict reviewsPerDistrict = new ReviewsPerDistrict("Average Number of Reviews per Borough",listings,lowPrice,highPrice);
 
         // average price per room type
         AverageRoomtypePrice roomtypePrice = new AverageRoomtypePrice("Average price per room type", listings, lowPrice, highPrice);
 
+        //nearby properties
         PropertiesNearby propertiesNearby = new PropertiesNearby(listings, lowPrice, highPrice);
+
+        //number of listings in top 5 boroughs
+        PropertiesPerBorough propertiesPerBorough = new PropertiesPerBorough("Number Of Properties Per Borough", listings, lowPrice, highPrice);
+
+
         //add central panels to their subpanels
-        centralPanels.add(avgReviewScore);
+        centralPanels.add(avgReviewsPerProperty);
         centralPanels.add(totAvailableProperties);
         centralPanels.add(totEntireHomeOrApts);
         centralPanels.add(priciestNeighbourhood);
         centralPanels.add(reviewsPerDistrict);
         centralPanels.add(roomtypePrice);
         centralPanels.add(propertiesNearby);
+        centralPanels.add(propertiesPerBorough);
     }
 
 
