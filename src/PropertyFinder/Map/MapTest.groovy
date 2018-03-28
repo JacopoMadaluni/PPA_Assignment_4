@@ -1,4 +1,7 @@
 package PropertyFinder.Map
 
-class MapTest extends GroovyTestCase {
+class MapTest extends GroovyTestCase{
+    void testMap() {
+    }
+    
 }
