@@ -54,6 +54,7 @@ public class Map extends AppPanel
         setPreferredSize(new Dimension(prefW, prefH));
     }
 
+
     /**
      * Internal method that creates the actual map.
      */

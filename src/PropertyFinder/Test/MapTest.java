@@ -1,43 +1,38 @@
-package PropertyFinder.Test
-
-import org.junit.Assert
-
-import javax.swing.ImageIcon
+package PropertyFinder.Test;
 
 import static org.junit.Assert.*;
-import PropertyFinder.AirbnbListing
-import PropertyFinder.Map.District
+import PropertyFinder.AirbnbListing;
+import PropertyFinder.Map.District;
 import PropertyFinder.Map.Map;
-import com.opencsv.CSVReader
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import com.opencsv.CSVReader;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Test class for the Map and the District system.
- * Classes being tested: Map, District.
- * @author Jacopo Madaluni K1763985
- * @version 29-03-2018
- */
-class MapTest{
-
-
+public class MapTest {
     private List<AirbnbListing> bnbs;
     AirbnbListing bnb1 = new AirbnbListing("15896822","Double room in newly refurbished flat",
-                                            "69018624","Dafina","Kingston upon Thames", 51.9,
-                                            Double.parseDouble("-0.3"),
-                                            "Private room",23,7,
-                                            1,
-                                            "03/12/2016",0.32,1,
-                                            61);
+            "69018624","Dafina","Kingston upon Thames", 51.9,
+            Double.parseDouble("-0.3"),
+            "Private room",23,7,
+            1,
+            "03/12/2016",0.32,1,
+            61);
     @Before
-    void setUp() {
+    public void setUp() {
         bnbs = loadTests();
     }
 
     @After
-    void tearDown() {
+    public void tearDown() {
     }
 
     /**
@@ -45,7 +40,7 @@ class MapTest{
      * If this test passes then all possible tests have been passed.
      */
     @Test
-    void testAll(){
+    public void testAll() throws IOException {
         testMap();
         testDistrict();
     }
@@ -54,7 +49,7 @@ class MapTest{
      * This test executes all the test cases for the Map class.
      */
     @Test
-    void testMap(){
+    public void testMap(){
         testLoad();
         testMapAddEmptyDistrict();
     }
@@ -63,7 +58,7 @@ class MapTest{
      * This test executes all the test cases for the District class.
      */
     @Test
-    void testDistrict(){
+    public void testDistrict() throws IOException {
         testAdd();
         testIcon();
         testSorting();
@@ -74,7 +69,7 @@ class MapTest{
      * Test for the loading system & price fetching of the properties.
      */
     @Test
-    void testLoad(){
+    public void testLoad(){
         District districtTest = new District("Lambeth", 0, 0);
         for (AirbnbListing a : bnbs){
             if (a.getNeighbourhood().equals(districtTest.getName())){
@@ -97,7 +92,7 @@ class MapTest{
      * No District should be shown in this case.
      */
     @Test
-    void testMapAddEmptyDistrict(){
+    public void testMapAddEmptyDistrict(){
         List<AirbnbListing> bnbs = new ArrayList<>();
         Map map1 = new Map("testMap", bnbs, 0, 0);
         assert (map1.getShownDistricts().size() == 0);
@@ -106,8 +101,8 @@ class MapTest{
     /**
      * Test the adding system in the District.
      */
-   @Test
-   void testAdd(){
+    @Test
+    public void testAdd(){
         District test1 = new District("test1", 0, 0);
         assert (test1.getNumberOfBnbs() == 0);
         test1.addBnb(bnb1);
@@ -119,7 +114,7 @@ class MapTest{
      * Icon should never be null.
      */
     @Test
-    void testIcon(){
+    public void testIcon(){
         District test1 = new District("test1", 0, 0);
         assertNotNull(test1.getIcon());
     }
@@ -128,7 +123,7 @@ class MapTest{
      * Test the correct sorting of the districts.
      */
     @Test
-    void testSorting(){
+    public void testSorting(){
         District test1 = new District("test1", 0,0);
         District test2 = new District("test2", 0,0);
         District test3 = new District("test3", 0,0);
@@ -147,9 +142,10 @@ class MapTest{
         test2.putInList();
         test3.putInList();
 
-        int indexTest1;
-        int indexTest2;
-        int indexTest3;
+
+        int indexTest1= 0;
+        int indexTest2 =0;
+        int indexTest3 = 0;
         List<District> sortedList = District.getSortedList();
         for (int i = 0 ; i <  sortedList.size() ; i++){
             District currentDistrict = sortedList.get(i);
@@ -172,7 +168,7 @@ class MapTest{
      * District with more properties should have a bigger (or equal) icon.
      */
     @Test
-    void testIconScaling(){
+    public void testIconScaling() throws IOException {
         District test1 = new District("test1", 0,0);
         District test2 = new District("test2", 0,0);
         District test3 = new District("test3", 0,0);
@@ -262,5 +258,6 @@ class MapTest{
         System.out.println("Success! Number of loaded records: " + listings.size());
         return listings;
     }
-
 }
+
+
