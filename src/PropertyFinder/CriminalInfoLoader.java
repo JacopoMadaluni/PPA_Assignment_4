@@ -39,8 +39,8 @@ public class CriminalInfoLoader {
     }
 
     /**
-     * Simple method to round a number to certain
-     * decimal places
+     * Simple method to round a double to a given
+     * number of decimal places
      * @param number number to round
      * @param places number of decimal places
      * @return
