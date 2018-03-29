@@ -142,6 +142,7 @@ public class MapTest {
         test2.putInList();
         test3.putInList();
 
+        
         int indexTest1= 0;
         int indexTest2 =0;
         int indexTest3 = 0;
