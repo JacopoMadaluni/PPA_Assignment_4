@@ -56,7 +56,7 @@ public class MainWindow {
         listings = loader.load();
         prices = createLists();
 
-        frame = new JFrame("London properties - AirBnB");
+        frame = new JFrame("London properties - Airbnb");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Container pane = frame.getContentPane();
         pane.setLayout(new BorderLayout()); // Hold all three main components together (top, bottom and central panel that can change).
@@ -94,7 +94,7 @@ public class MainWindow {
             }
             @Override
             public void mouseMoved(MouseEvent e) {
-                mouseEntered(e);
+                currentPanel.repaint();
             }
         });
     }

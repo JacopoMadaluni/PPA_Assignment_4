@@ -225,7 +225,6 @@ public class PropertiesNearby extends AppPanel {
                 throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
             }
             String toReturn = getJsonString(conn.getInputStream());
-
             conn.disconnect();
             return toReturn;
         }
@@ -318,7 +317,7 @@ public class PropertiesNearby extends AppPanel {
             queryCounter = 0;
         }
         else {
-            // Some other error occurred when parsing the data.
+            // Some other error occurred.
             displayInfo.setText("<html><p style=\"text-align: center;\">" +
                     "<font size=\"3\" color=\"gray\"><i>" +
                     "Sorry, an error occurred while obtaining your location.<br>Please, try again.</i></font>" +
@@ -347,8 +346,19 @@ public class PropertiesNearby extends AppPanel {
             }
         }
 
+        String[] address = formattedAddres.split(",");
+        String addressToDisplay;
+        if (address.length < 3) {
+            addressToDisplay = formattedAddres;
+        }
+        else {
+            addressToDisplay = address[0] + ", " + address[1] + "<br>";
+            for (int i = 2; i < address.length; i++) {
+                addressToDisplay += address[i] + "<br>";
+            }
+        }
         displayInfo.setText("<html>Showing results for: <br>" +
-                "<i>" + formattedAddres + "</i><br>" +
+                "<i>" + addressToDisplay + "</i><br>" +
                 "There are " + bnbs.size() + " properties near you." +
                 "</html>");
 
@@ -373,7 +383,6 @@ public class PropertiesNearby extends AppPanel {
                 showResults.removeActionListener(al);
             }
         }
-        revalidate();
     }
 
     /**
@@ -397,17 +406,4 @@ public class PropertiesNearby extends AppPanel {
         return arcLength * 3963.1676;  // Earth radius in miles.
     }
 
-
-    /**
-     * Only for testing.
-     * TODO: delete
-     */
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        AirbnbDataLoader loader = new AirbnbDataLoader();
-        frame.getContentPane().add(new PropertiesNearby(loader.load(), 0, 5000));
-        frame.pack();
-        frame.setVisible(true);
-    }
 }
