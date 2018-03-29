@@ -2,6 +2,7 @@ package PropertyFinder.Stats;
 
 import PropertyFinder.Map.BnbTable;
 import PropertyFinder.Map.District;
+import com.sun.istack.internal.Nullable;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.json.JSONException;
@@ -66,8 +67,6 @@ public class PropertiesNearby extends AppPanel {
 
     /**
      * Initialises the panel with all the components.
-     *
-     * TODO: Format layouts.
      */
     private void initialisePanel() {
         setBackground(Color.WHITE);
@@ -126,7 +125,7 @@ public class PropertiesNearby extends AppPanel {
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         searchPanel.setOpaque(false);
-        JButton search = new JButton("<html><b>Search</b></html>");
+        JButton search = new JButton("Search");
         search.addActionListener(e -> searchClicked());
         searchPanel.add(search);
         inputs.add(searchPanel);
@@ -194,6 +193,7 @@ public class PropertiesNearby extends AppPanel {
                 return;
             }
         }
+        // If inputs are correct we can continue.
         String response = searchAddress(address);
         displayLocation(response, rangeInMiles);
     }
@@ -211,7 +211,7 @@ public class PropertiesNearby extends AppPanel {
      * Executes a query to an online Google Maps API to search for info about the given address.
      *
      * @param address User's input.
-     * @return Response in format of Json string.
+     * @return Response in format of Json string. null if there was an error (for example no internet connection...)
      */
     private String searchAddress(String address) {
         try {
@@ -252,17 +252,15 @@ public class PropertiesNearby extends AppPanel {
      * @param stream Response from the API.
      * @return Json string as string.
      *
-     * TODO: Delete the print statement.
      */
     private String getJsonString(InputStream stream) {
         BufferedReader br = new BufferedReader(new InputStreamReader(stream));
         String output = "";
-        String jsonString = "";
+        StringBuilder jsonString = new StringBuilder();
 
         try {
             while ((output = br.readLine()) != null) {
-                //System.out.println(output);
-                jsonString += output.trim();
+                jsonString.append(output.trim());
             }
         }
         catch (IOException e) {
@@ -271,26 +269,30 @@ public class PropertiesNearby extends AppPanel {
             System.out.println(e.getLocalizedMessage());
         }
 
-        return jsonString;
+        return jsonString.toString();
     }
 
     /**
      * Gets latitude and longitude for the address that user entered and displays the correct info.
      *
-     *
      * @param jsonString Response from the API as Json string.
      * @param rangeInMiles Distance from address which the user wants statistics for.
      */
-    private void displayLocation(String jsonString, double rangeInMiles) {
-        JSONObject object = new JSONObject(jsonString);
-        String status = (String) object.get("status");
-        System.out.println(status);
-
+    private void displayLocation(@Nullable String jsonString, double rangeInMiles) {
+        String status;
+        JSONObject object;
+        if (jsonString == null) {
+            status = "Error";
+        }
+        else {
+            object = new JSONObject(jsonString);
+            status = (String) object.get("status");
+        }
 
         if (status.equals("OK")) {
             try {
-                JSONObject location = object.getJSONArray("results").getJSONObject(0).getJSONObject("geometry")
-                        .getJSONObject("location");
+                object = new JSONObject(jsonString);
+                JSONObject location = object.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
                 double lat = (double) location.get("lat");
                 double lng = (double) location.get("lng");
 
@@ -306,6 +308,8 @@ public class PropertiesNearby extends AppPanel {
             queryCounter = 0;
         }
         else if (status.equals("OVER_QUERY_LIMIT") && queryCounter <= QUERY_COUNT_LIMIT) {
+            // This error is very often fixed by executing the query again.
+            // Limit is set to prevent endless looping.
             queryCounter++;
             searchClicked();
         }
@@ -347,14 +351,18 @@ public class PropertiesNearby extends AppPanel {
         }
 
         String[] address = formattedAddres.split(",");
-        String addressToDisplay;
+        StringBuilder addressToDisplay = new StringBuilder();
         if (address.length < 3) {
-            addressToDisplay = formattedAddres;
+            addressToDisplay.append(formattedAddres);
         }
         else {
-            addressToDisplay = address[0] + ", " + address[1] + "<br>";
+            addressToDisplay.append(address[0]);
+            addressToDisplay.append(", ");
+            addressToDisplay.append(address[1]);
+            addressToDisplay.append("<br>");
             for (int i = 2; i < address.length; i++) {
-                addressToDisplay += address[i] + "<br>";
+                addressToDisplay.append(address[i]);
+                addressToDisplay.append("<br>");
             }
         }
         displayInfo.setText("<html>Showing results for: <br>" +
@@ -392,18 +400,17 @@ public class PropertiesNearby extends AppPanel {
      * @param lng1 Longitude of the first location.
      * @param lat2 Latitude of the second location.
      * @param lng2 Longitude of the second location.
-     * @return
+     * @return Distance in miles.
      */
     private double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
         lat1 = Math.toRadians(lat1);
         lng1 = Math.toRadians(lng1);
         lat2 = Math.toRadians(lat2);
         lng2 = Math.toRadians(lng2);
-        // spherical law of cosines
+        // Spherical law of cosines.
         double theCos = Math.sin(lat1) * Math.sin(lat2) +
                 Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng1 - lng2);
         double arcLength = Math.acos(theCos);
         return arcLength * 3963.1676;  // Earth radius in miles.
     }
-
 }
