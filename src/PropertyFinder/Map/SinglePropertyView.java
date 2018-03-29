@@ -66,8 +66,8 @@ public class SinglePropertyView {
         });
 
         //GROUP 1
-        contentPanel.add(makeLabel("  "+bnb.getName()+" (ID: "+bnb.getId()+")"));
-        contentPanel.add(makeLabel("Price: £"+bnb.getPrice())); //TODO Price per what?
+        contentPanel.add(makeLabel("  "+bnb.getName()));
+        contentPanel.add(makeLabel("Price: £"+bnb.getPrice()));
         //GROUP 2
         contentPanel.add(makeLabel("  Property type: "+bnb.getRoom_type()));
         contentPanel.add(makeLabel("Neighborhood: "+bnb.getNeighbourhood()));
