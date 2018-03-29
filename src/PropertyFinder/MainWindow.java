@@ -8,7 +8,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Represents the main window of the application.
  *
@@ -39,8 +38,8 @@ public class MainWindow {
     private Dimension currentSize;
     private Point currentLocation;
 
-    private static ArrayList<AirbnbListing> myList; //List of favorite listings
-
+    //List of favorite listings used by comparator
+    private static ArrayList<AirbnbListing> myList;
 
     /**
      * Initialise the main window of the application.
@@ -72,7 +71,8 @@ public class MainWindow {
         pane.add(bottom, BorderLayout.SOUTH);
 
         frame.pack();
-        currentSize = frame.getSize();
+        // Size is set to the size of map panel.
+        currentSize = new Dimension(frame.getSize().width - 11, frame.getSize().height - 11);
 
         pane.remove(currentPanel);
         currentPanel = panels.get(0);
@@ -87,6 +87,11 @@ public class MainWindow {
         frame.setVisible(true);
         frame.setResizable(false);
 
+        /*
+         * The background picture is not initially displayed.
+         * Putting currentPanel.repaint() at different locations did not help.
+         * This is the best solution for now.
+         */
         frame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -128,13 +133,14 @@ public class MainWindow {
         list[7] = (maxPrice/10) * 7;
         list[8] = (maxPrice/10) * 8;
         list[9] = (maxPrice/10) * 9;
-        list[10] = maxPrice + 100; // To make sure that all the listings will be included.
+        list[10] = maxPrice + 100; // To make sure that all the listings will be included when sorting.
 
         return list;
     }
 
     /**
      * Creates two drop down lists to pick the price from.
+     *
      * @return Top panel to be added to the top of the main screen.
      */
     private JPanel createTop() {
@@ -157,7 +163,6 @@ public class MainWindow {
         highPrice.setFocusable(false);
         highPrice.addActionListener(e -> highPriceClicked());
         highPrice.setSelectedIndex(-1);
-        //highPrice.setBorder(new LineBorder(new Color(62, 196, 248), 1, true));
 
         lists.add(new JLabel(" From: "));
         lists.add(lowPrice);
@@ -174,6 +179,7 @@ public class MainWindow {
 
     /**
      * Creates buttons to scroll through the panels in the main window.
+     *
      * @return Bottom panel to be added to the bottom of the main screen.
      */
     private JPanel createBottom() {
@@ -260,11 +266,12 @@ public class MainWindow {
     /**
      * Displays a new panel according to the current panel index and update buttons accordingly.
      * If direction is null there is no animation, but the panel is still updated.
+     *
      * @param direction Direction in which we moved.
      *                  <strong>Valid directions: "left", "right", null.</strong>
      */
     private void updateCurrentPanel(@Nullable String direction) {
-        Rectangle original = new Rectangle(currentPanel.getBounds().x, currentPanel.getBounds().y, currentPanel.getBounds().width, currentPanel.getBounds().height);
+        Rectangle original = currentPanel.getBounds();
         if (direction != null) {
             AppPanel newPanel = panels.get(currentPanelIndex);
             Rectangle target = new Rectangle(original.x, original.y, original.width, original.height);
@@ -364,6 +371,11 @@ public class MainWindow {
 
         return new Point(x, y);
     }
+
+    /**
+     *
+     * @return The list of properties that the user added to the list of properties to compare.
+     */
     public static ArrayList<AirbnbListing> getMyList() {
         return myList;
     }
