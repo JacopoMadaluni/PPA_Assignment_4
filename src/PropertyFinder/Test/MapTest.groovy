@@ -1,22 +1,30 @@
-package PropertyFinder.Map
+package PropertyFinder.Test
 
-import PropertyFinder.AirbnbDataLoader
 import PropertyFinder.AirbnbListing
+import PropertyFinder.Map.District
 import com.opencsv.CSVReader
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 
-class MapTest extends GroovyTestCase{
+class MapTest{
+
 
     private List<AirbnbListing> bnbs;
-    AirbnbListing bnb1 = new AirbnbListing(15896822,"Double room in newly refurbished flat",
-                                            69018624,"Dafina,Kingston upon Thames",51.41003566,-0.306322953,
-                                            "Private room",23,7,1,"03/12/2016",0.32,1,61);
-
+    AirbnbListing bnb1 = new AirbnbListing("15896822","Double room in newly refurbished flat",
+                                            "69018624","Dafina","Kingston upon Thames", 51.9,
+                                            Double.parseDouble("-0.3"),
+                                            "Private room",23,7,
+                                            1,
+                                            "03/12/2016",0.32,1,
+                                            61);
+    @Test
     void testMap(){
         bnbs = loadTests();
         District districtTest = new District("Lambeth", 0, 0);
         for (AirbnbListing a : bnbs){
             if (a.getNeighbourhood().equals(districtTest.getName())){
-                districtTest.add(a);
+                districtTest.addBnb(a);
             }
         }
         assert (districtTest.getNumberOfBnbs() == 2);
@@ -24,25 +32,25 @@ class MapTest extends GroovyTestCase{
 
 
     }
-
+    @Before
     void setUp() {
-        super.setUp()
         testMap();
     }
 
+    @After
     void tearDown() {
 
     }
 
+    @Test
     void testDistrict(){
         testAdd();
     }
-
     private void testAdd(){
         District test1 = new District("test1", 0, 0);
 
         assert (test1.getNumberOfBnbs() == 0);
-        test1.add(bnb1);
+        test1.addBnb(bnb1);
         assert (test1.getNumberOfBnbs() == 1);
     }
 
@@ -68,7 +76,12 @@ class MapTest extends GroovyTestCase{
                 int minimumNights = Integer.parseInt(line[9]);
                 int numberOfReviews = Integer.parseInt(line[10]);
                 String lastReview = line[11];
-                double reviewsPerMonth = Double.parseDouble(line[12]);
+                double reviewsPerMonth;
+                if (line[12].isEmpty()){
+                    reviewsPerMonth = 0.0;
+                }else{
+                    reviewsPerMonth = Double.parseDouble(line[12]);
+                }
                 int calculatedHostListingsCount = Integer.parseInt(line[13]);
                 int availability365 = Integer.parseInt(line[14]);
 
