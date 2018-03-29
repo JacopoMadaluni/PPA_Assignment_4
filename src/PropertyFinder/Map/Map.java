@@ -2,6 +2,8 @@ package PropertyFinder.Map;
 
 import PropertyFinder.AirbnbListing;
 import PropertyFinder.AppPanel;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -212,6 +214,20 @@ public class Map extends AppPanel
                 shownBnbs.add(bnb);
             }
         }
+    }
+
+    /**
+     * @return The District shown in the map.
+     */
+    public List<District> getShownDistricts(){
+        return shownDistricts;
+    }
+
+    /**
+     * @return The properties shown in the map.
+     */
+    public List<AirbnbListing> getShownBnbs(){
+        return shownBnbs;
     }
 
 }
