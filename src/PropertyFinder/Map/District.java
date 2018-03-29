@@ -55,6 +55,13 @@ public class District extends JLabel {
     }
 
     /**
+     * @return The sorted list of all districts.
+     */
+    public static List<District> getSortedList(){
+        return orderedDistricts;
+    }
+
+    /**
      * Creates a new District
      * @param name The name of the district.
      * @param x The absolute x on the map.
