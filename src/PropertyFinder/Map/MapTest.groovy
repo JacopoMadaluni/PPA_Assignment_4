@@ -4,7 +4,6 @@ import PropertyFinder.AirbnbDataLoader
 import PropertyFinder.AirbnbListing
 import com.opencsv.CSVReader
 
-
 class MapTest extends GroovyTestCase{
 
     private List<AirbnbListing> bnbs;
@@ -23,6 +22,15 @@ class MapTest extends GroovyTestCase{
         assert (districtTest.getNumberOfBnbs() == 2);
 
 
+
+    }
+
+    void setUp() {
+        super.setUp()
+        testMap();
+    }
+
+    void tearDown() {
 
     }
 
