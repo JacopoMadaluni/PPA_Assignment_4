@@ -54,7 +54,8 @@ public class BnbTable {
      * @return Table
      */
     private JTable makeTable(){
-        String [] columns = {"Name","Price","Room type","Reviews"};
+        //Sets the columns for the table
+        String [] columns = {"Name","Price","Host","Reviews","Minimum stay (nights)"};
         Object[][] data = gatherData(columns);
         JTable table = new JTable(data,columns);
         table.setName(name);
@@ -112,7 +113,7 @@ public class BnbTable {
         Object [][] data = new Object[bnbs.size()][columns.length];
         for (int property = 0; property<bnbs.size();property++){
             AirbnbListing bnb = bnbs.get(property);
-            data[property] = new Object[]{bnb.getName(),bnb.getPrice(),bnb.getRoom_type(),bnb.getNumberOfReviews()};
+            data[property] = new Object[]{bnb.getName(),bnb.getPrice(),bnb.getHost_name(),bnb.getNumberOfReviews(),bnb.getMinimumNights()};
         }
         return data;
     }
