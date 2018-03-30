@@ -87,6 +87,4 @@ public class ComparatorTable extends BnbTable {
         }
         return data;
     }
-
-
 }
