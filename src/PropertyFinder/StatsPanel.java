@@ -1,4 +1,5 @@
 package PropertyFinder;
+
 import PropertyFinder.Stats.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -6,7 +7,7 @@ import java.util.ArrayList;
 /**A Stats Panel has a number of subpanels in GridLayout that
     * show individual central panels with statistics about the listings in
     * the main application.
-    * @author Danilo Del Busso, Luka Kralj
+    * @author Danilo Del Busso
     * @version 25.03.2018
     */
 public class StatsPanel extends AppPanel {

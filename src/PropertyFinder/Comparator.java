@@ -1,4 +1,5 @@
 package PropertyFinder;
+
 import PropertyFinder.Map.ComparatorTable;
 import javax.swing.*;
 import java.awt.*;
@@ -51,7 +52,4 @@ public class Comparator extends AppPanel {
             e1.printStackTrace();
         }}
     }
-
-
-
 }

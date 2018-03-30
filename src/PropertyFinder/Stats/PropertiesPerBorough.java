@@ -1,4 +1,5 @@
 package PropertyFinder.Stats;
+
 import PropertyFinder.AirbnbListing;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;

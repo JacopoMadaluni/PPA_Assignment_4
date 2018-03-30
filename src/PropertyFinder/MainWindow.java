@@ -8,7 +8,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Represents the main window of the application.
  *
@@ -39,8 +38,8 @@ public class MainWindow {
     private Dimension currentSize;
     private Point currentLocation;
 
-    private static ArrayList<AirbnbListing> myList; //List of favorite listings
-
+    //List of favorite listings used by comparator
+    private static ArrayList<AirbnbListing> myList;
 
     /**
      * Initialise the main window of the application.
@@ -56,7 +55,7 @@ public class MainWindow {
         listings = loader.load();
         prices = createLists();
 
-        frame = new JFrame("London properties - AirBnB");
+        frame = new JFrame("London properties - Airbnb");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Container pane = frame.getContentPane();
         pane.setLayout(new BorderLayout()); // Hold all three main components together (top, bottom and central panel that can change).
@@ -72,7 +71,8 @@ public class MainWindow {
         pane.add(bottom, BorderLayout.SOUTH);
 
         frame.pack();
-        currentSize = frame.getSize();
+        // Size is set to the size of map panel.
+        currentSize = new Dimension(frame.getSize().width - 11, frame.getSize().height - 11);
 
         pane.remove(currentPanel);
         currentPanel = panels.get(0);
@@ -87,6 +87,11 @@ public class MainWindow {
         frame.setVisible(true);
         frame.setResizable(false);
 
+        /*
+         * The background picture is not initially displayed.
+         * Putting currentPanel.repaint() at different locations did not help.
+         * This is the best solution for now.
+         */
         frame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -94,7 +99,7 @@ public class MainWindow {
             }
             @Override
             public void mouseMoved(MouseEvent e) {
-                mouseEntered(e);
+                currentPanel.repaint();
             }
         });
     }
@@ -128,13 +133,14 @@ public class MainWindow {
         list[7] = (maxPrice/10) * 7;
         list[8] = (maxPrice/10) * 8;
         list[9] = (maxPrice/10) * 9;
-        list[10] = maxPrice + 100; // To make sure that all the listings will be included.
+        list[10] = maxPrice + 100; // To make sure that all the listings will be included when sorting.
 
         return list;
     }
 
     /**
      * Creates two drop down lists to pick the price from.
+     *
      * @return Top panel to be added to the top of the main screen.
      */
     private JPanel createTop() {
@@ -157,7 +163,6 @@ public class MainWindow {
         highPrice.setFocusable(false);
         highPrice.addActionListener(e -> highPriceClicked());
         highPrice.setSelectedIndex(-1);
-        //highPrice.setBorder(new LineBorder(new Color(62, 196, 248), 1, true));
 
         lists.add(new JLabel(" From: "));
         lists.add(lowPrice);
@@ -174,6 +179,7 @@ public class MainWindow {
 
     /**
      * Creates buttons to scroll through the panels in the main window.
+     *
      * @return Bottom panel to be added to the bottom of the main screen.
      */
     private JPanel createBottom() {
@@ -209,6 +215,12 @@ public class MainWindow {
 
         bottom.add(left, BorderLayout.WEST);
         bottom.add(right, BorderLayout.EAST);
+
+        JPanel copyright = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        copyright.setOpaque(false);
+        copyright.add(createCopyright());
+        bottom.add(copyright, BorderLayout.CENTER);
+
         return bottom;
     }
 
@@ -260,11 +272,12 @@ public class MainWindow {
     /**
      * Displays a new panel according to the current panel index and update buttons accordingly.
      * If direction is null there is no animation, but the panel is still updated.
+     *
      * @param direction Direction in which we moved.
      *                  <strong>Valid directions: "left", "right", null.</strong>
      */
     private void updateCurrentPanel(@Nullable String direction) {
-        Rectangle original = new Rectangle(currentPanel.getBounds().x, currentPanel.getBounds().y, currentPanel.getBounds().width, currentPanel.getBounds().height);
+        Rectangle original = currentPanel.getBounds();
         if (direction != null) {
             AppPanel newPanel = panels.get(currentPanelIndex);
             Rectangle target = new Rectangle(original.x, original.y, original.width, original.height);
@@ -364,6 +377,11 @@ public class MainWindow {
 
         return new Point(x, y);
     }
+
+    /**
+     *
+     * @return The list of properties that the user added to the list of properties to compare.
+     */
     public static ArrayList<AirbnbListing> getMyList() {
         return myList;
     }
@@ -375,5 +393,54 @@ public class MainWindow {
     public void disableButtons() {
         rightButton.setEnabled(false);
         leftButton.setEnabled(false);
+    }
+
+    /**
+     *
+     * @return A copyright button which displays info about the credits in a dialog window.
+     */
+    private JButton createCopyright() {
+        JButton copyButton = new JButton("\u00a9 The Order of the BlueJ");
+        copyButton.setForeground(Color.GRAY);
+        copyButton.setContentAreaFilled(false);
+        copyButton.setBorderPainted(false);
+        copyButton.setFocusable(false);
+        copyButton.addActionListener(e -> {
+            String text = "<html><div>" +
+                    "  <h3>ICONS</h3>" +
+                    "<ul>" +
+                    "<li><b>House</b> and <b>statistics</b> icons made by <a href=\"https://www.flaticon.com/authors/smashicons\" title=\"Smashicons\">Smashicons</a> </li>" +
+                    "<li><b>Pound</b> icons made by <a href=\"https://www.flaticon.com/authors/eleonor-wang\" title=\"Eleonor Wang\">Eleonor Wang</a>.</li>" +
+                    "<li><b>Rent house</b> icons made by <a href=\"https://www.iconfinder.com/icons/291025/building_construction_fence_home_house_property_real_estate_rent_renting_sevice_sign_icon#size=128\" title=\"Nicola Simpson\">Nicola Simpson</a>.</li>" +
+                    "<li><b>Moon</b>, <b>cityscape</b>, <b>budget</b>, <b>review</b> and <b>London Underground Sign</b> icons made by <a href=\"http://www.freepik.com\" title=\"Freepik\">Freepik</a>.</li>" +
+                    "</ul>" +
+                    "from <a href=\"https://www.flaticon.com/\" title=\"Flaticon\">www.flaticon.com</a> is licensed by <a href=\"http://creativecommons.org/licenses/by/3.0/\" title=\"Creative Commons BY 3.0\" target=\"_blank\">CC 3.0 BY</a>" +
+                    "<ul>" +
+                    "<li><b>AirBnB icon: </b> (AirBnB website <a href=\"https://www.airbnb.co.uk/\" title=\"airbnbIcon\">here</a>)</li>" +
+                    "</ul>" +
+                    "</div>" +
+                    "<div>" +
+                    "<h3>LONDON MAP</h3>" +
+                    "From <a href=\"https://commons.wikimedia.org/wiki/File:Greater_London,_administrative_divisions_-_de_-_colored.svg\" title=\"link\">Wikipedia Commons</a>, the free media repository made" +
+                    "by <a href=\"https://commons.wikimedia.org/wiki/User:TUBS\" title=\"TUBS\">TUBS</a>." +
+                    "</div>" +
+                    "<div>" +
+                    "<h3>LIBRARIES</h3>" +
+                    "<ul>" +
+                    "<li><b>Data Visualisation</b>: <a href=\"http://www.jfree.org/index.html\" title= \"JFreeChart\"> JFreechart </a></li>" +
+                    "</ul>" +
+                    "</div>" +
+                    "<div>" +
+                    "<h3>OTHER</h3>" +
+                    "<ul>" +
+                    "<li><b>Crime rates data</b>: from government records found <a href=\"https://data.london.gov.uk/dataset/recorded_crime_rates\" title= \"JFreeChart\">here</a></li>." +
+                    "</ul>" +
+                    "</div>" +
+                    "</html>";
+            JLabel label = new JLabel(text);
+            label.setFont(new Font("Ariel", Font.PLAIN, 15));
+            JOptionPane.showMessageDialog(null, label, "Copyright", JOptionPane.INFORMATION_MESSAGE);
+        });
+        return copyButton;
     }
 }

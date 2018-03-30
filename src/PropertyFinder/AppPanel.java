@@ -23,6 +23,7 @@ public abstract class AppPanel extends JPanel{
      * ensure all the panels use the same set of data.
      * lowPrice and highPrice determine the price range of the properties the user wants to
      * see statistics about.
+     *
      * @param title Title of the panel.
      * @param listings List of all results from the CSV file.
      * @param lowPrice Lower price boundary of the properties the user wants to see.
@@ -36,8 +37,10 @@ public abstract class AppPanel extends JPanel{
     }
 
     /**
-     * Return all listings that are in the price range
-     * @param listings the entirety of all listings in the dataset
+     * Return all listings that are in the price range.
+     *
+     * @param listings The entirety of all listings in the dataset.
+     * @return List of all the properties within the specified range.
      */
     protected ArrayList<AirbnbListing> getListingsInRange(List<AirbnbListing> listings) {
         ArrayList<AirbnbListing> listingsInRange = new ArrayList<>();

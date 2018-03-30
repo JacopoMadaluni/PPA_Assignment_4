@@ -2,8 +2,6 @@ package PropertyFinder.Map;
 
 import PropertyFinder.AirbnbListing;
 import PropertyFinder.AppPanel;
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -207,7 +205,6 @@ public class Map extends AppPanel
      * Fetches all the Air bnbs and removes all the objects out of the price
      * range chosen by the user.
      * @param bnbs
-     * @return
      */
     private void fetchBnbs(List<AirbnbListing> bnbs){
         for (AirbnbListing bnb : bnbs){

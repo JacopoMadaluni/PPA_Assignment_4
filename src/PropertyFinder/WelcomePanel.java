@@ -3,8 +3,6 @@ package PropertyFinder;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * Represents an initial panel that is already shown at the start of the application.
@@ -12,9 +10,9 @@ import java.awt.event.ComponentEvent;
  * it will display it.
  *
  * @author Luka Kralj
- * @version 16 March 2018
+ * @version 27 March 2018
  */
-public class WelcomePanel extends AppPanel{
+public class WelcomePanel extends AppPanel {
     private static final Image background = Toolkit.getDefaultToolkit().createImage("resources/icons/bg1.jpeg");
 
     /**
@@ -45,14 +43,16 @@ public class WelcomePanel extends AppPanel{
     }
 
     /**
-     * Create a label with short welcome text.
+     * Create a panel with some welcome text.
      *
-     * @return Label with some welcome text.
+     * @return Panel with some welcome text.
      */
     private JPanel createWelcomeLabel() {
         String welcomeText ="<html>" +
-                "<font size=\"4\" color=\"black\">" +
-                "<p style=\"text-align: center;\">This is a London AirBnB property finder that helps you locate the available rooms that are just about right for your budget.</p>" +
+                "<font size=\"6\" color=\"black\">" +
+                "<p style=\"text-align: center;\">" +
+                "This is a London Airbnb property finder that helps you locate and compare<br>" +
+                "the available rooms which are just about right for your budget!</p>" +
                 "<p style=\"text-align: center;\"><br></p>" +
                 "</font>" +
                 "</html>";
@@ -84,11 +84,12 @@ public class WelcomePanel extends AppPanel{
     private JLabel createTips() {
         String tipsText = "<html>" +
                 "<font size=\"4\" color=\"black\">" +
-                "<p style=\"text-align: left;\">Useful tips:</p>" +
+                "<p style=\"text-align: left;\"><font size=\"5\">Useful tips:</font></p>" +
                 "<ul>" +
                 "<li style=\"text-align: left;\">Choose the price range in the top right corner.</li>" +
                 "<li style=\"text-align: left;\">When you select the wanted price range the map and various statistics will <br>" +
                 "become available for you.</li>" +
+                "<li style=\"text-align: left;\">Add properties to your list of favourites and compare them!</li>" +
                 "<li style=\"text-align: left;\">Use buttons bellow to navigate around the app.</li>" +
                 "<li style=\"text-align: left;\">Hover your mouse over the buttons bellow to see what the next panel is.</li>" +
                 "</ul>" +

@@ -8,7 +8,6 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
-
 import PropertyFinder.*;
 
 /**

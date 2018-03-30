@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -79,10 +81,10 @@ public class ComparatorTable extends BnbTable {
             AirbnbListing bnb = bnbs.get(property);
             try {
                 data[property] = new Object[]{bnb.getName(), bnb.getPrice(), bnb.getRoom_type(), bnb.getNumberOfReviews(), bnb.getNeighbourhood(), CriminalInfoLoader.getBoroughCrimeRate(bnb.getNeighbourhood()), bnb.getAvailability365()};
-            } catch (Exception e){}
+            } catch (IOException | URISyntaxException e){
+                e.printStackTrace();
+            }
         }
         return data;
     }
-
-
 }
